@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(./**)",
+      "Edit(./**)",
+      "Write(./**)",
+      "Bash(git *)",
+      "Bash(python3 *)",
+      "Bash(pip *)",
+      "Bash(pytest *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(mv *)",
+      "Bash(cp *)"
+    ],
+    "deny": [
+      "Read(./02-datos/reservado/**)",
+      "Edit(./02-datos/reservado/**)",
+      "Write(./02-datos/reservado/**)",
+      "Bash(rm -rf /*)",
+      "Bash(git push --force*)",
+      "Bash(*--no-verify*)",
+      "Read(./.env*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Bash(* 02-datos/reservado*)"
+    ]
+  },
+  "_nota": "Regla 25: estas barreras NO estan verificadas hasta que la tarea 03.01.08 inyecte cada caso prohibido y compruebe que se bloquea. Hasta entonces se consideran NO VERIFICADAS."
+}

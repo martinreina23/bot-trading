@@ -1,0 +1,20 @@
+# DATOS: nunca en git (regla 27). Comprobar el dia 1 que esto funciona de verdad:
+#   git status --porcelain 02-datos/   -> debe salir vacio
+02-datos/bruto/**
+02-datos/limpio/**
+02-datos/reservado/**
+!02-datos/**/.gitkeep
+!02-datos/**/README.md
+
+# entorno
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+*.pem
+*.key
+
+# temporales
+*.tmp
+*.bak
