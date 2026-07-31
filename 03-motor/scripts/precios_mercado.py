@@ -442,7 +442,7 @@ def limpiar(df: pd.DataFrame) -> tuple[pd.DataFrame, InformeLimpieza]:
     return df, info
 
 
-REGLA_PANDAS = {"15min": "15min", "1h": "1h", "4h": "4h"}
+REGLA_PANDAS = {"15min": "15min", "1h": "1h", "4h": "4h", "1d": "24h"}
 
 
 def remuestrear(
@@ -453,6 +453,15 @@ def remuestrear(
 ) -> pd.DataFrame:
     """Remuestrea 1-min a la vela pedida, reloj UTC puro, label='left',
     closed='left'.
+
+    Capacidad añadida para la tarea 02.02.03 (matriz de correlaciones):
+    vela="1d" ancla el "dia" de trading al CORTE UNICO de 22:00 UTC (mismo
+    corte que fija los bordes de ventana en todo el script), usando
+    resample(..., offset=22h) sobre la regla "24h" (freq tipo Tick, la unica
+    para la que pandas aplica `offset`; "1D" -calendario- lo ignora). Para
+    15min/1h/4h el comportamiento NO cambia ni un bit: no se les pasa offset,
+    exactamente como antes de este añadido (ya verificado por recalculo
+    independiente en 02.02.01).
 
     El borde superior exclusivo en `construir_1m_histdata`/`construir_1m_dukascopy`
     arregla la VELA FANTASMA (un unico minuto en su propio bin), pero no cura
@@ -476,7 +485,10 @@ def remuestrear(
     limite nominal se sale de la ventana pedida.
     """
     regla = REGLA_PANDAS[vela]
-    r = df1m.resample(regla, label="left", closed="left").agg(
+    kwargs_resample = {"label": "left", "closed": "left"}
+    if vela == "1d":
+        kwargs_resample["offset"] = pd.Timedelta(hours=CORTE_UTC_HORA)
+    r = df1m.resample(regla, **kwargs_resample).agg(
         {"open": "first", "high": "max", "low": "min", "close": "last"}
     ).dropna()
 

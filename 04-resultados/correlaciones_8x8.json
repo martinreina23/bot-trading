@@ -1,0 +1,5380 @@
+{
+  "generado_utc": "2026-07-31T20:34:10.386211+00:00",
+  "corte_utc_hora": 22,
+  "metodo": "correlacion de Pearson sobre rendimientos logaritmicos ln(close_t/close_t-1) de precios de cierre por vela; pares calculados solo sobre observaciones donde ambos instrumentos tienen dato real y simultaneo en la ventana (sin relleno, sin interpolacion).",
+  "ventanas_dias": {
+    "3_meses": 90,
+    "1_anio": 365,
+    "2_anios": 730
+  },
+  "umbral_min_observaciones_para_no_ser_hueco": 20,
+  "umbral_correlacion_g1": 0.7,
+  "instrumentos": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCHF",
+    "XAUUSD",
+    "BTCUSD",
+    "ETHUSD"
+  ],
+  "fuentes": {
+    "EURUSD": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+    "GBPUSD": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+    "USDJPY": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+    "AUDUSD": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+    "USDCHF": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+    "XAUUSD": "Dukascopy (oro AL CONTADO / spot OTC, lado BID; NUNCA futuro GC=F)",
+    "BTCUSD": "Kraken (par REAL contra USD, XBTUSD; NUNCA USDT/Tether)",
+    "ETHUSD": "Kraken (par REAL contra USD, ETHUSD; NUNCA USDT/Tether)"
+  },
+  "prueba_cordura_eurusd_usdchf": {
+    "ok": true,
+    "detalle_por_vela_ventana": {
+      "15min": {
+        "3_meses": -0.7818142290459666,
+        "1_anio": -0.7952294522256798,
+        "2_anios": -0.7158417794932759
+      },
+      "1h": {
+        "3_meses": -0.8125129447955128,
+        "1_anio": -0.821394754546695,
+        "2_anios": -0.7443204012493789
+      },
+      "4h": {
+        "3_meses": -0.8298152176477527,
+        "1_anio": -0.8496764254475003,
+        "2_anios": -0.7636946288058999
+      },
+      "1d": {
+        "3_meses": -0.7959913959802951,
+        "1_anio": -0.8720305926878547,
+        "2_anios": -0.8209497195074342
+      }
+    }
+  },
+  "pares_sobre_umbral_g1": [
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "15min",
+      "ventana": "3_meses",
+      "correlacion": 0.8450742474468712,
+      "n_observaciones": 6154,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "AUDUSD"
+      ],
+      "vela": "15min",
+      "ventana": "3_meses",
+      "correlacion": 0.7832915852289133,
+      "n_observaciones": 6174,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "15min",
+      "ventana": "3_meses",
+      "correlacion": -0.7818142290459666,
+      "n_observaciones": 6197,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "vela": "15min",
+      "ventana": "3_meses",
+      "correlacion": 0.7722833050338819,
+      "n_observaciones": 6158,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "USDCHF"
+      ],
+      "vela": "15min",
+      "ventana": "3_meses",
+      "correlacion": -0.7175604721075564,
+      "n_observaciones": 6189,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "15min",
+      "ventana": "1_anio",
+      "correlacion": 0.7975090800778892,
+      "n_observaciones": 24811,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "15min",
+      "ventana": "1_anio",
+      "correlacion": -0.7952294522256798,
+      "n_observaciones": 24857,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "15min",
+      "ventana": "2_anios",
+      "correlacion": 0.7839452719949813,
+      "n_observaciones": 47471,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "15min",
+      "ventana": "2_anios",
+      "correlacion": -0.7158417794932759,
+      "n_observaciones": 47504,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "1h",
+      "ventana": "3_meses",
+      "correlacion": 0.8555238518730112,
+      "n_observaciones": 1538,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "AUDUSD"
+      ],
+      "vela": "1h",
+      "ventana": "3_meses",
+      "correlacion": 0.8020160572178846,
+      "n_observaciones": 1543,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "1h",
+      "ventana": "3_meses",
+      "correlacion": -0.8125129447955128,
+      "n_observaciones": 1549,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "vela": "1h",
+      "ventana": "3_meses",
+      "correlacion": 0.7892290529623955,
+      "n_observaciones": 1539,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "USDCHF"
+      ],
+      "vela": "1h",
+      "ventana": "3_meses",
+      "correlacion": -0.7613938684763516,
+      "n_observaciones": 1547,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "1h",
+      "ventana": "1_anio",
+      "correlacion": 0.800890107797248,
+      "n_observaciones": 6205,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "1h",
+      "ventana": "1_anio",
+      "correlacion": -0.821394754546695,
+      "n_observaciones": 6216,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "1h",
+      "ventana": "2_anios",
+      "correlacion": 0.7881628849667137,
+      "n_observaciones": 11870,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "1h",
+      "ventana": "2_anios",
+      "correlacion": -0.7443204012493789,
+      "n_observaciones": 11878,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": 0.8654632696361597,
+      "n_observaciones": 401,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "AUDUSD"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": 0.7930401096179089,
+      "n_observaciones": 402,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": -0.8298152176477527,
+      "n_observaciones": 402,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": 0.8026758620832932,
+      "n_observaciones": 401,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "USDCHF"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": -0.8191487662971217,
+      "n_observaciones": 401,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "AUDUSD",
+        "USDCHF"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": -0.7616099763151973,
+      "n_observaciones": 402,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "BTCUSD",
+        "ETHUSD"
+      ],
+      "vela": "4h",
+      "ventana": "3_meses",
+      "correlacion": 0.8790213420258646,
+      "n_observaciones": 510,
+      "reproducible": false
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "4h",
+      "ventana": "1_anio",
+      "correlacion": 0.8139169392981989,
+      "n_observaciones": 1609,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "4h",
+      "ventana": "1_anio",
+      "correlacion": -0.8496764254475003,
+      "n_observaciones": 1610,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "USDCHF"
+      ],
+      "vela": "4h",
+      "ventana": "1_anio",
+      "correlacion": -0.7183515838523531,
+      "n_observaciones": 1609,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "4h",
+      "ventana": "2_anios",
+      "correlacion": 0.7977121169278044,
+      "n_observaciones": 3074,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "4h",
+      "ventana": "2_anios",
+      "correlacion": -0.7636946288058999,
+      "n_observaciones": 3075,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": 0.8800507580152623,
+      "n_observaciones": 64,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "AUDUSD"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": 0.8271066108096805,
+      "n_observaciones": 64,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": -0.7959913959802951,
+      "n_observaciones": 64,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": 0.7719455128674318,
+      "n_observaciones": 64,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "USDCHF"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": -0.7856660774455501,
+      "n_observaciones": 64,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "AUDUSD",
+        "USDCHF"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": -0.7227190600387163,
+      "n_observaciones": 64,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "AUDUSD",
+        "XAUUSD"
+      ],
+      "vela": "1d",
+      "ventana": "3_meses",
+      "correlacion": 0.7330643309767576,
+      "n_observaciones": 63,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "1d",
+      "ventana": "1_anio",
+      "correlacion": 0.8166988673910189,
+      "n_observaciones": 264,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "1d",
+      "ventana": "1_anio",
+      "correlacion": -0.8720305926878547,
+      "n_observaciones": 264,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "GBPUSD",
+        "USDCHF"
+      ],
+      "vela": "1d",
+      "ventana": "1_anio",
+      "correlacion": -0.7367707583453712,
+      "n_observaciones": 264,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "GBPUSD"
+      ],
+      "vela": "1d",
+      "ventana": "2_anios",
+      "correlacion": 0.7997473821225621,
+      "n_observaciones": 502,
+      "reproducible": true
+    },
+    {
+      "par": [
+        "EURUSD",
+        "USDCHF"
+      ],
+      "vela": "1d",
+      "ventana": "2_anios",
+      "correlacion": -0.8209497195074342,
+      "n_observaciones": 502,
+      "reproducible": true
+    }
+  ],
+  "metadatos_retornos": {
+    "15min": {
+      "EURUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 47543,
+        "desde_real_utc": "2024-07-29T22:15:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:45:00+00:00",
+        "dias_cubiertos": 696.96875
+      },
+      "GBPUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 47517,
+        "desde_real_utc": "2024-07-29T22:15:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:45:00+00:00",
+        "dias_cubiertos": 696.96875
+      },
+      "USDJPY": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 47483,
+        "desde_real_utc": "2024-07-29T22:15:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:45:00+00:00",
+        "dias_cubiertos": 696.96875
+      },
+      "AUDUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 47484,
+        "desde_real_utc": "2024-07-29T22:15:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:45:00+00:00",
+        "dias_cubiertos": 696.96875
+      },
+      "USDCHF": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 47548,
+        "desde_real_utc": "2024-07-29T22:15:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:45:00+00:00",
+        "dias_cubiertos": 696.96875
+      },
+      "XAUUSD": {
+        "fuente": "Dukascopy (oro AL CONTADO / spot OTC, lado BID; NUNCA futuro GC=F)",
+        "hueco": false,
+        "n_total": 47266,
+        "desde_real_utc": "2024-07-29T22:15:00+00:00",
+        "hasta_real_utc": "2026-07-29T21:00:00+00:00",
+        "dias_cubiertos": 729.9375
+      },
+      "BTCUSD": {
+        "fuente": "Kraken (par REAL contra USD, XBTUSD; NUNCA USDT/Tether)",
+        "hueco": false,
+        "n_total": 719,
+        "desde_real_utc": "2026-07-24T08:00:00+00:00",
+        "hasta_real_utc": "2026-07-31T19:30:00+00:00",
+        "dias_cubiertos": 7.489583333333333
+      },
+      "ETHUSD": {
+        "fuente": "Kraken (par REAL contra USD, ETHUSD; NUNCA USDT/Tether)",
+        "hueco": false,
+        "n_total": 719,
+        "desde_real_utc": "2026-07-24T08:00:00+00:00",
+        "hasta_real_utc": "2026-07-31T19:30:00+00:00",
+        "dias_cubiertos": 7.489583333333333
+      }
+    },
+    "1h": {
+      "EURUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 11886,
+        "desde_real_utc": "2024-07-29T23:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:00:00+00:00",
+        "dias_cubiertos": 696.875
+      },
+      "GBPUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 11880,
+        "desde_real_utc": "2024-07-29T23:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:00:00+00:00",
+        "dias_cubiertos": 696.875
+      },
+      "USDJPY": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 11870,
+        "desde_real_utc": "2024-07-29T23:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:00:00+00:00",
+        "dias_cubiertos": 696.875
+      },
+      "AUDUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 11871,
+        "desde_real_utc": "2024-07-29T23:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:00:00+00:00",
+        "dias_cubiertos": 696.875
+      },
+      "USDCHF": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 11888,
+        "desde_real_utc": "2024-07-29T23:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T21:00:00+00:00",
+        "dias_cubiertos": 696.875
+      },
+      "XAUUSD": {
+        "fuente": "Dukascopy (oro AL CONTADO / spot OTC, lado BID; NUNCA futuro GC=F)",
+        "hueco": false,
+        "n_total": 11823,
+        "desde_real_utc": "2024-07-29T23:00:00+00:00",
+        "hasta_real_utc": "2026-07-29T21:00:00+00:00",
+        "dias_cubiertos": 729.875
+      },
+      "BTCUSD": {
+        "fuente": "Kraken (par REAL contra USD, XBTUSD; NUNCA USDT/Tether)",
+        "hueco": false,
+        "n_total": 719,
+        "desde_real_utc": "2026-07-01T20:00:00+00:00",
+        "hasta_real_utc": "2026-07-31T18:00:00+00:00",
+        "dias_cubiertos": 29.958333333333332
+      },
+      "ETHUSD": {
+        "fuente": "Kraken (par REAL contra USD, ETHUSD; NUNCA USDT/Tether)",
+        "hueco": false,
+        "n_total": 719,
+        "desde_real_utc": "2026-07-01T20:00:00+00:00",
+        "hasta_real_utc": "2026-07-31T18:00:00+00:00",
+        "dias_cubiertos": 29.958333333333332
+      }
+    },
+    "4h": {
+      "EURUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 3075,
+        "desde_real_utc": "2024-07-30T04:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T20:00:00+00:00",
+        "dias_cubiertos": 696.5
+      },
+      "GBPUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 3074,
+        "desde_real_utc": "2024-07-30T04:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T20:00:00+00:00",
+        "dias_cubiertos": 696.5
+      },
+      "USDJPY": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 3071,
+        "desde_real_utc": "2024-07-30T04:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T20:00:00+00:00",
+        "dias_cubiertos": 696.5
+      },
+      "AUDUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 3072,
+        "desde_real_utc": "2024-07-30T04:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T20:00:00+00:00",
+        "dias_cubiertos": 696.5
+      },
+      "USDCHF": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 3075,
+        "desde_real_utc": "2024-07-30T04:00:00+00:00",
+        "hasta_real_utc": "2026-06-26T20:00:00+00:00",
+        "dias_cubiertos": 696.5
+      },
+      "XAUUSD": {
+        "fuente": "Dukascopy (oro AL CONTADO / spot OTC, lado BID; NUNCA futuro GC=F)",
+        "hueco": false,
+        "n_total": 3195,
+        "desde_real_utc": "2024-07-30T04:00:00+00:00",
+        "hasta_real_utc": "2026-07-29T20:00:00+00:00",
+        "dias_cubiertos": 729.5
+      },
+      "BTCUSD": {
+        "fuente": "Kraken (par REAL contra USD, XBTUSD; NUNCA USDT/Tether)",
+        "hueco": false,
+        "n_total": 719,
+        "desde_real_utc": "2026-04-02T20:00:00+00:00",
+        "hasta_real_utc": "2026-07-31T12:00:00+00:00",
+        "dias_cubiertos": 119.83333333333333
+      },
+      "ETHUSD": {
+        "fuente": "Kraken (par REAL contra USD, ETHUSD; NUNCA USDT/Tether)",
+        "hueco": false,
+        "n_total": 719,
+        "desde_real_utc": "2026-04-02T20:00:00+00:00",
+        "hasta_real_utc": "2026-07-31T12:00:00+00:00",
+        "dias_cubiertos": 119.83333333333333
+      }
+    },
+    "1d": {
+      "EURUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 502,
+        "desde_real_utc": "2024-07-30T22:00:00+00:00",
+        "hasta_real_utc": "2026-06-25T22:00:00+00:00",
+        "dias_cubiertos": 694.0
+      },
+      "GBPUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 503,
+        "desde_real_utc": "2024-07-30T22:00:00+00:00",
+        "hasta_real_utc": "2026-06-25T22:00:00+00:00",
+        "dias_cubiertos": 694.0
+      },
+      "USDJPY": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 503,
+        "desde_real_utc": "2024-07-30T22:00:00+00:00",
+        "hasta_real_utc": "2026-06-25T22:00:00+00:00",
+        "dias_cubiertos": 694.0
+      },
+      "AUDUSD": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 503,
+        "desde_real_utc": "2024-07-30T22:00:00+00:00",
+        "hasta_real_utc": "2026-06-25T22:00:00+00:00",
+        "dias_cubiertos": 694.0
+      },
+      "USDCHF": {
+        "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+        "hueco": false,
+        "n_total": 503,
+        "desde_real_utc": "2024-07-30T22:00:00+00:00",
+        "hasta_real_utc": "2026-06-25T22:00:00+00:00",
+        "dias_cubiertos": 694.0
+      },
+      "XAUUSD": {
+        "fuente": "Dukascopy (oro AL CONTADO / spot OTC, lado BID; NUNCA futuro GC=F)",
+        "hueco": false,
+        "n_total": 514,
+        "desde_real_utc": "2024-07-30T22:00:00+00:00",
+        "hasta_real_utc": "2026-07-28T22:00:00+00:00",
+        "dias_cubiertos": 727.0
+      },
+      "BTCUSD": {
+        "fuente": "Kraken (par REAL contra USD, XBTUSD; NUNCA USDT/Tether)",
+        "hueco": true,
+        "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03).",
+        "n_total": 0
+      },
+      "ETHUSD": {
+        "fuente": "Kraken (par REAL contra USD, ETHUSD; NUNCA USDT/Tether)",
+        "hueco": true,
+        "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03).",
+        "n_total": 0
+      }
+    }
+  },
+  "matrices": {
+    "15min": {
+      "3_meses": {
+        "fin_comun_utc": "2026-06-26T21:30:00+00:00",
+        "inicio_ventana_utc": "2026-03-28T21:30:00+00:00",
+        "dias_ventana_objetivo": 90,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 6198,
+            "n_total_disponible": 47543
+          },
+          "GBPUSD": {
+            "n_en_ventana": 6190,
+            "n_total_disponible": 47517
+          },
+          "USDJPY": {
+            "n_en_ventana": 6218,
+            "n_total_disponible": 47483
+          },
+          "AUDUSD": {
+            "n_en_ventana": 6202,
+            "n_total_disponible": 47484
+          },
+          "USDCHF": {
+            "n_en_ventana": 6233,
+            "n_total_disponible": 47548
+          },
+          "XAUUSD": {
+            "n_en_ventana": 5862,
+            "n_total_disponible": 47266
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.8450742474468712,
+            "USDJPY": -0.5459850564784376,
+            "AUDUSD": 0.7832915852289133,
+            "USDCHF": -0.7818142290459666,
+            "XAUUSD": 0.05847878617597142,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.8450742474468712,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.49742011203402103,
+            "AUDUSD": 0.7722833050338819,
+            "USDCHF": -0.7175604721075564,
+            "XAUUSD": 0.0442365371772706,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.5459850564784376,
+            "GBPUSD": -0.49742011203402103,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.4820746780574833,
+            "USDCHF": 0.5316292040164311,
+            "XAUUSD": -0.012922031837226419,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.7832915852289133,
+            "GBPUSD": 0.7722833050338819,
+            "USDJPY": -0.4820746780574833,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.6709731308618232,
+            "XAUUSD": 0.05504844079349498,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.7818142290459666,
+            "GBPUSD": -0.7175604721075564,
+            "USDJPY": 0.5316292040164311,
+            "AUDUSD": -0.6709731308618232,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.03480544605264224,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.05847878617597142,
+            "GBPUSD": 0.0442365371772706,
+            "USDJPY": -0.012922031837226419,
+            "AUDUSD": 0.05504844079349498,
+            "USDCHF": -0.03480544605264224,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 6198,
+            "GBPUSD": 6154,
+            "USDJPY": 6182,
+            "AUDUSD": 6174,
+            "USDCHF": 6197,
+            "XAUUSD": 5825,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 6154,
+            "GBPUSD": 6190,
+            "USDJPY": 6174,
+            "AUDUSD": 6158,
+            "USDCHF": 6189,
+            "XAUUSD": 5813,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 6182,
+            "GBPUSD": 6174,
+            "USDJPY": 6218,
+            "AUDUSD": 6186,
+            "USDCHF": 6217,
+            "XAUUSD": 5845,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 6174,
+            "GBPUSD": 6158,
+            "USDJPY": 6186,
+            "AUDUSD": 6202,
+            "USDCHF": 6201,
+            "XAUUSD": 5829,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 6197,
+            "GBPUSD": 6189,
+            "USDJPY": 6217,
+            "AUDUSD": 6201,
+            "USDCHF": 6233,
+            "XAUUSD": 5856,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 5825,
+            "GBPUSD": 5813,
+            "USDJPY": 5845,
+            "AUDUSD": 5829,
+            "USDCHF": 5856,
+            "XAUUSD": 5862,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      },
+      "1_anio": {
+        "fin_comun_utc": "2026-06-26T21:30:00+00:00",
+        "inicio_ventana_utc": "2025-06-26T21:30:00+00:00",
+        "dias_ventana_objetivo": 365,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 24859,
+            "n_total_disponible": 47543
+          },
+          "GBPUSD": {
+            "n_en_ventana": 24851,
+            "n_total_disponible": 47517
+          },
+          "USDJPY": {
+            "n_en_ventana": 24883,
+            "n_total_disponible": 47483
+          },
+          "AUDUSD": {
+            "n_en_ventana": 24866,
+            "n_total_disponible": 47484
+          },
+          "USDCHF": {
+            "n_en_ventana": 24897,
+            "n_total_disponible": 47548
+          },
+          "XAUUSD": {
+            "n_en_ventana": 23632,
+            "n_total_disponible": 47266
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.7975090800778892,
+            "USDJPY": -0.5997490523774143,
+            "AUDUSD": 0.6840294816519252,
+            "USDCHF": -0.7952294522256798,
+            "XAUUSD": 0.1920739765555526,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.7975090800778892,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5269606679212769,
+            "AUDUSD": 0.6803344765402148,
+            "USDCHF": -0.6583055785692523,
+            "XAUUSD": 0.2007579875826845,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.5997490523774143,
+            "GBPUSD": -0.5269606679212769,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.40783457476506313,
+            "USDCHF": 0.6006327894410894,
+            "XAUUSD": -0.0946601070430016,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6840294816519252,
+            "GBPUSD": 0.6803344765402148,
+            "USDJPY": -0.40783457476506313,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.5346830783479999,
+            "XAUUSD": 0.28716700852647536,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.7952294522256798,
+            "GBPUSD": -0.6583055785692523,
+            "USDJPY": 0.6006327894410894,
+            "AUDUSD": -0.5346830783479999,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.1669093385937743,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.1920739765555526,
+            "GBPUSD": 0.2007579875826845,
+            "USDJPY": -0.0946601070430016,
+            "AUDUSD": 0.28716700852647536,
+            "USDCHF": -0.1669093385937743,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 24859,
+            "GBPUSD": 24811,
+            "USDJPY": 24843,
+            "AUDUSD": 24834,
+            "USDCHF": 24857,
+            "XAUUSD": 23595,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 24811,
+            "GBPUSD": 24851,
+            "USDJPY": 24835,
+            "AUDUSD": 24818,
+            "USDCHF": 24849,
+            "XAUUSD": 23583,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 24843,
+            "GBPUSD": 24835,
+            "USDJPY": 24883,
+            "AUDUSD": 24850,
+            "USDCHF": 24881,
+            "XAUUSD": 23615,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 24834,
+            "GBPUSD": 24818,
+            "USDJPY": 24850,
+            "AUDUSD": 24866,
+            "USDCHF": 24865,
+            "XAUUSD": 23599,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 24857,
+            "GBPUSD": 24849,
+            "USDJPY": 24881,
+            "AUDUSD": 24865,
+            "USDCHF": 24897,
+            "XAUUSD": 23626,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 23595,
+            "GBPUSD": 23583,
+            "USDJPY": 23615,
+            "AUDUSD": 23599,
+            "USDCHF": 23626,
+            "XAUUSD": 23632,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      },
+      "2_anios": {
+        "fin_comun_utc": "2026-06-26T21:30:00+00:00",
+        "inicio_ventana_utc": "2024-06-26T21:30:00+00:00",
+        "dias_ventana_objetivo": 730,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 47543,
+            "n_total_disponible": 47543
+          },
+          "GBPUSD": {
+            "n_en_ventana": 47517,
+            "n_total_disponible": 47517
+          },
+          "USDJPY": {
+            "n_en_ventana": 47483,
+            "n_total_disponible": 47483
+          },
+          "AUDUSD": {
+            "n_en_ventana": 47484,
+            "n_total_disponible": 47484
+          },
+          "USDCHF": {
+            "n_en_ventana": 47548,
+            "n_total_disponible": 47548
+          },
+          "XAUUSD": {
+            "n_en_ventana": 45166,
+            "n_total_disponible": 47266
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.7839452719949813,
+            "USDJPY": -0.48411218695425473,
+            "AUDUSD": 0.6210912269138702,
+            "USDCHF": -0.7158417794932759,
+            "XAUUSD": 0.1359912237365743,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.7839452719949813,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.4080179222970792,
+            "AUDUSD": 0.664722721181064,
+            "USDCHF": -0.5753701483907332,
+            "XAUUSD": 0.15385046350026824,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.48411218695425473,
+            "GBPUSD": -0.4080179222970792,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.25991562502560356,
+            "USDCHF": 0.6151918235949537,
+            "XAUUSD": -0.06038637780875884,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6210912269138702,
+            "GBPUSD": 0.664722721181064,
+            "USDJPY": -0.25991562502560356,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.4037390410491028,
+            "XAUUSD": 0.20917973938570233,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.7158417794932759,
+            "GBPUSD": -0.5753701483907332,
+            "USDJPY": 0.6151918235949537,
+            "AUDUSD": -0.4037390410491028,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.11835837509086498,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.1359912237365743,
+            "GBPUSD": 0.15385046350026824,
+            "USDJPY": -0.06038637780875884,
+            "AUDUSD": 0.20917973938570233,
+            "USDCHF": -0.11835837509086498,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 47543,
+            "GBPUSD": 47471,
+            "USDJPY": 47437,
+            "AUDUSD": 47447,
+            "USDCHF": 47504,
+            "XAUUSD": 45125,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 47471,
+            "GBPUSD": 47517,
+            "USDJPY": 47411,
+            "AUDUSD": 47414,
+            "USDCHF": 47477,
+            "XAUUSD": 45093,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 47437,
+            "GBPUSD": 47411,
+            "USDJPY": 47483,
+            "AUDUSD": 47378,
+            "USDCHF": 47442,
+            "XAUUSD": 45068,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 47447,
+            "GBPUSD": 47414,
+            "USDJPY": 47378,
+            "AUDUSD": 47484,
+            "USDCHF": 47447,
+            "XAUUSD": 45073,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 47504,
+            "GBPUSD": 47477,
+            "USDJPY": 47442,
+            "AUDUSD": 47447,
+            "USDCHF": 47548,
+            "XAUUSD": 45123,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 45125,
+            "GBPUSD": 45093,
+            "USDJPY": 45068,
+            "AUDUSD": 45073,
+            "USDCHF": 45123,
+            "XAUUSD": 45166,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/15min: cache cubre solo 719 velas desde 2026-07-24T08:00:00+00:00 hasta 2026-07-31T19:30:00+00:00 (~7.5 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      }
+    },
+    "1h": {
+      "3_meses": {
+        "fin_comun_utc": "2026-06-26T20:00:00+00:00",
+        "inicio_ventana_utc": "2026-03-28T20:00:00+00:00",
+        "dias_ventana_objetivo": 90,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 1549,
+            "n_total_disponible": 11886
+          },
+          "GBPUSD": {
+            "n_en_ventana": 1547,
+            "n_total_disponible": 11880
+          },
+          "USDJPY": {
+            "n_en_ventana": 1554,
+            "n_total_disponible": 11870
+          },
+          "AUDUSD": {
+            "n_en_ventana": 1550,
+            "n_total_disponible": 11871
+          },
+          "USDCHF": {
+            "n_en_ventana": 1558,
+            "n_total_disponible": 11888
+          },
+          "XAUUSD": {
+            "n_en_ventana": 1466,
+            "n_total_disponible": 11823
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.8555238518730112,
+            "USDJPY": -0.5266104860520057,
+            "AUDUSD": 0.8020160572178846,
+            "USDCHF": -0.8125129447955128,
+            "XAUUSD": 0.1079964469767039,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.8555238518730112,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5036612802286741,
+            "AUDUSD": 0.7892290529623955,
+            "USDCHF": -0.7613938684763516,
+            "XAUUSD": 0.07322892358034334,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.5266104860520057,
+            "GBPUSD": -0.5036612802286741,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.4632971502606354,
+            "USDCHF": 0.5427956715768872,
+            "XAUUSD": -0.04134358526938759,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.8020160572178846,
+            "GBPUSD": 0.7892290529623955,
+            "USDJPY": -0.4632971502606354,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.6983844054266142,
+            "XAUUSD": 0.08460327450855934,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.8125129447955128,
+            "GBPUSD": -0.7613938684763516,
+            "USDJPY": 0.5427956715768872,
+            "AUDUSD": -0.6983844054266142,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.06338282506975955,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.1079964469767039,
+            "GBPUSD": 0.07322892358034334,
+            "USDJPY": -0.04134358526938759,
+            "AUDUSD": 0.08460327450855934,
+            "USDCHF": -0.06338282506975955,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 1549,
+            "GBPUSD": 1538,
+            "USDJPY": 1545,
+            "AUDUSD": 1543,
+            "USDCHF": 1549,
+            "XAUUSD": 1457,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 1538,
+            "GBPUSD": 1547,
+            "USDJPY": 1543,
+            "AUDUSD": 1539,
+            "USDCHF": 1547,
+            "XAUUSD": 1454,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 1545,
+            "GBPUSD": 1543,
+            "USDJPY": 1554,
+            "AUDUSD": 1546,
+            "USDCHF": 1554,
+            "XAUUSD": 1462,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 1543,
+            "GBPUSD": 1539,
+            "USDJPY": 1546,
+            "AUDUSD": 1550,
+            "USDCHF": 1550,
+            "XAUUSD": 1458,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 1549,
+            "GBPUSD": 1547,
+            "USDJPY": 1554,
+            "AUDUSD": 1550,
+            "USDCHF": 1558,
+            "XAUUSD": 1465,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 1457,
+            "GBPUSD": 1454,
+            "USDJPY": 1462,
+            "AUDUSD": 1458,
+            "USDCHF": 1465,
+            "XAUUSD": 1466,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 90 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      },
+      "1_anio": {
+        "fin_comun_utc": "2026-06-26T20:00:00+00:00",
+        "inicio_ventana_utc": "2025-06-26T20:00:00+00:00",
+        "dias_ventana_objetivo": 365,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 6216,
+            "n_total_disponible": 11886
+          },
+          "GBPUSD": {
+            "n_en_ventana": 6214,
+            "n_total_disponible": 11880
+          },
+          "USDJPY": {
+            "n_en_ventana": 6221,
+            "n_total_disponible": 11870
+          },
+          "AUDUSD": {
+            "n_en_ventana": 6217,
+            "n_total_disponible": 11871
+          },
+          "USDCHF": {
+            "n_en_ventana": 6225,
+            "n_total_disponible": 11888
+          },
+          "XAUUSD": {
+            "n_en_ventana": 5911,
+            "n_total_disponible": 11823
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.800890107797248,
+            "USDJPY": -0.6021201951730502,
+            "AUDUSD": 0.6919431777514063,
+            "USDCHF": -0.821394754546695,
+            "XAUUSD": 0.20278818704602275,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.800890107797248,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5361313601874017,
+            "AUDUSD": 0.6922372081466698,
+            "USDCHF": -0.6820339146261046,
+            "XAUUSD": 0.2037896985709988,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.6021201951730502,
+            "GBPUSD": -0.5361313601874017,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.41443699888267493,
+            "USDCHF": 0.6166588451082591,
+            "XAUUSD": -0.0626985880991293,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6919431777514063,
+            "GBPUSD": 0.6922372081466698,
+            "USDJPY": -0.41443699888267493,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.5557483266057421,
+            "XAUUSD": 0.30174016628616646,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.821394754546695,
+            "GBPUSD": -0.6820339146261046,
+            "USDJPY": 0.6166588451082591,
+            "AUDUSD": -0.5557483266057421,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.1653758954393299,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.20278818704602275,
+            "GBPUSD": 0.2037896985709988,
+            "USDJPY": -0.0626985880991293,
+            "AUDUSD": 0.30174016628616646,
+            "USDCHF": -0.1653758954393299,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 6216,
+            "GBPUSD": 6205,
+            "USDJPY": 6212,
+            "AUDUSD": 6210,
+            "USDCHF": 6216,
+            "XAUUSD": 5902,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 6205,
+            "GBPUSD": 6214,
+            "USDJPY": 6210,
+            "AUDUSD": 6206,
+            "USDCHF": 6214,
+            "XAUUSD": 5899,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 6212,
+            "GBPUSD": 6210,
+            "USDJPY": 6221,
+            "AUDUSD": 6213,
+            "USDCHF": 6221,
+            "XAUUSD": 5907,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 6210,
+            "GBPUSD": 6206,
+            "USDJPY": 6213,
+            "AUDUSD": 6217,
+            "USDCHF": 6217,
+            "XAUUSD": 5903,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 6216,
+            "GBPUSD": 6214,
+            "USDJPY": 6221,
+            "AUDUSD": 6217,
+            "USDCHF": 6225,
+            "XAUUSD": 5910,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 5902,
+            "GBPUSD": 5899,
+            "USDJPY": 5907,
+            "AUDUSD": 5903,
+            "USDCHF": 5910,
+            "XAUUSD": 5911,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      },
+      "2_anios": {
+        "fin_comun_utc": "2026-06-26T20:00:00+00:00",
+        "inicio_ventana_utc": "2024-06-26T20:00:00+00:00",
+        "dias_ventana_objetivo": 730,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 11886,
+            "n_total_disponible": 11886
+          },
+          "GBPUSD": {
+            "n_en_ventana": 11880,
+            "n_total_disponible": 11880
+          },
+          "USDJPY": {
+            "n_en_ventana": 11870,
+            "n_total_disponible": 11870
+          },
+          "AUDUSD": {
+            "n_en_ventana": 11871,
+            "n_total_disponible": 11871
+          },
+          "USDCHF": {
+            "n_en_ventana": 11888,
+            "n_total_disponible": 11888
+          },
+          "XAUUSD": {
+            "n_en_ventana": 11298,
+            "n_total_disponible": 11823
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.7881628849667137,
+            "USDJPY": -0.5065009833991538,
+            "AUDUSD": 0.6082838856068267,
+            "USDCHF": -0.7443204012493789,
+            "XAUUSD": 0.14767743346156456,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.7881628849667137,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.4198317655629992,
+            "AUDUSD": 0.6706025814435246,
+            "USDCHF": -0.5896684787813357,
+            "XAUUSD": 0.15832301702062682,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.5065009833991538,
+            "GBPUSD": -0.4198317655629992,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.2545903942283774,
+            "USDCHF": 0.6361932283665467,
+            "XAUUSD": -0.041313755134762244,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6082838856068267,
+            "GBPUSD": 0.6706025814435246,
+            "USDJPY": -0.2545903942283774,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.39571820817531556,
+            "XAUUSD": 0.21766797811598002,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.7443204012493789,
+            "GBPUSD": -0.5896684787813357,
+            "USDJPY": 0.6361932283665467,
+            "AUDUSD": -0.39571820817531556,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.12061174625819432,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.14767743346156456,
+            "GBPUSD": 0.15832301702062682,
+            "USDJPY": -0.041313755134762244,
+            "AUDUSD": 0.21766797811598002,
+            "USDCHF": -0.12061174625819432,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 11886,
+            "GBPUSD": 11870,
+            "USDJPY": 11860,
+            "AUDUSD": 11863,
+            "USDCHF": 11878,
+            "XAUUSD": 11288,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 11870,
+            "GBPUSD": 11880,
+            "USDJPY": 11854,
+            "AUDUSD": 11855,
+            "USDCHF": 11872,
+            "XAUUSD": 11280,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 11860,
+            "GBPUSD": 11854,
+            "USDJPY": 11870,
+            "AUDUSD": 11845,
+            "USDCHF": 11862,
+            "XAUUSD": 11274,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 11863,
+            "GBPUSD": 11855,
+            "USDJPY": 11845,
+            "AUDUSD": 11871,
+            "USDCHF": 11863,
+            "XAUUSD": 11275,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 11878,
+            "GBPUSD": 11872,
+            "USDJPY": 11862,
+            "AUDUSD": 11863,
+            "USDCHF": 11888,
+            "XAUUSD": 11288,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 11288,
+            "GBPUSD": 11280,
+            "USDJPY": 11274,
+            "AUDUSD": 11275,
+            "USDCHF": 11288,
+            "XAUUSD": 11298,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "BTCUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "ETHUSD/1h: cache cubre solo 719 velas desde 2026-07-01T20:00:00+00:00 hasta 2026-07-31T18:00:00+00:00 (~30.0 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      }
+    },
+    "4h": {
+      "3_meses": {
+        "fin_comun_utc": "2026-06-26T16:00:00+00:00",
+        "inicio_ventana_utc": "2026-03-28T16:00:00+00:00",
+        "dias_ventana_objetivo": 90,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 402,
+            "n_total_disponible": 3075
+          },
+          "GBPUSD": {
+            "n_en_ventana": 401,
+            "n_total_disponible": 3074
+          },
+          "USDJPY": {
+            "n_en_ventana": 401,
+            "n_total_disponible": 3071
+          },
+          "AUDUSD": {
+            "n_en_ventana": 402,
+            "n_total_disponible": 3072
+          },
+          "USDCHF": {
+            "n_en_ventana": 402,
+            "n_total_disponible": 3075
+          },
+          "XAUUSD": {
+            "n_en_ventana": 395,
+            "n_total_disponible": 3195
+          },
+          "BTCUSD": {
+            "n_en_ventana": 510,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 510,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.8654632696361597,
+            "USDJPY": -0.5214026800696848,
+            "AUDUSD": 0.7930401096179089,
+            "USDCHF": -0.8298152176477527,
+            "XAUUSD": 0.5651846048762394,
+            "BTCUSD": 0.25174301159559503,
+            "ETHUSD": 0.2799825479101388
+          },
+          "GBPUSD": {
+            "EURUSD": 0.8654632696361597,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5119798737334713,
+            "AUDUSD": 0.8026758620832932,
+            "USDCHF": -0.8191487662971217,
+            "XAUUSD": 0.5469635103614173,
+            "BTCUSD": 0.26090073941344577,
+            "ETHUSD": 0.2820794593889603
+          },
+          "USDJPY": {
+            "EURUSD": -0.5214026800696848,
+            "GBPUSD": -0.5119798737334713,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.4725854112249847,
+            "USDCHF": 0.5600507045867321,
+            "XAUUSD": -0.3070634320985086,
+            "BTCUSD": -0.12932214826853353,
+            "ETHUSD": -0.13445971706263024
+          },
+          "AUDUSD": {
+            "EURUSD": 0.7930401096179089,
+            "GBPUSD": 0.8026758620832932,
+            "USDJPY": -0.4725854112249847,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.7616099763151973,
+            "XAUUSD": 0.5824753268622116,
+            "BTCUSD": 0.30531747677059756,
+            "ETHUSD": 0.32501932604312556
+          },
+          "USDCHF": {
+            "EURUSD": -0.8298152176477527,
+            "GBPUSD": -0.8191487662971217,
+            "USDJPY": 0.5600507045867321,
+            "AUDUSD": -0.7616099763151973,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.557457766208215,
+            "BTCUSD": -0.2827312740099048,
+            "ETHUSD": -0.284963875134903
+          },
+          "XAUUSD": {
+            "EURUSD": 0.5651846048762394,
+            "GBPUSD": 0.5469635103614173,
+            "USDJPY": -0.3070634320985086,
+            "AUDUSD": 0.5824753268622116,
+            "USDCHF": -0.557457766208215,
+            "XAUUSD": 1.0,
+            "BTCUSD": 0.38259791136997157,
+            "ETHUSD": 0.40725188323689293
+          },
+          "BTCUSD": {
+            "EURUSD": 0.25174301159559503,
+            "GBPUSD": 0.26090073941344577,
+            "USDJPY": -0.12932214826853353,
+            "AUDUSD": 0.30531747677059756,
+            "USDCHF": -0.2827312740099048,
+            "XAUUSD": 0.38259791136997157,
+            "BTCUSD": 1.0,
+            "ETHUSD": 0.8790213420258646
+          },
+          "ETHUSD": {
+            "EURUSD": 0.2799825479101388,
+            "GBPUSD": 0.2820794593889603,
+            "USDJPY": -0.13445971706263024,
+            "AUDUSD": 0.32501932604312556,
+            "USDCHF": -0.284963875134903,
+            "XAUUSD": 0.40725188323689293,
+            "BTCUSD": 0.8790213420258646,
+            "ETHUSD": 1.0
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 402,
+            "GBPUSD": 401,
+            "USDJPY": 401,
+            "AUDUSD": 402,
+            "USDCHF": 402,
+            "XAUUSD": 395,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "GBPUSD": {
+            "EURUSD": 401,
+            "GBPUSD": 401,
+            "USDJPY": 400,
+            "AUDUSD": 401,
+            "USDCHF": 401,
+            "XAUUSD": 394,
+            "BTCUSD": 377,
+            "ETHUSD": 377
+          },
+          "USDJPY": {
+            "EURUSD": 401,
+            "GBPUSD": 400,
+            "USDJPY": 401,
+            "AUDUSD": 401,
+            "USDCHF": 401,
+            "XAUUSD": 394,
+            "BTCUSD": 377,
+            "ETHUSD": 377
+          },
+          "AUDUSD": {
+            "EURUSD": 402,
+            "GBPUSD": 401,
+            "USDJPY": 401,
+            "AUDUSD": 402,
+            "USDCHF": 402,
+            "XAUUSD": 395,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "USDCHF": {
+            "EURUSD": 402,
+            "GBPUSD": 401,
+            "USDJPY": 401,
+            "AUDUSD": 402,
+            "USDCHF": 402,
+            "XAUUSD": 395,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "XAUUSD": {
+            "EURUSD": 395,
+            "GBPUSD": 394,
+            "USDJPY": 394,
+            "AUDUSD": 395,
+            "USDCHF": 395,
+            "XAUUSD": 395,
+            "BTCUSD": 371,
+            "ETHUSD": 371
+          },
+          "BTCUSD": {
+            "EURUSD": 378,
+            "GBPUSD": 377,
+            "USDJPY": 377,
+            "AUDUSD": 378,
+            "USDCHF": 378,
+            "XAUUSD": 371,
+            "BTCUSD": 510,
+            "ETHUSD": 510
+          },
+          "ETHUSD": {
+            "EURUSD": 378,
+            "GBPUSD": 377,
+            "USDJPY": 377,
+            "AUDUSD": 378,
+            "USDCHF": 378,
+            "XAUUSD": 371,
+            "BTCUSD": 510,
+            "ETHUSD": 510
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": []
+      },
+      "1_anio": {
+        "fin_comun_utc": "2026-06-26T16:00:00+00:00",
+        "inicio_ventana_utc": "2025-06-26T16:00:00+00:00",
+        "dias_ventana_objetivo": 365,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 1610,
+            "n_total_disponible": 3075
+          },
+          "GBPUSD": {
+            "n_en_ventana": 1609,
+            "n_total_disponible": 3074
+          },
+          "USDJPY": {
+            "n_en_ventana": 1609,
+            "n_total_disponible": 3071
+          },
+          "AUDUSD": {
+            "n_en_ventana": 1610,
+            "n_total_disponible": 3072
+          },
+          "USDCHF": {
+            "n_en_ventana": 1610,
+            "n_total_disponible": 3075
+          },
+          "XAUUSD": {
+            "n_en_ventana": 1598,
+            "n_total_disponible": 3195
+          },
+          "BTCUSD": {
+            "n_en_ventana": 510,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 510,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.8139169392981989,
+            "USDJPY": -0.6150170368226425,
+            "AUDUSD": 0.6828153155950125,
+            "USDCHF": -0.8496764254475003,
+            "XAUUSD": 0.3781959577272224,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.8139169392981989,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5477689261342957,
+            "AUDUSD": 0.6856337497180127,
+            "USDCHF": -0.7183515838523531,
+            "XAUUSD": 0.3714744627928203,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.6150170368226425,
+            "GBPUSD": -0.5477689261342957,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.40599895166058175,
+            "USDCHF": 0.6251692748416081,
+            "XAUUSD": -0.2007800315302366,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6828153155950125,
+            "GBPUSD": 0.6856337497180127,
+            "USDJPY": -0.40599895166058175,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.579059031678893,
+            "XAUUSD": 0.46548889918685527,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.8496764254475003,
+            "GBPUSD": -0.7183515838523531,
+            "USDJPY": 0.6251692748416081,
+            "AUDUSD": -0.579059031678893,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.37573675701231224,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.3781959577272224,
+            "GBPUSD": 0.3714744627928203,
+            "USDJPY": -0.2007800315302366,
+            "AUDUSD": 0.46548889918685527,
+            "USDCHF": -0.37573675701231224,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": 1.0,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": 1.0
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 1610,
+            "GBPUSD": 1609,
+            "USDJPY": 1609,
+            "AUDUSD": 1610,
+            "USDCHF": 1610,
+            "XAUUSD": 1598,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "GBPUSD": {
+            "EURUSD": 1609,
+            "GBPUSD": 1609,
+            "USDJPY": 1608,
+            "AUDUSD": 1609,
+            "USDCHF": 1609,
+            "XAUUSD": 1597,
+            "BTCUSD": 377,
+            "ETHUSD": 377
+          },
+          "USDJPY": {
+            "EURUSD": 1609,
+            "GBPUSD": 1608,
+            "USDJPY": 1609,
+            "AUDUSD": 1609,
+            "USDCHF": 1609,
+            "XAUUSD": 1597,
+            "BTCUSD": 377,
+            "ETHUSD": 377
+          },
+          "AUDUSD": {
+            "EURUSD": 1610,
+            "GBPUSD": 1609,
+            "USDJPY": 1609,
+            "AUDUSD": 1610,
+            "USDCHF": 1610,
+            "XAUUSD": 1598,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "USDCHF": {
+            "EURUSD": 1610,
+            "GBPUSD": 1609,
+            "USDJPY": 1609,
+            "AUDUSD": 1610,
+            "USDCHF": 1610,
+            "XAUUSD": 1598,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "XAUUSD": {
+            "EURUSD": 1598,
+            "GBPUSD": 1597,
+            "USDJPY": 1597,
+            "AUDUSD": 1598,
+            "USDCHF": 1598,
+            "XAUUSD": 1598,
+            "BTCUSD": 371,
+            "ETHUSD": 371
+          },
+          "BTCUSD": {
+            "EURUSD": 378,
+            "GBPUSD": 377,
+            "USDJPY": 377,
+            "AUDUSD": 378,
+            "USDCHF": 378,
+            "XAUUSD": 371,
+            "BTCUSD": 510,
+            "ETHUSD": 510
+          },
+          "ETHUSD": {
+            "EURUSD": 378,
+            "GBPUSD": 377,
+            "USDJPY": 377,
+            "AUDUSD": 378,
+            "USDCHF": 378,
+            "XAUUSD": 371,
+            "BTCUSD": 510,
+            "ETHUSD": 510
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 377,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 377,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 378,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 371,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 510,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 377,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 377,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 378,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 371,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 365 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      },
+      "2_anios": {
+        "fin_comun_utc": "2026-06-26T16:00:00+00:00",
+        "inicio_ventana_utc": "2024-06-26T16:00:00+00:00",
+        "dias_ventana_objetivo": 730,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 3075,
+            "n_total_disponible": 3075
+          },
+          "GBPUSD": {
+            "n_en_ventana": 3074,
+            "n_total_disponible": 3074
+          },
+          "USDJPY": {
+            "n_en_ventana": 3071,
+            "n_total_disponible": 3071
+          },
+          "AUDUSD": {
+            "n_en_ventana": 3072,
+            "n_total_disponible": 3072
+          },
+          "USDCHF": {
+            "n_en_ventana": 3075,
+            "n_total_disponible": 3075
+          },
+          "XAUUSD": {
+            "n_en_ventana": 3053,
+            "n_total_disponible": 3195
+          },
+          "BTCUSD": {
+            "n_en_ventana": 510,
+            "n_total_disponible": 719
+          },
+          "ETHUSD": {
+            "n_en_ventana": 510,
+            "n_total_disponible": 719
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.7977121169278044,
+            "USDJPY": -0.5252268609928514,
+            "AUDUSD": 0.6178114392111096,
+            "USDCHF": -0.7636946288058999,
+            "XAUUSD": 0.2975637743988165,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.7977121169278044,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.4256239652218775,
+            "AUDUSD": 0.6663465058175793,
+            "USDCHF": -0.6083652116113604,
+            "XAUUSD": 0.3083102376713851,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.5252268609928514,
+            "GBPUSD": -0.4256239652218775,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.24505012679345095,
+            "USDCHF": 0.6512657826665458,
+            "XAUUSD": -0.16854956609456737,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6178114392111096,
+            "GBPUSD": 0.6663465058175793,
+            "USDJPY": -0.24505012679345095,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.3953597453337327,
+            "XAUUSD": 0.35067795027762844,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.7636946288058999,
+            "GBPUSD": -0.6083652116113604,
+            "USDJPY": 0.6512657826665458,
+            "AUDUSD": -0.3953597453337327,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.3040960561334274,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.2975637743988165,
+            "GBPUSD": 0.3083102376713851,
+            "USDJPY": -0.16854956609456737,
+            "AUDUSD": 0.35067795027762844,
+            "USDCHF": -0.3040960561334274,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": 1.0,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": 1.0
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 3075,
+            "GBPUSD": 3074,
+            "USDJPY": 3071,
+            "AUDUSD": 3072,
+            "USDCHF": 3075,
+            "XAUUSD": 3053,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "GBPUSD": {
+            "EURUSD": 3074,
+            "GBPUSD": 3074,
+            "USDJPY": 3070,
+            "AUDUSD": 3071,
+            "USDCHF": 3074,
+            "XAUUSD": 3052,
+            "BTCUSD": 377,
+            "ETHUSD": 377
+          },
+          "USDJPY": {
+            "EURUSD": 3071,
+            "GBPUSD": 3070,
+            "USDJPY": 3071,
+            "AUDUSD": 3068,
+            "USDCHF": 3071,
+            "XAUUSD": 3049,
+            "BTCUSD": 377,
+            "ETHUSD": 377
+          },
+          "AUDUSD": {
+            "EURUSD": 3072,
+            "GBPUSD": 3071,
+            "USDJPY": 3068,
+            "AUDUSD": 3072,
+            "USDCHF": 3072,
+            "XAUUSD": 3050,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "USDCHF": {
+            "EURUSD": 3075,
+            "GBPUSD": 3074,
+            "USDJPY": 3071,
+            "AUDUSD": 3072,
+            "USDCHF": 3075,
+            "XAUUSD": 3053,
+            "BTCUSD": 378,
+            "ETHUSD": 378
+          },
+          "XAUUSD": {
+            "EURUSD": 3053,
+            "GBPUSD": 3052,
+            "USDJPY": 3049,
+            "AUDUSD": 3050,
+            "USDCHF": 3053,
+            "XAUUSD": 3053,
+            "BTCUSD": 371,
+            "ETHUSD": 371
+          },
+          "BTCUSD": {
+            "EURUSD": 378,
+            "GBPUSD": 377,
+            "USDJPY": 377,
+            "AUDUSD": 378,
+            "USDCHF": 378,
+            "XAUUSD": 371,
+            "BTCUSD": 510,
+            "ETHUSD": 510
+          },
+          "ETHUSD": {
+            "EURUSD": 378,
+            "GBPUSD": 377,
+            "USDJPY": 377,
+            "AUDUSD": 378,
+            "USDCHF": 378,
+            "XAUUSD": 371,
+            "BTCUSD": 510,
+            "ETHUSD": 510
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 377,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 377,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 378,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 371,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 510,
+            "motivo": "BTCUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 378,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 377,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 377,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 378,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 371,
+            "motivo": "ETHUSD/4h: cache cubre solo 719 velas desde 2026-04-02T20:00:00+00:00 hasta 2026-07-31T12:00:00+00:00 (~119.8 dias); no alcanza para una ventana de 730 dias. Ventana deslizante de Kraken (endpoint publico /OHLC, ~720 velas cerradas mas recientes, sin profundidad de 1 año/2 años); no se estima ni se cambia de fuente."
+          }
+        ]
+      }
+    },
+    "1d": {
+      "3_meses": {
+        "fin_comun_utc": "2026-06-24T22:00:00+00:00",
+        "inicio_ventana_utc": "2026-03-26T22:00:00+00:00",
+        "dias_ventana_objetivo": 90,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 64,
+            "n_total_disponible": 502
+          },
+          "GBPUSD": {
+            "n_en_ventana": 64,
+            "n_total_disponible": 503
+          },
+          "USDJPY": {
+            "n_en_ventana": 64,
+            "n_total_disponible": 503
+          },
+          "AUDUSD": {
+            "n_en_ventana": 64,
+            "n_total_disponible": 503
+          },
+          "USDCHF": {
+            "n_en_ventana": 64,
+            "n_total_disponible": 503
+          },
+          "XAUUSD": {
+            "n_en_ventana": 63,
+            "n_total_disponible": 514
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 0
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 0
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.8800507580152623,
+            "USDJPY": -0.5118921406530172,
+            "AUDUSD": 0.8271066108096805,
+            "USDCHF": -0.7959913959802951,
+            "XAUUSD": 0.6838397488166239,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.8800507580152623,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.559004492077758,
+            "AUDUSD": 0.7719455128674318,
+            "USDCHF": -0.7856660774455501,
+            "XAUUSD": 0.5988284613518705,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.5118921406530172,
+            "GBPUSD": -0.559004492077758,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.541973306963963,
+            "USDCHF": 0.6452763573592296,
+            "XAUUSD": -0.4851899146341399,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.8271066108096805,
+            "GBPUSD": 0.7719455128674318,
+            "USDJPY": -0.541973306963963,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.7227190600387163,
+            "XAUUSD": 0.7330643309767576,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.7959913959802951,
+            "GBPUSD": -0.7856660774455501,
+            "USDJPY": 0.6452763573592296,
+            "AUDUSD": -0.7227190600387163,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.6717277086675343,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.6838397488166239,
+            "GBPUSD": 0.5988284613518705,
+            "USDJPY": -0.4851899146341399,
+            "AUDUSD": 0.7330643309767576,
+            "USDCHF": -0.6717277086675343,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 64,
+            "GBPUSD": 64,
+            "USDJPY": 64,
+            "AUDUSD": 64,
+            "USDCHF": 64,
+            "XAUUSD": 63,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 64,
+            "GBPUSD": 64,
+            "USDJPY": 64,
+            "AUDUSD": 64,
+            "USDCHF": 64,
+            "XAUUSD": 63,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 64,
+            "GBPUSD": 64,
+            "USDJPY": 64,
+            "AUDUSD": 64,
+            "USDCHF": 64,
+            "XAUUSD": 63,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 64,
+            "GBPUSD": 64,
+            "USDJPY": 64,
+            "AUDUSD": 64,
+            "USDCHF": 64,
+            "XAUUSD": 63,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 64,
+            "GBPUSD": 64,
+            "USDJPY": 64,
+            "AUDUSD": 64,
+            "USDCHF": 64,
+            "XAUUSD": 63,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 63,
+            "GBPUSD": 63,
+            "USDJPY": 63,
+            "AUDUSD": 63,
+            "USDCHF": 63,
+            "XAUUSD": 63,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          }
+        ]
+      },
+      "1_anio": {
+        "fin_comun_utc": "2026-06-24T22:00:00+00:00",
+        "inicio_ventana_utc": "2025-06-24T22:00:00+00:00",
+        "dias_ventana_objetivo": 365,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 264,
+            "n_total_disponible": 502
+          },
+          "GBPUSD": {
+            "n_en_ventana": 264,
+            "n_total_disponible": 503
+          },
+          "USDJPY": {
+            "n_en_ventana": 264,
+            "n_total_disponible": 503
+          },
+          "AUDUSD": {
+            "n_en_ventana": 264,
+            "n_total_disponible": 503
+          },
+          "USDCHF": {
+            "n_en_ventana": 264,
+            "n_total_disponible": 503
+          },
+          "XAUUSD": {
+            "n_en_ventana": 258,
+            "n_total_disponible": 514
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 0
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 0
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.8166988673910189,
+            "USDJPY": -0.6661966001268266,
+            "AUDUSD": 0.6769284655406262,
+            "USDCHF": -0.8720305926878547,
+            "XAUUSD": 0.3777711922668996,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.8166988673910189,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5989555406098991,
+            "AUDUSD": 0.6955074125523953,
+            "USDCHF": -0.7367707583453712,
+            "XAUUSD": 0.36577320853054357,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.6661966001268266,
+            "GBPUSD": -0.5989555406098991,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.4280676782200482,
+            "USDCHF": 0.6247034522573535,
+            "XAUUSD": -0.21053955351493034,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6769284655406262,
+            "GBPUSD": 0.6955074125523953,
+            "USDJPY": -0.4280676782200482,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.5923936024129938,
+            "XAUUSD": 0.5234563499236278,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.8720305926878547,
+            "GBPUSD": -0.7367707583453712,
+            "USDJPY": 0.6247034522573535,
+            "AUDUSD": -0.5923936024129938,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.41614730623994506,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.3777711922668996,
+            "GBPUSD": 0.36577320853054357,
+            "USDJPY": -0.21053955351493034,
+            "AUDUSD": 0.5234563499236278,
+            "USDCHF": -0.41614730623994506,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 264,
+            "GBPUSD": 264,
+            "USDJPY": 264,
+            "AUDUSD": 264,
+            "USDCHF": 264,
+            "XAUUSD": 258,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 264,
+            "GBPUSD": 264,
+            "USDJPY": 264,
+            "AUDUSD": 264,
+            "USDCHF": 264,
+            "XAUUSD": 258,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 264,
+            "GBPUSD": 264,
+            "USDJPY": 264,
+            "AUDUSD": 264,
+            "USDCHF": 264,
+            "XAUUSD": 258,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 264,
+            "GBPUSD": 264,
+            "USDJPY": 264,
+            "AUDUSD": 264,
+            "USDCHF": 264,
+            "XAUUSD": 258,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 264,
+            "GBPUSD": 264,
+            "USDJPY": 264,
+            "AUDUSD": 264,
+            "USDCHF": 264,
+            "XAUUSD": 258,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 258,
+            "GBPUSD": 258,
+            "USDJPY": 258,
+            "AUDUSD": 258,
+            "USDCHF": 258,
+            "XAUUSD": 258,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          }
+        ]
+      },
+      "2_anios": {
+        "fin_comun_utc": "2026-06-24T22:00:00+00:00",
+        "inicio_ventana_utc": "2024-06-24T22:00:00+00:00",
+        "dias_ventana_objetivo": 730,
+        "cobertura_por_instrumento": {
+          "EURUSD": {
+            "n_en_ventana": 502,
+            "n_total_disponible": 502
+          },
+          "GBPUSD": {
+            "n_en_ventana": 503,
+            "n_total_disponible": 503
+          },
+          "USDJPY": {
+            "n_en_ventana": 503,
+            "n_total_disponible": 503
+          },
+          "AUDUSD": {
+            "n_en_ventana": 503,
+            "n_total_disponible": 503
+          },
+          "USDCHF": {
+            "n_en_ventana": 503,
+            "n_total_disponible": 503
+          },
+          "XAUUSD": {
+            "n_en_ventana": 491,
+            "n_total_disponible": 514
+          },
+          "BTCUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 0
+          },
+          "ETHUSD": {
+            "n_en_ventana": 0,
+            "n_total_disponible": 0
+          }
+        },
+        "correlaciones": {
+          "EURUSD": {
+            "EURUSD": 1.0,
+            "GBPUSD": 0.7997473821225621,
+            "USDJPY": -0.6134876055572979,
+            "AUDUSD": 0.6234752171913343,
+            "USDCHF": -0.8209497195074342,
+            "XAUUSD": 0.3785739060337036,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "GBPUSD": {
+            "EURUSD": 0.7997473821225621,
+            "GBPUSD": 1.0,
+            "USDJPY": -0.5242847231749914,
+            "AUDUSD": 0.6825542190560162,
+            "USDCHF": -0.6351360823372071,
+            "XAUUSD": 0.3878214552418285,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDJPY": {
+            "EURUSD": -0.6134876055572979,
+            "GBPUSD": -0.5242847231749914,
+            "USDJPY": 1.0,
+            "AUDUSD": -0.34473644925843866,
+            "USDCHF": 0.6824265887633478,
+            "XAUUSD": -0.25835821952247623,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "AUDUSD": {
+            "EURUSD": 0.6234752171913343,
+            "GBPUSD": 0.6825542190560162,
+            "USDJPY": -0.34473644925843866,
+            "AUDUSD": 1.0,
+            "USDCHF": -0.43629655568298314,
+            "XAUUSD": 0.46547720039835466,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "USDCHF": {
+            "EURUSD": -0.8209497195074342,
+            "GBPUSD": -0.6351360823372071,
+            "USDJPY": 0.6824265887633478,
+            "AUDUSD": -0.43629655568298314,
+            "USDCHF": 1.0,
+            "XAUUSD": -0.36884847897815315,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "XAUUSD": {
+            "EURUSD": 0.3785739060337036,
+            "GBPUSD": 0.3878214552418285,
+            "USDJPY": -0.25835821952247623,
+            "AUDUSD": 0.46547720039835466,
+            "USDCHF": -0.36884847897815315,
+            "XAUUSD": 1.0,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "BTCUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          },
+          "ETHUSD": {
+            "EURUSD": null,
+            "GBPUSD": null,
+            "USDJPY": null,
+            "AUDUSD": null,
+            "USDCHF": null,
+            "XAUUSD": null,
+            "BTCUSD": null,
+            "ETHUSD": null
+          }
+        },
+        "n_observaciones": {
+          "EURUSD": {
+            "EURUSD": 502,
+            "GBPUSD": 502,
+            "USDJPY": 502,
+            "AUDUSD": 502,
+            "USDCHF": 502,
+            "XAUUSD": 491,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "GBPUSD": {
+            "EURUSD": 502,
+            "GBPUSD": 503,
+            "USDJPY": 503,
+            "AUDUSD": 503,
+            "USDCHF": 503,
+            "XAUUSD": 491,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDJPY": {
+            "EURUSD": 502,
+            "GBPUSD": 503,
+            "USDJPY": 503,
+            "AUDUSD": 503,
+            "USDCHF": 503,
+            "XAUUSD": 491,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "AUDUSD": {
+            "EURUSD": 502,
+            "GBPUSD": 503,
+            "USDJPY": 503,
+            "AUDUSD": 503,
+            "USDCHF": 503,
+            "XAUUSD": 491,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "USDCHF": {
+            "EURUSD": 502,
+            "GBPUSD": 503,
+            "USDJPY": 503,
+            "AUDUSD": 503,
+            "USDCHF": 503,
+            "XAUUSD": 491,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "XAUUSD": {
+            "EURUSD": 491,
+            "GBPUSD": 491,
+            "USDJPY": 491,
+            "AUDUSD": 491,
+            "USDCHF": 491,
+            "XAUUSD": 491,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "BTCUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          },
+          "ETHUSD": {
+            "EURUSD": 0,
+            "GBPUSD": 0,
+            "USDJPY": 0,
+            "AUDUSD": 0,
+            "USDCHF": 0,
+            "XAUUSD": 0,
+            "BTCUSD": 0,
+            "ETHUSD": 0
+          }
+        },
+        "reproducible": {
+          "EURUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "GBPUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDJPY": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "AUDUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "USDCHF": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "XAUUSD": {
+            "EURUSD": true,
+            "GBPUSD": true,
+            "USDJPY": true,
+            "AUDUSD": true,
+            "USDCHF": true,
+            "XAUUSD": true,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "BTCUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          },
+          "ETHUSD": {
+            "EURUSD": false,
+            "GBPUSD": false,
+            "USDJPY": false,
+            "AUDUSD": false,
+            "USDCHF": false,
+            "XAUUSD": false,
+            "BTCUSD": false,
+            "ETHUSD": false
+          }
+        },
+        "huecos": [
+          {
+            "par": [
+              "AUDUSD",
+              "BTCUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "AUDUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "BTCUSD",
+              "ETHUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "EURUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "GBPUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDJPY"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "USDCHF"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          },
+          {
+            "par": [
+              "ETHUSD",
+              "XAUUSD"
+            ],
+            "n_observaciones": 0,
+            "motivo": "No hay serie 1-minuto de Kraken para remuestrear a diaria con el corte 22:00 UTC exacto (Kraken no entrega 1-min con profundidad suficiente, ver precios_mercado.procesar_cripto). Agregar desde las velas 4h nativas de Kraken usaria su rejilla propia (0/4/8/12/16/20 UTC), NO anclada al corte 22:00: los bordes de la vela diaria resultante no coincidirian con los de forex/oro, y los rendimientos dejarian de ser contemporaneos entre instrumentos. No se descarga una granularidad diaria nueva de Kraken (excede 'no cambies de fuente' del encargo 02.02.03)."
+          }
+        ]
+      }
+    }
+  }
+}
