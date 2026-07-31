@@ -1,0 +1,430 @@
+{
+  "generado_utc": "2026-07-31T19:52:51.069517+00:00",
+  "corte_utc_hora": 22,
+  "ventana_dias_objetivo": 730,
+  "formula_atr": "SMA(14) del True Range = max(H-L, |H-C_prev|, |L-C_prev|)",
+  "instrumentos": {
+    "EURUSD": {
+      "instrumento": "EURUSD",
+      "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 0.0006864200358254897,
+          "atr14_mediana": 0.0005999999999999657,
+          "atr14_p10": 0.00032214285714288985,
+          "atr14_p90": 0.0011392857142857539,
+          "precio_medio": 1.1290621911872962,
+          "n_velas": 47545,
+          "n_atr_validos": 47532,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:45:00+00:00",
+          "cobertura_pct_aprox": 99.5,
+          "reproducible": true
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 0.0014073808721804524,
+          "atr14_mediana": 0.00128071428571427,
+          "atr14_p10": 0.0008178571428571463,
+          "atr14_p90": 0.002112142857142867,
+          "precio_medio": 1.1290535085800806,
+          "n_velas": 11888,
+          "n_atr_validos": 11875,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:00:00+00:00",
+          "cobertura_pct_aprox": 99.5,
+          "reproducible": true
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 0.002850109334203657,
+          "atr14_mediana": 0.0026321428571428373,
+          "atr14_p10": 0.0018539999999999826,
+          "atr14_p90": 0.0040246428571428725,
+          "precio_medio": 1.1290693760155996,
+          "n_velas": 3077,
+          "n_atr_validos": 3064,
+          "desde_utc": "2024-07-30T00:00:00+00:00",
+          "hasta_utc": "2026-06-26T20:00:00+00:00",
+          "cobertura_pct_aprox": 103.0,
+          "reproducible": true
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "EURUSD: precio medio 1.1291 vs rango esperado [0.5, 2.0]"
+    },
+    "GBPUSD": {
+      "instrumento": "GBPUSD",
+      "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 0.0008275062698847064,
+          "atr14_mediana": 0.0007542857142857073,
+          "atr14_p10": 0.0004249999999999928,
+          "atr14_p90": 0.00130714285714284,
+          "precio_medio": 1.3195828458090446,
+          "n_velas": 47519,
+          "n_atr_validos": 47506,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:45:00+00:00",
+          "cobertura_pct_aprox": 99.4,
+          "reproducible": true
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 0.0016947220851437727,
+          "atr14_mediana": 0.0015985714285714492,
+          "atr14_p10": 0.0010807142857143046,
+          "atr14_p90": 0.002396571428571437,
+          "precio_medio": 1.3195673800706953,
+          "n_velas": 11882,
+          "n_atr_validos": 11869,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:00:00+00:00",
+          "cobertura_pct_aprox": 99.4,
+          "reproducible": true
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 0.0034138554638309814,
+          "atr14_mediana": 0.003228571428571438,
+          "atr14_p10": 0.0025431428571428645,
+          "atr14_p90": 0.00452828571428575,
+          "precio_medio": 1.31952738946684,
+          "n_velas": 3076,
+          "n_atr_validos": 3063,
+          "desde_utc": "2024-07-30T00:00:00+00:00",
+          "hasta_utc": "2026-06-26T20:00:00+00:00",
+          "cobertura_pct_aprox": 103.0,
+          "reproducible": true
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "GBPUSD: precio medio 1.3196 vs rango esperado [0.5, 2.5]"
+    },
+    "USDJPY": {
+      "instrumento": "USDJPY",
+      "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 0.12025397226635862,
+          "atr14_mediana": 0.10864285714285213,
+          "atr14_p10": 0.05685714285714231,
+          "atr14_p90": 0.1917785714285745,
+          "precio_medio": 151.702258797515,
+          "n_velas": 47485,
+          "n_atr_validos": 47472,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:45:00+00:00",
+          "cobertura_pct_aprox": 99.4,
+          "reproducible": true
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 0.2485955452760412,
+          "atr14_mediana": 0.2305000000000003,
+          "atr14_p10": 0.14078571428571413,
+          "atr14_p90": 0.3666571428571376,
+          "precio_medio": 151.70437584231806,
+          "n_velas": 11872,
+          "n_atr_validos": 11859,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:00:00+00:00",
+          "cobertura_pct_aprox": 99.4,
+          "reproducible": true
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 0.5073094771241831,
+          "atr14_mediana": 0.4826428571428626,
+          "atr14_p10": 0.3022071428571408,
+          "atr14_p90": 0.722428571428571,
+          "precio_medio": 151.70964074194598,
+          "n_velas": 3073,
+          "n_atr_validos": 3060,
+          "desde_utc": "2024-07-30T00:00:00+00:00",
+          "hasta_utc": "2026-06-26T20:00:00+00:00",
+          "cobertura_pct_aprox": 102.9,
+          "reproducible": true
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "USDJPY: precio medio 151.7054 vs rango esperado [50, 300]"
+    },
+    "AUDUSD": {
+      "instrumento": "AUDUSD",
+      "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 0.0005591770660616106,
+          "atr14_mediana": 0.000499285714285718,
+          "atr14_p10": 0.00032071428571430117,
+          "atr14_p90": 0.0008492857142857191,
+          "precio_medio": 0.6629351398306869,
+          "n_velas": 47486,
+          "n_atr_validos": 47473,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:45:00+00:00",
+          "cobertura_pct_aprox": 99.4,
+          "reproducible": true
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 0.0011479960250542045,
+          "atr14_mediana": 0.001049642857142858,
+          "atr14_p10": 0.0007578571428571435,
+          "atr14_p90": 0.0015971428571428606,
+          "precio_medio": 0.6629252690979534,
+          "n_velas": 11873,
+          "n_atr_validos": 11860,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:00:00+00:00",
+          "cobertura_pct_aprox": 99.4,
+          "reproducible": true
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 0.002324031362299901,
+          "atr14_mediana": 0.0021378571428571436,
+          "atr14_p10": 0.0016235714285714306,
+          "atr14_p90": 0.003164285714285699,
+          "precio_medio": 0.6629377618737801,
+          "n_velas": 3074,
+          "n_atr_validos": 3061,
+          "desde_utc": "2024-07-30T00:00:00+00:00",
+          "hasta_utc": "2026-06-26T20:00:00+00:00",
+          "cobertura_pct_aprox": 102.9,
+          "reproducible": true
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "AUDUSD: precio medio 0.6629 vs rango esperado [0.3, 1.5]"
+    },
+    "USDCHF": {
+      "instrumento": "USDCHF",
+      "fuente": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 0.0005720270375857604,
+          "atr14_mediana": 0.0005050000000000174,
+          "atr14_p10": 0.000294285714285739,
+          "atr14_p90": 0.0009185714285714353,
+          "precio_medio": 0.8275722698212409,
+          "n_velas": 47550,
+          "n_atr_validos": 47537,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:45:00+00:00",
+          "cobertura_pct_aprox": 99.5,
+          "reproducible": true
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 0.0011738976292714615,
+          "atr14_mediana": 0.001065714285714289,
+          "atr14_p10": 0.0007304285714285733,
+          "atr14_p90": 0.0016985714285714382,
+          "precio_medio": 0.8275744348191758,
+          "n_velas": 11890,
+          "n_atr_validos": 11877,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-06-26T21:00:00+00:00",
+          "cobertura_pct_aprox": 99.5,
+          "reproducible": true
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 0.0023876011749347265,
+          "atr14_mediana": 0.0021800000000000114,
+          "atr14_p10": 0.0016695000000000182,
+          "atr14_p90": 0.003236285714285705,
+          "precio_medio": 0.8276205589860255,
+          "n_velas": 3077,
+          "n_atr_validos": 3064,
+          "desde_utc": "2024-07-30T00:00:00+00:00",
+          "hasta_utc": "2026-06-26T20:00:00+00:00",
+          "cobertura_pct_aprox": 103.0,
+          "reproducible": true
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "USDCHF: precio medio 0.8276 vs rango esperado [0.5, 1.5]"
+    },
+    "XAUUSD": {
+      "instrumento": "XAUUSD",
+      "fuente": "Dukascopy (oro al contado / spot OTC, lado BID)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 7.064494481192823,
+          "atr14_mediana": 5.438607142857238,
+          "atr14_p10": 2.3893071428571795,
+          "atr14_p90": 12.968971428571422,
+          "precio_medio": 3596.658249984133,
+          "n_velas": 47267,
+          "n_atr_validos": 47254,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-07-29T20:45:00+00:00",
+          "cobertura_pct_aprox": 94.4,
+          "reproducible": true
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 14.464676282400184,
+          "atr14_mediana": 11.279714285714297,
+          "atr14_p10": 5.525571428571474,
+          "atr14_p90": 25.471928571428602,
+          "precio_medio": 3596.5298523342362,
+          "n_velas": 11824,
+          "n_atr_validos": 11811,
+          "desde_utc": "2024-07-29T22:00:00+00:00",
+          "hasta_utc": "2026-07-29T20:00:00+00:00",
+          "cobertura_pct_aprox": 94.5,
+          "reproducible": true
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 28.42890772406983,
+          "atr14_mediana": 22.152714285714215,
+          "atr14_p10": 11.209885714285708,
+          "atr14_p90": 48.773142857142886,
+          "precio_medio": 3596.743516270338,
+          "n_velas": 3196,
+          "n_atr_validos": 3183,
+          "desde_utc": "2024-07-30T00:00:00+00:00",
+          "hasta_utc": "2026-07-29T16:00:00+00:00",
+          "cobertura_pct_aprox": 102.2,
+          "reproducible": true
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "XAUUSD: precio medio 3596.6439 vs rango esperado [500, 6000]"
+    },
+    "BTCUSD": {
+      "instrumento": "BTCUSD",
+      "fuente": "Kraken (par real contra USD, no USDT/Tether)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 123.92806627601533,
+          "atr14_mediana": 110.66428571428644,
+          "atr14_p10": 48.92285714285671,
+          "atr14_p90": 214.98428571428542,
+          "precio_medio": 64218.00458333333,
+          "n_velas": 720,
+          "n_atr_validos": 707,
+          "desde_utc": "2026-07-24T07:45:00+00:00",
+          "hasta_utc": "2026-07-31T19:30:00+00:00",
+          "cobertura_pct_aprox": 100.1,
+          "reproducible": false,
+          "motivo_no_reproducible": "Kraken (endpoint publico /OHLC) solo sirve las ~720 velas CERRADAS mas recientes de cada intervalo, sin profundidad de 2 anios; la ventana se desplaza hacia adelante en cada ejecucion (mismo n_velas=720, pero desde_utc/hasta_utc distintos). Reejecuciones separadas por minutos cambian poco; reejecuciones separadas por mas que el ancho de la ventana (7,4 dias en 15m, 30 dias en 1h, 120 dias en 4h) no comparten ni una sola vela con la ejecucion anterior, y el ATR resultante puede no parecerse. No usar estas 6 celdas como entrada de un testbed de invarianza (03.01.10) sin congelar antes los datos (fijar la serie descargada en disco y leer siempre de ahi, no repetir la llamada a Kraken)."
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 298.6939785815318,
+          "atr14_mediana": 303.1142857142851,
+          "atr14_p10": 150.49285714285662,
+          "atr14_p90": 428.99714285714265,
+          "precio_medio": 63841.17125,
+          "n_velas": 720,
+          "n_atr_validos": 707,
+          "desde_utc": "2026-07-01T19:00:00+00:00",
+          "hasta_utc": "2026-07-31T18:00:00+00:00",
+          "cobertura_pct_aprox": 100.1,
+          "reproducible": false,
+          "motivo_no_reproducible": "Kraken (endpoint publico /OHLC) solo sirve las ~720 velas CERRADAS mas recientes de cada intervalo, sin profundidad de 2 anios; la ventana se desplaza hacia adelante en cada ejecucion (mismo n_velas=720, pero desde_utc/hasta_utc distintos). Reejecuciones separadas por minutos cambian poco; reejecuciones separadas por mas que el ancho de la ventana (7,4 dias en 15m, 30 dias en 1h, 120 dias en 4h) no comparten ni una sola vela con la ejecucion anterior, y el ATR resultante puede no parecerse. No usar estas 6 celdas como entrada de un testbed de invarianza (03.01.10) sin congelar antes los datos (fijar la serie descargada en disco y leer siempre de ahi, no repetir la llamada a Kraken)."
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 809.1331380076782,
+          "atr14_mediana": 779.2642857142865,
+          "atr14_p10": 527.798571428572,
+          "atr14_p90": 1105.1071428571427,
+          "precio_medio": 69692.6725,
+          "n_velas": 720,
+          "n_atr_validos": 707,
+          "desde_utc": "2026-04-02T16:00:00+00:00",
+          "hasta_utc": "2026-07-31T12:00:00+00:00",
+          "cobertura_pct_aprox": 100.1,
+          "reproducible": false,
+          "motivo_no_reproducible": "Kraken (endpoint publico /OHLC) solo sirve las ~720 velas CERRADAS mas recientes de cada intervalo, sin profundidad de 2 anios; la ventana se desplaza hacia adelante en cada ejecucion (mismo n_velas=720, pero desde_utc/hasta_utc distintos). Reejecuciones separadas por minutos cambian poco; reejecuciones separadas por mas que el ancho de la ventana (7,4 dias en 15m, 30 dias en 1h, 120 dias en 4h) no comparten ni una sola vela con la ejecucion anterior, y el ATR resultante puede no parecerse. No usar estas 6 celdas como entrada de un testbed de invarianza (03.01.10) sin congelar antes los datos (fijar la serie descargada en disco y leer siempre de ahi, no repetir la llamada a Kraken)."
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "BTCUSD: precio medio 65917.2828 vs rango esperado [1000, 500000]"
+    },
+    "ETHUSD": {
+      "instrumento": "ETHUSD",
+      "fuente": "Kraken (par real contra USD, no USDT/Tether)",
+      "duplicados_eliminados": 0,
+      "velas_invalidas_eliminadas": 0,
+      "velas": {
+        "15min": {
+          "hueco": false,
+          "atr14_medio": 5.452330773893716,
+          "atr14_mediana": 4.946428571428539,
+          "atr14_p10": 2.2792857142857623,
+          "atr14_p90": 8.667,
+          "precio_medio": 1897.6483472222224,
+          "n_velas": 720,
+          "n_atr_validos": 707,
+          "desde_utc": "2026-07-24T07:45:00+00:00",
+          "hasta_utc": "2026-07-31T19:30:00+00:00",
+          "cobertura_pct_aprox": 100.1,
+          "reproducible": false,
+          "motivo_no_reproducible": "Kraken (endpoint publico /OHLC) solo sirve las ~720 velas CERRADAS mas recientes de cada intervalo, sin profundidad de 2 anios; la ventana se desplaza hacia adelante en cada ejecucion (mismo n_velas=720, pero desde_utc/hasta_utc distintos). Reejecuciones separadas por minutos cambian poco; reejecuciones separadas por mas que el ancho de la ventana (7,4 dias en 15m, 30 dias en 1h, 120 dias en 4h) no comparten ni una sola vela con la ejecucion anterior, y el ATR resultante puede no parecerse. No usar estas 6 celdas como entrada de un testbed de invarianza (03.01.10) sin congelar antes los datos (fijar la serie descargada en disco y leer siempre de ahi, no repetir la llamada a Kraken)."
+        },
+        "1h": {
+          "hueco": false,
+          "atr14_medio": 12.247821782178214,
+          "atr14_mediana": 12.33357142857137,
+          "atr14_p10": 7.438428571428556,
+          "atr14_p90": 16.6882857142857,
+          "precio_medio": 1835.897388888889,
+          "n_velas": 720,
+          "n_atr_validos": 707,
+          "desde_utc": "2026-07-01T19:00:00+00:00",
+          "hasta_utc": "2026-07-31T18:00:00+00:00",
+          "cobertura_pct_aprox": 100.1,
+          "reproducible": false,
+          "motivo_no_reproducible": "Kraken (endpoint publico /OHLC) solo sirve las ~720 velas CERRADAS mas recientes de cada intervalo, sin profundidad de 2 anios; la ventana se desplaza hacia adelante en cada ejecucion (mismo n_velas=720, pero desde_utc/hasta_utc distintos). Reejecuciones separadas por minutos cambian poco; reejecuciones separadas por mas que el ancho de la ventana (7,4 dias en 15m, 30 dias en 1h, 120 dias en 4h) no comparten ni una sola vela con la ejecucion anterior, y el ATR resultante puede no parecerse. No usar estas 6 celdas como entrada de un testbed de invarianza (03.01.10) sin congelar antes los datos (fijar la serie descargada en disco y leer siempre de ahi, no repetir la llamada a Kraken)."
+        },
+        "4h": {
+          "hueco": false,
+          "atr14_medio": 30.967611638714885,
+          "atr14_mediana": 30.312142857142835,
+          "atr14_p10": 19.901428571428557,
+          "atr14_p90": 43.26128571428569,
+          "precio_medio": 1992.322861111111,
+          "n_velas": 720,
+          "n_atr_validos": 707,
+          "desde_utc": "2026-04-02T16:00:00+00:00",
+          "hasta_utc": "2026-07-31T12:00:00+00:00",
+          "cobertura_pct_aprox": 100.1,
+          "reproducible": false,
+          "motivo_no_reproducible": "Kraken (endpoint publico /OHLC) solo sirve las ~720 velas CERRADAS mas recientes de cada intervalo, sin profundidad de 2 anios; la ventana se desplaza hacia adelante en cada ejecucion (mismo n_velas=720, pero desde_utc/hasta_utc distintos). Reejecuciones separadas por minutos cambian poco; reejecuciones separadas por mas que el ancho de la ventana (7,4 dias en 15m, 30 dias en 1h, 120 dias en 4h) no comparten ni una sola vela con la ejecucion anterior, y el ATR resultante puede no parecerse. No usar estas 6 celdas como entrada de un testbed de invarianza (03.01.10) sin congelar antes los datos (fijar la serie descargada en disco y leer siempre de ahi, no repetir la llamada a Kraken)."
+        }
+      },
+      "prueba_cordura_ok": true,
+      "prueba_cordura_detalle": "ETHUSD: precio medio 1908.6229 vs rango esperado [50, 50000]"
+    }
+  }
+}
