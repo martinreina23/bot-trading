@@ -88,14 +88,14 @@ RESPUESTA: [una letra]
 
 | Código | Tarea | Responsable | Depende de | Estado |
 |---|---|---|---|---|
-| 02.01.01 | Confirmar 8 candidatos: EURUSD, GBPUSD, USDJPY, AUDUSD, USDCHF, XAUUSD, BTC, ETH | CEO + Orquestador | 01.01.02 | pendiente |
+| 02.01.01 | Confirmar 8 candidatos: EURUSD, GBPUSD, USDJPY, AUDUSD, USDCHF, XAUUSD, BTC, ETH | CEO + Orquestador | 01.01.02 | pendiente — los 8 candidatos ya se usan de hecho en 02.02.04 (hecha) y en los briefs A y B; falta ratificación formal del CEO en G1 |
 | 02.01.02 | Costes típicos de operar por mercado (PROVISIONAL hasta 04.01.02) | Investigador | 02.01.01 | pendiente |
-| 02.02.01 | **CORREGIDA 29/07:** descargar precios y CALCULAR el ATR de 15m, 1h y 4h (no buscarlo publicado: no existe). Script `atr_local.py` | Constructor de datos | 02.01.01 | en_curso |
-| 02.02.02 | Coste relativo: coste ÷ movimiento medio, en % (el número clave). Coste de USDJPY corregido a 1,16 pips | Constructor de datos | 02.01.02, 02.02.01 | en_curso |
-| 02.02.03 | **CORREGIDA 30/07:** CALCULAR la matriz de correlaciones en 3 ventanas (3 meses, 1 año, 2 años) con hora de corte única (22:00 UTC) y en la vela elegida, no solo diaria. No existe publicada de forma homogénea | Constructor de datos | 02.01.01 | en_curso |
+| 02.02.01 | **CORREGIDA 29/07:** descargar precios y CALCULAR el ATR de 15m, 1h y 4h (no buscarlo publicado: no existe). Script `atr_local.py` | Constructor de datos | 02.01.01 | pendiente — script atr_local.py escrito (142 líneas, en git) pero NUNCA EJECUTADO: 02-datos/bruto/ vacío, no existe atr_real.json. Su ficha debe fijar antes fuente de datos (el script usa Yahoo/yfinance; 02.02.04 concluyó Dukascopy/HistData/TrueFX/Binance/Kraken) y tratamiento del oro (el script usa el futuro GC=F; L-007 dice que no es XAUUSD al contado) |
+| 02.02.02 | Coste relativo: coste ÷ movimiento medio, en % (el número clave). Coste de USDJPY corregido a 1,16 pips | Constructor de datos | 02.01.02, 02.02.01 | bloqueada — depende de 02.01.02 (pendiente) y de 02.02.01 (sin ejecutar). El coste de USDJPY corregido a 1,16 pips viene de revision_brief_A.md |
+| 02.02.03 | **CORREGIDA 30/07:** CALCULAR la matriz de correlaciones en 3 ventanas (3 meses, 1 año, 2 años) con hora de corte única (22:00 UTC) y en la vela elegida, no solo diaria. No existe publicada de forma homogénea | Constructor de datos | 02.01.01 | pendiente — sin artefacto: no hay matriz calculada ni script. Reutilizará los precios que descargue 02.02.01 |
 | 02.02.04 | Historial disponible: años, fuente, coste | Investigador | 02.01.01 | **hecha** — Dukascopy (tick desde 2003, forex y oro al contado), HistData, TrueFX, Binance, Kraken. Todo gratis, muy por encima de los 5 años exigidos |
 | 02.02.05 | **NUEVA:** coste de mantener posición de un día para otro (swap/financiación) en los 8 instrumentos, 2-3 brokers. En cripto CFD puede superar varias veces al spread | Investigador | 02.01.01 | pendiente |
-| 02.03.01 | Revisión independiente de método, fuentes y números | Orquestador | 02.02.* | parcial (hecha para Brief A) |
+| 02.03.01 | Revisión independiente de método, fuentes y números | Orquestador | 02.02.* | en_curso — revisados Brief A (revision_brief_A.md, 29/07) y Brief B (revision_brief_B.md, 30/07). No se cierra hasta que 02.02.* entreguen números. ("parcial" no era un estado legal) |
 | 02.03.02 | Informe de decisión: 3-5 mercados poco correlacionados + 1-2 velas | Orquestador | 02.03.01 | pendiente |
 | 02.03.03 | PUERTA G1: el CEO elige | CEO | 02.03.02 | pendiente |
 
@@ -103,16 +103,17 @@ RESPUESTA: [una letra]
 
 | Código | Tarea | Responsable | Depende de | Estado |
 |---|---|---|---|---|
-| 03.01.01 | Repositorio: carpetas, WBS texto, CLAUDE.md, DECISIONES.md, LECCIONES.md | Constructores | 01.01.01 | pendiente |
-| 03.01.02 | Crear TODOS los agentes del Equipo, cada uno con su modelo y descripción sin ambigüedad; prueba de activación de todos (ningún agente fantasma) | Constructores | 03.01.01, 01.02.01 | pendiente |
+| 03.01.01 | Repositorio: carpetas, WBS texto, CLAUDE.md, DECISIONES.md, LECCIONES.md | Constructores | 01.01.01 | **hecha** 30/07 — repo completo: carpetas, WBS, CLAUDE.md, DECISIONES.md, LECCIONES.md, plantillas y .gitignore (42 ficheros en git). AVISO regla 24 **NO VERIFICADA**: la prueba de inyección de datos no se ha ejecutado; 02-datos/ está vacío. Se ejecuta al bajar los primeros precios en 02.02.01 |
+| 03.01.02 | Crear TODOS los agentes del Equipo, cada uno con su modelo y descripción sin ambigüedad; prueba de activación de todos (ningún agente fantasma) | Constructores | 03.01.01, 01.02.01 | **hecha** 30/07 — 8 agentes en .claude/agents/, cada uno con identificador exacto de modelo y respaldo. Prueba de activación ejecutada 30/07: los 8 respondieron y leyeron un fichero real, ningún fantasma. LÍMITE: la prueba no demuestra que el modelo enrutado sea el de la ficha; se verifica en 03.01.04, con atención a claude-fable-5 (validador y arquitecto) |
 | 03.01.03 | Ejecución desatendida: arranques programados, permisos AMPLIOS por defecto (git como red de seguridad) y topes de gasto | Constructores | 03.01.02 | pendiente |
 | 03.01.04 | Plan de respaldo de modelos: si un modelo no está disponible o rechaza, el agente sigue con su respaldo y lo anota | Constructores | 03.01.02 | pendiente |
 | 03.01.05 | PRUEBA REAL DEL MOTOR: un día entero de trabajo desatendido de verdad antes de dar la fase por buena | Orquestador | 03.01.03, 03.01.04 | pendiente |
 | 03.01.06 | Plantilla y automatismo de fichas de decisión: el secretario prepara cada decisión del CEO en el formato obligatorio y la adjunta al informe semanal | Secretario | 03.01.02 | pendiente |
 | 03.01.07 | Cola de aprobación del CEO: tabla con desplegable Aprobado / Saltar / Corregir y columna de corrección. Lo aprobado se ejecuta solo; lo corregido se rehace Y la corrección se guarda en LECCIONES.md | Secretario | 03.01.06 | pendiente |
-| 03.01.08 | **Prueba de fuego de las barreras** (regla 13): inyectar cada caso prohibido —leer el cajón reservado, escribir fuera del proyecto, borrar datos, gastar dinero— y comprobar que se bloquea de verdad. Lo que no se bloquee se marca "no verificada" | Crítico | 03.01.03 | pendiente |
+| 03.01.08 | **Prueba de fuego de las barreras** (regla 13): inyectar cada caso prohibido —leer el cajón reservado, escribir fuera del proyecto, borrar datos, gastar dinero— y comprobar que se bloquea de verdad. Lo que no se bloquee se marca "no verificada" | Crítico | 03.01.03 | en_curso — ejecutada la primera pasada 31/07 con verificar_barreras.py: 4 barreras de 5 VERIFICADAS por ejecucion (hooks instalados, datos rechazados en commit, .gitignore ignora 02-datos, mensaje exige codigo WBS). 1 NO VERIFICADA: el cajon reservado era un filtro de texto sobre el comando. Se remedia en 03.01.11 (D-10). No se cierra hasta repetir la pasada con 03.01.11 terminada |
 | 03.01.09 | Enrutado por tipo de tarea y comprobación de que el WBS genera tareas de cada tipo de agente (regla 26) | Constructores | 03.01.02 | pendiente |
 | 03.01.10 | Testbed sintético de invarianza: resultado de referencia fijo que debe reproducirse tras cualquier cambio del motor | Constructores | 03.01.01 | pendiente |
+| 03.01.11 | **NUEVA 31/07 (D-10):** guardia del cajon reservado por cifrado. Script `cajon_reservado.py`: la contraseña solo la tiene el CEO, no se guarda, se pide en cada operacion y nada se descifra a disco | Constructores | 03.01.08 | en_curso — script escrito y probado por ejecucion 31/07: 6 de 6 casos prohibidos bloqueados (contraseña por tuberia, abrir sin declarar variante, lectura a pelo del fichero cifrado, contraseña incorrecta, y ninguna orden de terminal vuelca datos en claro). FALTA: que el CEO ejecute `sellar` en una terminal real para fijar la contraseña |
 
 ## Fase 04 — HIPÓTESIS Y VALIDACIÓN (puerta G2)
 

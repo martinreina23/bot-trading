@@ -1,574 +1,706 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""WBS v0.7 — Bot de trading. Panel de un vistazo + equipo de agentes con modelo por rol."""
+"""Vista Excel del CEO — se genera LEYENDO 00-direccion/WBS.md, nunca al reves.
+
+Uso:  .venv/bin/python 05-vista-ceo/generar_excel.py
+Salida: 05-vista-ceo/WBS_Bot_Trading_v0.9.xlsx
+
+Regla 11 del WBS: el texto se actualiza siempre; este Excel se regenera para la
+revision de los lunes y para las puertas. Como lee el markdown, no puede quedarse
+desfasado respecto a la fuente de verdad.
+"""
+import re
+import sys
+from pathlib import Path
+
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.formatting.rule import CellIsRule, DataBarRule
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.utils import get_column_letter
 
+RAIZ = Path(__file__).resolve().parent.parent
+WBS = RAIZ / "00-direccion" / "WBS.md"
+SALIDA = Path(__file__).resolve().parent / "WBS_Bot_Trading_v0.9.xlsx"
+
+# ---------------------------------------------------------------- estilo
 ARIAL = "Arial"
-F_TITLE = Font(name=ARIAL, size=14, bold=True, color="FFFFFF")
+F_TITULO = Font(name=ARIAL, size=13, bold=True, color="FFFFFF")
 F_HDR = Font(name=ARIAL, size=10, bold=True, color="FFFFFF")
 F_FASE = Font(name=ARIAL, size=10, bold=True, color="FFFFFF")
-F_PKG = Font(name=ARIAL, size=10, bold=True)
 F_TXT = Font(name=ARIAL, size=10)
-F_SMALL = Font(name=ARIAL, size=9, italic=True)
-FILL_TITLE = PatternFill("solid", fgColor="1F3864")
+F_BOLD = Font(name=ARIAL, size=10, bold=True)
+F_MINI = Font(name=ARIAL, size=9, italic=True)
+FILL_TITULO = PatternFill("solid", fgColor="1F3864")
 FILL_HDR = PatternFill("solid", fgColor="2F5496")
 FILL_FASE = PatternFill("solid", fgColor="4472C4")
-FILL_PKG = PatternFill("solid", fgColor="D9E2F2")
-FILL_LEG = PatternFill("solid", fgColor="FFF2CC")
+FILL_NOTA = PatternFill("solid", fgColor="FFF2CC")
 FILL_HECHA = PatternFill("solid", fgColor="C6EFCE")
 FILL_CURSO = PatternFill("solid", fgColor="FFEB9C")
 FILL_BLOQ = PatternFill("solid", fgColor="FFC7CE")
-THIN = Border(*[Side(style="thin", color="B0B0B0")]*4)
+FILL_CEO = PatternFill("solid", fgColor="FCE4D6")
+BORDE = Border(*[Side(style="thin", color="B0B0B0")] * 4)
 WRAP = Alignment(wrap_text=True, vertical="top")
-CENTER = Alignment(horizontal="center", vertical="top", wrap_text=True)
+CENTRO = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+ESTADOS = ["pendiente", "en_curso", "hecha", "bloqueada"]
+ETIQUETA = {"pendiente": "Pendiente", "en_curso": "En curso", "hecha": "Hecha", "bloqueada": "Bloqueada"}
+
+
+# ---------------------------------------------------------------- lectura del markdown
+def leer_secciones(texto):
+    """Devuelve {titulo_de_seccion: cuerpo} partiendo por encabezados '## '."""
+    secciones, titulo, buffer = {}, "__inicio__", []
+    for linea in texto.splitlines():
+        if linea.startswith("## "):
+            secciones[titulo] = "\n".join(buffer)
+            titulo, buffer = linea[3:].strip(), []
+        else:
+            buffer.append(linea)
+    secciones[titulo] = "\n".join(buffer)
+    return secciones
+
+
+def tablas(cuerpo):
+    """Extrae todas las tablas markdown de un cuerpo. Cada tabla: lista de listas."""
+    resultado, actual = [], []
+    for linea in cuerpo.splitlines():
+        s = linea.strip()
+        if s.startswith("|") and s.endswith("|"):
+            celdas = [c.strip() for c in s.strip("|").split("|")]
+            if all(re.fullmatch(r":?-{2,}:?", c) for c in celdas):
+                continue  # separador |---|---|
+            actual.append(celdas)
+        elif actual:
+            resultado.append(actual)
+            actual = []
+    if actual:
+        resultado.append(actual)
+    return resultado
+
+
+def limpiar(texto):
+    """Quita negritas, cursivas y backticks de markdown; deja el texto plano."""
+    t = re.sub(r"\*\*(.+?)\*\*", r"\1", texto)
+    t = re.sub(r"(?<!\w)\*(.+?)\*(?!\w)", r"\1", t)
+    t = t.replace("`", "")
+    return t.strip()
+
+
+def partir_estado(celda):
+    """'bloqueada — depende de X' -> ('bloqueada', 'depende de X')."""
+    plano = limpiar(celda)
+    minus = plano.lower()
+    for e in ESTADOS:
+        if minus.startswith(e):
+            resto = plano[len(e):].lstrip(" —-–:")
+            return e, resto
+    return "pendiente", plano
+
+
+def es_codigo(celda):
+    return bool(re.fullmatch(r"\d{2}(\.\d{2}){0,2}", limpiar(celda)))
+
+
+TEXTO = WBS.read_text(encoding="utf-8")
+SEC = leer_secciones(TEXTO)
+
+
+def seccion(fragmento):
+    """Busca una seccion por fragmento del titulo (sin acentos ni mayusculas)."""
+    for titulo, cuerpo in SEC.items():
+        if fragmento.lower() in titulo.lower():
+            return cuerpo
+    raise KeyError(f"No encuentro la seccion '{fragmento}' en WBS.md")
+
+
+# ------- tareas: recorre todas las secciones 'Fase NN — ...'
+FASES = []  # (codigo, nombre, [tareas])
+for titulo, cuerpo in SEC.items():
+    m = re.match(r"Fase (\d{2}) — (.+)", titulo)
+    if not m:
+        continue
+    tareas = []
+    # sub-encabezados '### 04.01 Broker y cajones de datos' -> etiqueta del paquete
+    paquetes = {}
+    for linea in cuerpo.splitlines():
+        sub = re.match(r"###\s+(\d{2}\.\d{2})\s+(.+)", linea.strip())
+        if sub:
+            paquetes[sub.group(1)] = limpiar(sub.group(2))
+    for tabla in tablas(cuerpo):
+        for fila in tabla:
+            if len(fila) < 5 or not es_codigo(fila[0]):
+                continue
+            estado, nota = partir_estado(fila[4])
+            codigo = limpiar(fila[0])
+            tareas.append({
+                "codigo": codigo,
+                "paquete": paquetes.get(codigo[:5], ""),
+                "tarea": limpiar(fila[1]),
+                "responsable": limpiar(fila[2]),
+                "depende": limpiar(fila[3]),
+                "estado": estado,
+                "nota": nota,
+            })
+    FASES.append((m.group(1), limpiar(m.group(2)), tareas))
+FASES.sort(key=lambda f: f[0])
+
+if not FASES or sum(len(f[2]) for f in FASES) == 0:
+    sys.exit("ERROR: no he leido ninguna tarea de WBS.md. Revisa el formato de las tablas.")
+
+# ---------------------------------------------------------------- orden de trabajo
+# Reglas aplicadas, todas escritas en WBS.md:
+#   regla 4  -> se va en orden salvo lo marcado paralelo
+#   regla 12 -> el producto va antes que el motor (motor = fases 03 y 07)
+# Una tarea se puede trabajar cuando TODAS sus dependencias estan hechas.
+TODAS = [t for _, _, tareas in FASES for t in tareas]
+POR_CODIGO = {t["codigo"]: t for t in TODAS}
+
+
+def dependencias(t):
+    """Codigos concretos de los que depende t. Resuelve comodines tipo '02.02.*'."""
+    bruto = t["depende"].replace("—", "").replace("–", "")
+    salida = []
+    for trozo in re.split(r"[,;]", bruto):
+        d = trozo.strip()
+        if not d:
+            continue
+        if d.endswith("*"):
+            prefijo = d.rstrip("*").rstrip(".")
+            salida += [c for c in POR_CODIGO if c.startswith(prefijo + ".") and c != t["codigo"]]
+        elif d in POR_CODIGO:
+            salida.append(d)
+    return sorted(set(salida))
+
+
+def es_motor(t):
+    """Carril de motor: fases 03 y 07, mas lo que su propio texto marque como tal."""
+    return t["codigo"][:2] in ("03", "07") or "carril de motor" in t["tarea"].lower()
+
+
+for t in TODAS:
+    t["deps"] = dependencias(t)
+    t["falta"] = [d for d in t["deps"] if POR_CODIGO[d]["estado"] != "hecha"]
+    t["lista"] = not t["falta"]
+    t["carril"] = "MOTOR" if es_motor(t) else "PRODUCTO"
+    t["es_ceo"] = "CEO" in t["responsable"]
+# DESBLOQUEA: tareas vivas que dependen de ella (directas) y en cadena (transitivas).
+HIJOS = {t["codigo"]: [o["codigo"] for o in TODAS if t["codigo"] in o["deps"] and o["estado"] != "hecha"] for t in TODAS}
+for t in TODAS:
+    t["desbloquea"] = len(HIJOS[t["codigo"]])
+    vistos, pila = set(), list(HIJOS[t["codigo"]])
+    while pila:
+        c = pila.pop()
+        if c in vistos or c == t["codigo"]:
+            continue
+        vistos.add(c)
+        pila += HIJOS[c]
+    t["cadena"] = len(vistos)
+
+# Cola de trabajo: primero lo empezado, luego producto antes que motor, y a igualdad,
+# orden de codigo WBS.
+ORDEN_ESTADO = {"en_curso": 0, "bloqueada": 1, "pendiente": 1}
+COLA = sorted(
+    (t for t in TODAS if t["estado"] != "hecha" and t["lista"]),
+    key=lambda t: (ORDEN_ESTADO[t["estado"]], 0 if t["carril"] == "PRODUCTO" else 1, t["codigo"]),
+)
+ESPERANDO = sorted(
+    (t for t in TODAS if t["estado"] != "hecha" and not t["lista"]),
+    key=lambda t: t["codigo"],
+)
 
 wb = openpyxl.Workbook()
 
-# ============ PLAN DE ACCION ============
-plan = wb.active
-plan.title = "PLAN DE ACCION"
 
-# (codigo, tipo, que se hace, que se entrega, responsable, depende de, duracion, estado, notas)
-ROWS = [
-("01","Fase","ARRANQUE","Plan aprobado, limites fijados y herencia de gb2 analizada","CEO + Orquestador","—","1 semana","",""),
-("01.01","Paquete","Plan y reglas","","","","","",""),
-("01.01.01","Tarea","Aprobar este plan y las reglas de trabajo","Plan v0.7 aprobado","CEO","—","1 dia","En curso",""),
-("01.01.02","Tarea","Aprobar los criterios para elegir mercado (hoja PUERTAS, G1)","Criterios aprobados","CEO","01.01.01","1 dia","Pendiente",""),
-("01.01.03","Tarea","Fijar limites: fecha tope, horas del CEO por semana y perdida maxima futura","Limites en numeros","CEO","01.01.01","1 dia","Pendiente","Solo puede decidirlo el CEO"),
-("01.02","Paquete","Herencia de gb2 (informacion, no copia)","","","","","",""),
-("01.02.01","Tarea","Analizar gb2: que funciono, que no, que modelo usaba cada agente y por que, errores a no repetir. NO se copia codigo","Informe de herencia + lecciones iniciales","Critico de codigo","01.01.01","2-3 dias","Pendiente","Necesita acceso a los archivos de gb2; sus conclusiones alimentan 03.01.02 y la hoja EQUIPO. Paralela a la Fase 02"),
-("02","Fase","ELEGIR MERCADO Y TAMAÑO DE VELA (puerta G1)","3-5 mercados y 1-2 tamaños de vela, decididos con numeros","Orquestador + Investigador","01.01","2-3 semanas","",""),
-("02.01","Paquete","Preparar la comparacion","","","","","",""),
-("02.01.01","Tarea","Confirmar lista de 8 candidatos: EURUSD, GBPUSD, USDJPY, AUDUSD, USDCHF, oro (XAUUSD), BTC y ETH","Lista cerrada","CEO + Orquestador","01.01.02","1 dia","Pendiente","Si se añade uno, se quita otro"),
-("02.01.02","Tarea","Recopilar cuanto cuesta operar en cada mercado (comisiones y horquillas tipicas de brokers grandes)","Tabla de costes con fuentes","Investigador","02.01.01","1-2 dias","Pendiente","PROVISIONAL: se recalcula con el broker real en 04.01.02"),
-("02.02","Paquete","Medir los mercados (paralelas entre si)","","","","","",""),
-("02.02.01","Tarea","Medir cuanto se mueve cada mercado de media en velas de 15 min, 1 h y 4 h (ultimos 2 años)","Tabla 8 mercados x 3 velas","Investigador","02.01.01","1-2 dias","Pendiente",""),
-("02.02.02","Tarea","Calcular que parte del movimiento se la come el coste de operar, en %","Tabla 8x3 en %","Investigador","02.01.02, 02.02.01","1 dia","Pendiente","El numero mas importante de la fase"),
-("02.02.03","Tarea","Medir que mercados se mueven a la vez (correlacion), para no repetir la misma apuesta","Matriz de correlaciones","Investigador","02.01.01","1-2 dias","Pendiente",""),
-("02.02.04","Tarea","Averiguar que historial de precios existe, donde conseguirlo y cuanto cuesta","Tabla: años, fuente, precio","Investigador","02.01.01","1-2 dias","Pendiente","Minimo deseado: 5 años"),
-("02.03","Paquete","Validar y decidir","","","","","",""),
-("02.03.01","Tarea","Revision independiente: metodo, fuentes y numeros del investigador","Informe de revision","Orquestador","02.02.01 a 02.02.04","1-2 dias","Pendiente","Quien produce no se valida a si mismo"),
-("02.03.02","Tarea","Informe de decision: propuesta de 3-5 mercados poco correlacionados y 1-2 velas, con los porques en llano","Informe G1","Orquestador","02.03.01","1 dia","Pendiente",""),
-("02.03.03","Tarea","PUERTA G1: el CEO elige","Decision escrita","CEO","02.03.02","1 dia","Pendiente",""),
-("03","Fase","MONTAR LA CASA (Claude Code) — EN PARALELO con la Fase 02","Repositorio con carpetas, reglas y agentes funcionando, cada uno con su modelo","Claude Code","01.01","1 semana","",""),
-("03.01","Paquete","Puesta en marcha tecnica","","","","","",""),
-("03.01.01","Tarea","Crear el repositorio: carpetas, este WBS (version texto), reglas (CLAUDE.md), DECISIONES.md y LECCIONES.md","Repositorio funcionando","Constructores","01.01.01","1-2 dias","Pendiente","Aqui se vuelca todo lo aprendido en estos chats"),
-("03.01.02","Tarea","Crear los agentes de la hoja EQUIPO, cada uno con su modelo asignado y descripcion sin ambiguedad; prueba de activacion de TODOS","Todos los agentes activándose y anunciando tarea por codigo WBS","Constructores","03.01.01, 01.02.01","1-2 dias","Pendiente","Ningun agente fantasma: si no se activa en la prueba, se arregla antes de seguir"),
-("03.01.03","Tarea","Ejecucion desatendida en el ordenador de casa: arranques programados, permisos AMPLIOS por defecto (con git como red de seguridad) y topes de gasto","Sistema corriendo solo con red de seguridad","Constructores","03.01.02","1-2 dias","Pendiente","Regla anti-gb2: se empieza permisivo; las restricciones se añaden solo tras un incidente real"),
-("03.01.04","Tarea","Plan de respaldo de modelos: si un modelo no esta disponible o rechaza una peticion, el agente continua con el modelo de respaldo de la hoja EQUIPO y lo deja anotado","Respaldo probado y funcionando","Constructores","03.01.02","1 dia","Pendiente","Fable 5 puede rechazar peticiones y ya estuvo suspendido en junio de 2026; el motor no puede depender de un solo modelo"),
-("03.01.05","Tarea","PRUEBA REAL DEL MOTOR: un dia entero de trabajo desatendido de verdad antes de dar la fase por buena. Lo que falle se arregla ahora, no en el papel","Informe de la prueba de un dia","Orquestador","03.01.03, 03.01.04","1-2 dias","Pendiente","Evita el error de gb2: motor perfecto en papel que no aguanta la realidad"),
-("03.01.06","Tarea","Plantilla y automatismo de fichas de decision: el secretario prepara cada decision del CEO en el formato obligatorio y la adjunta al informe semanal","Fichas generadas solas","Secretario","03.01.02","1 dia","Pendiente","Si una ficha obliga al CEO a redactar, buscar o calcular, vuelve atras"),
-("03.01.07","Tarea","Cola de aprobacion del CEO: una tabla donde el equipo deja lo que necesita visto bueno, cada linea con desplegable Aprobado / Saltar / Corregir y una columna para escribir la correccion. Lo aprobado se ejecuta solo; lo corregido se rehace Y la correccion se guarda en LECCIONES.md","Cola de aprobacion funcionando","Secretario","03.01.06","1 dia","Pendiente","Idea tomada de un video de TikTok (29/07). El valor no es aprobar: es que cada correccion tuya quede escrita y no haya que repetirla"),
-("04","Fase","HIPOTESIS Y VALIDACION (puerta G2)","Estrategias que sobreviven a todos los filtros; si ninguna sobrevive, el bucle se repite","Claude Code","03","4-8 semanas","",""),
-("04.01","Paquete","Broker y cajones de datos","","","","","",""),
-("04.01.01","Tarea","Comparar 3-4 brokers del mercado elegido (costes reales, regulacion, cuenta demo) y elegir uno","Broker elegido + demo abierta","CEO + Orquestador","02.03.03","3-4 dias","Pendiente","El CEO firma"),
-("04.01.02","Tarea","Recalcular los costes con los precios reales del broker (sustituye los provisionales de 02.01.02)","Tabla de costes definitiva","Constructor de datos","04.01.01","1 dia","Pendiente",""),
-("04.01.03","Tarea","Conseguir y limpiar el historico; partirlo en 3 cajones: construir (train), ajustar (validacion) y RESERVADO bajo llave (OOS), que solo se abre una vez por variante","3 cajones de datos separados y protegidos","Constructor de datos","04.01.01","3-5 dias","Pendiente","Ningun agente puede tocar el cajon reservado"),
-("04.02","Paquete","Investigacion de hipotesis (el analisis grande)","","","","","",""),
-("04.02.01","Tarea","Barrido de fuentes: papers, libros, foros especializados, GitHub y X/Twitter. Regla: cada idea necesita minimo 2 fuentes independientes y verificables","Lista larga de ideas con sus fuentes","Investigador","03.01.02","1-2 semanas","Pendiente","Descartar humo: vendedores de cursos y señales no son fuente"),
-("04.02.02","Tarea","Ficha por hipotesis: por que existiria la ventaja (la logica), reglas de entrada y salida, mercado y vela donde aplica","Fichas completas","Investigador","04.02.01","3-5 dias","Pendiente","Hipotesis sin logica de por que gana = no entra. Nada de probar por probar"),
-("04.02.03","Tarea","Filtro de sentido: el validador puntua las fichas y se eligen las 3-5 mejores","Lista corta de 3-5 hipotesis","Validador","04.02.02","2-3 dias","Pendiente","El investigador no elige sus propias fichas"),
-("04.02.04","Tarea","Pre-registro de variantes: ANTES de probar nada, cada hipotesis deja escritas sus variantes a probar (maximo 5-7 por hipotesis)","Registro de variantes cerrado","Validador","04.02.03","1-2 dias","Pendiente","Lo que no este pre-registrado no se prueba. Es la proteccion contra engañarnos"),
-("04.03","Paquete","Laboratorio de pruebas (por hipotesis y variante)","","","","","",""),
-("04.03.01","Tarea","Backtest de cada variante con costes reales sobre el cajon de construir (train)","Resultados de train por variante","Constructores","04.01.03, 04.02.04","1-2 semanas","Pendiente",""),
-("04.03.02","Tarea","Ajustar parametros SOLO con el cajon de ajuste (validacion); lo que no aguanta, muere aqui","Variantes supervivientes","Constructores","04.03.01","3-5 dias","Pendiente",""),
-("04.03.03","Tarea","Prueba de fuego: cada superviviente se prueba UNA sola vez sobre el cajon reservado (OOS)","Resultados OOS","Validador","04.03.02","2-3 dias","Pendiente","Una sola bala por variante; repetir seria hacerse trampa"),
-("04.03.04","Tarea","Robustez: Monte Carlo (barajar el orden de las operaciones y meter pequeños cambios miles de veces para ver si el beneficio aguanta o era suerte) y walk-forward (repetir el ajuste avanzando en el tiempo)","Informe de robustez por variante","Validador","04.03.03","3-5 dias","Pendiente",""),
-("04.03.05","Tarea","Veredicto pasa / no pasa por variante, emitido por el validador con los criterios de la puerta G2","Veredictos escritos","Validador","04.03.04","1-2 dias","Pendiente","Quien construyo la variante no vota"),
-("04.04","Paquete","Decision y bucle","","","","","",""),
-("04.04.01","Tarea","Informe final de la vuelta: que paso el filtro, que murio y por que. Registro de TODAS las pruebas, tambien las fallidas","Informe de vuelta + registro completo","Secretario","04.03.05","1-2 dias","Pendiente","Las pruebas fallidas tambien se guardan: son informacion"),
-("04.04.02","Tarea","Si ninguna variante pasa: volver a 04.02 con las lecciones aprendidas (vuelta 2, 3...). Al acabar la vuelta 3 sin exito, revision completa del planteamiento con el CEO","Decision de bucle registrada","Orquestador","04.04.01","—","Pendiente","El bucle es normal; infinito, no"),
-("04.04.03","Tarea","PUERTA G2: el CEO decide que estrategias pasan a demo","Decision escrita","CEO","04.04.01","1 dia","Pendiente",""),
-("05","Fase","DEMO (puerta G3)","Bot operando con dinero de mentira en mercado real 8-12 semanas","Claude Code","04","8-12 semanas","",""),
-("05.01","Paquete","Se detalla al cerrar la puerta G2","","","","","",""),
-("05.01.01","Tarea","Poner el bot a operar en demo, solo y con los guardias automaticos puestos","Bot en demo","Constructores","04.04.03","2-3 dias","Pendiente",""),
-("05.01.02","Tarea","Seguimiento semanal: comparar lo que hace el bot con lo que prometian las pruebas","Informe semanal","Secretario","05.01.01","8-12 semanas","Pendiente","El reloj de mercado no se puede acelerar"),
-("05.01.03","Tarea","PUERTA G3: el CEO decide si entra dinero real, cuanto y con que perdida maxima","Decision escrita","CEO","05.01.02","1 dia","Pendiente",""),
-("06","Fase","REAL (puerta G4)","Dinero de verdad, pequeño y con limites escritos","Claude Code + CEO","05","continua","",""),
-("06.01","Paquete","Se detalla al cerrar la puerta G3","","","","","",""),
-("06.01.01","Tarea","Operar con dinero pequeño respetando los limites de 01.01.03","Bot en real","Constructores","05.01.03","continua","Pendiente",""),
-("06.01.02","Tarea","PUERTA G4 (mensual): seguir, ampliar o parar","Decision mensual","CEO","06.01.01","continua","Pendiente","Si pierde mas de lo escrito, se para sin discusion"),
-("07","Fase","MOTOR Y ORDEN (paralela, max. 20% del esfuerzo semanal)","Motor y carpetas en orden sin comerse el proyecto","Claude Code","03","continua","",""),
-("07.01","Paquete","Trabajo continuo","","","","","",""),
-("07.01.01","Tarea","Carpetas, documentos y reglas en orden: una sola fuente de verdad por tema; lo sustituido se borra","Repositorio limpio","Constructores","03.01.01","continua","Pendiente",""),
-("07.01.02","Tarea","Mejoras del motor: SOLO tareas aprobadas en la revision semanal del CEO","Mejoras con codigo WBS","Constructores","03.01.02","continua","Pendiente","Regla anti-deriva: el motor no manda"),
-]
+def cabecera(hoja, titulo, ancho, subtitulo=None):
+    hoja["A1"] = titulo
+    hoja["A1"].font = F_TITULO
+    hoja["A1"].alignment = Alignment(vertical="center")
+    hoja.merge_cells(start_row=1, start_column=1, end_row=1, end_column=ancho)
+    for c in range(1, ancho + 1):
+        hoja.cell(row=1, column=c).fill = FILL_TITULO
+    hoja.row_dimensions[1].height = 24
+    if subtitulo:
+        hoja["A2"] = subtitulo
+        hoja["A2"].font = F_MINI
+        hoja["A2"].alignment = WRAP
+        hoja.merge_cells(start_row=2, start_column=1, end_row=2, end_column=ancho)
+        for c in range(1, ancho + 1):
+            hoja.cell(row=2, column=c).fill = FILL_NOTA
+        return 4
+    return 3
 
-HDRS = ["CODIGO","TIPO","QUE SE HACE","QUE SE ENTREGA","RESPONSABLE","DEPENDE DE","DURACION EST.","ESTADO","FECHA CIERRE","NOTAS"]
-plan["A1"] = "PLAN DE ACCION — BOT DE TRADING (WBS v0.7)"
-plan["A1"].font = Font(name=ARIAL, size=13, bold=True, color="FFFFFF")
-plan.merge_cells("A1:J1")
-for c in range(1, 11):
-    plan.cell(row=1, column=c).fill = FILL_TITLE
-plan["A2"] = "Rellenar solo: ESTADO (desplegable), FECHA CIERRE y NOTAS. Ejemplo: 01.01.01 esta 'En curso'. Los codigos no cambian una vez la tarea empieza."
-plan["A2"].font = F_SMALL
-plan.merge_cells("A2:J2")
-plan["A2"].fill = FILL_LEG
 
-hdr_row = 3
-for j, h in enumerate(HDRS, start=1):
-    c = plan.cell(row=hdr_row, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
+def fila_hdr(hoja, fila, titulos):
+    for j, h in enumerate(titulos, start=1):
+        c = hoja.cell(row=fila, column=j, value=h)
+        c.font = F_HDR
+        c.fill = FILL_HDR
+        c.alignment = CENTRO
+        c.border = BORDE
+    hoja.row_dimensions[fila].height = 28
 
-r = hdr_row
-for cod, tipo, hace, entrega, resp, dep, dur, estado, notas in ROWS:
+
+def anchos(hoja, valores):
+    for j, w in enumerate(valores, start=1):
+        hoja.column_dimensions[get_column_letter(j)].width = w
+
+
+def volcar(hoja, fila, filas, rellenos=None):
+    """Escribe filas de texto con borde y wrap. Devuelve la ultima fila usada."""
+    for datos in filas:
+        fila += 1
+        for j, v in enumerate(datos, start=1):
+            c = hoja.cell(row=fila, column=j, value=v)
+            c.border = BORDE
+            c.font = F_TXT
+            c.alignment = WRAP
+        if rellenos:
+            for j, f in rellenos:
+                hoja.cell(row=fila, column=j).fill = f
+    return fila
+
+
+# ================================================================ 1. TAREAS
+tar = wb.active
+tar.title = "TAREAS"
+f = cabecera(
+    tar,
+    "TODAS LAS TAREAS — WBS v0.9 · generado de 00-direccion/WBS.md",
+    6,
+    "Una fila por tarea. Filtra por ESTADO con la flecha de la cabecera. Verde = hecha · amarillo = en curso · rojo = bloqueada. "
+    "Las tareas del CEO llevan la columna RESPONSABLE en naranja.",
+)
+fila_hdr(tar, f, ["CODIGO", "QUE SE HACE", "RESPONSABLE", "DEPENDE DE", "ESTADO", "DETALLE / DONDE ESTA"])
+hdr_tareas = f
+r = f
+primera_tarea = f + 1
+for cod, nombre, tareas in FASES:
     r += 1
-    vals = [cod, tipo, hace, entrega, resp, dep, dur, estado, "", notas]
-    for j, v in enumerate(vals, start=1):
-        c = plan.cell(row=r, column=j, value=v)
-        c.border = THIN; c.alignment = WRAP; c.font = F_TXT
-        if j == 1:
+    c = tar.cell(row=r, column=1, value=cod)
+    c.number_format = "@"
+    tar.cell(row=r, column=2, value=nombre.upper())
+    for j in range(1, 7):
+        cc = tar.cell(row=r, column=j)
+        cc.fill = FILL_FASE
+        cc.font = F_FASE
+        cc.border = BORDE
+        cc.alignment = WRAP
+    tar.row_dimensions[r].height = 20
+    paquete_actual = None
+    for t in tareas:
+        if t["paquete"] and t["paquete"] != paquete_actual:
+            paquete_actual = t["paquete"]
+            r += 1
+            c = tar.cell(row=r, column=1, value=t["codigo"][:5])
             c.number_format = "@"
-    if tipo == "Fase":
-        for j in range(1, 11):
-            cc = plan.cell(row=r, column=j); cc.fill = FILL_FASE; cc.font = F_FASE
-    elif tipo == "Paquete":
-        for j in range(1, 11):
-            cc = plan.cell(row=r, column=j); cc.fill = FILL_PKG; cc.font = F_PKG
-last_row = r
+            tar.cell(row=r, column=2, value=paquete_actual)
+            for j in range(1, 7):
+                cc = tar.cell(row=r, column=j)
+                cc.fill = FILL_NOTA
+                cc.font = F_BOLD
+                cc.border = BORDE
+                cc.alignment = WRAP
+        r += 1
+        valores = [t["codigo"], t["tarea"], t["responsable"], t["depende"], ETIQUETA[t["estado"]], t["nota"]]
+        for j, v in enumerate(valores, start=1):
+            c = tar.cell(row=r, column=j, value=v)
+            c.border = BORDE
+            c.font = F_TXT
+            c.alignment = WRAP
+            if j == 1:
+                c.number_format = "@"
+        if "CEO" in t["responsable"]:
+            tar.cell(row=r, column=3).fill = FILL_CEO
+ultima_tarea = r
 
+rango = f"E{primera_tarea}:E{ultima_tarea}"
 dv = DataValidation(type="list", formula1='"Pendiente,En curso,Hecha,Bloqueada"', allow_blank=True)
-plan.add_data_validation(dv)
-dv.add(f"H{hdr_row+1}:H{last_row}")
-rng = f"H{hdr_row+1}:H{last_row}"
-plan.conditional_formatting.add(rng, CellIsRule(operator="equal", formula=['"Hecha"'], fill=FILL_HECHA))
-plan.conditional_formatting.add(rng, CellIsRule(operator="equal", formula=['"En curso"'], fill=FILL_CURSO))
-plan.conditional_formatting.add(rng, CellIsRule(operator="equal", formula=['"Bloqueada"'], fill=FILL_BLOQ))
-for j, w in enumerate([10, 9, 55, 27, 18, 15, 12, 11, 12, 32], start=1):
-    plan.column_dimensions[get_column_letter(j)].width = w
-plan.freeze_panes = "A4"
+tar.add_data_validation(dv)
+dv.add(rango)
+for etiqueta, relleno in [("Hecha", FILL_HECHA), ("En curso", FILL_CURSO), ("Bloqueada", FILL_BLOQ)]:
+    tar.conditional_formatting.add(rango, CellIsRule(operator="equal", formula=[f'"{etiqueta}"'], fill=relleno))
+tar.auto_filter.ref = f"A{hdr_tareas}:F{ultima_tarea}"
+tar.freeze_panes = f"A{primera_tarea}"
+anchos(tar, [10, 62, 20, 16, 12, 60])
 
-# ============ PANEL (primera hoja, vista de un vistazo) ============
-panel = wb.create_sheet("PANEL", 0)
-panel["A1"] = "PANEL — BOT DE TRADING · evaluacion del mes: 1 de septiembre de 2026"
-panel["A1"].font = F_TITLE
-panel.merge_cells("A1:G1")
-for c in range(1, 8):
-    panel.cell(row=1, column=c).fill = FILL_TITLE
-
-hdrs = ["FASE","TAREAS","HECHAS","EN CURSO","PENDIENTES","BLOQUEADAS","% AVANCE"]
-for j, h in enumerate(hdrs, start=1):
-    c = panel.cell(row=3, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-fases = [
-    ("01","01. Arranque"),
-    ("02","02. Elegir mercado y vela"),
-    ("03","03. Montar la casa (Claude Code)"),
-    ("04","04. Hipotesis y validacion"),
-    ("05","05. Demo"),
-    ("06","06. Real"),
-    ("07","07. Motor y orden (paralela)"),
-]
-A = f"'PLAN DE ACCION'!$A${hdr_row+1}:$A${last_row}"
-B = f"'PLAN DE ACCION'!$B${hdr_row+1}:$B${last_row}"
-H = f"'PLAN DE ACCION'!$H${hdr_row+1}:$H${last_row}"
-row = 3
-for pref, nombre in fases:
-    row += 1
-    panel.cell(row=row, column=1, value=nombre).font = F_TXT
-    panel.cell(row=row, column=2, value=f'=COUNTIFS({B},"Tarea",{A},"{pref}.*")')
-    panel.cell(row=row, column=3, value=f'=COUNTIFS({B},"Tarea",{A},"{pref}.*",{H},"Hecha")')
-    panel.cell(row=row, column=4, value=f'=COUNTIFS({B},"Tarea",{A},"{pref}.*",{H},"En curso")')
-    panel.cell(row=row, column=5, value=f'=COUNTIFS({B},"Tarea",{A},"{pref}.*",{H},"Pendiente")')
-    panel.cell(row=row, column=6, value=f'=COUNTIFS({B},"Tarea",{A},"{pref}.*",{H},"Bloqueada")')
-    panel.cell(row=row, column=7, value=f'=IFERROR(C{row}/B{row},0)')
+# ================================================================ 2. PANEL (primero)
+pan = wb.create_sheet("PANEL", 0)
+f = cabecera(pan, "PANEL — BOT DE TRADING · puerta del mes (GM): 1 de septiembre de 2026", 7)
+fila_hdr(pan, f, ["FASE", "TAREAS", "HECHAS", "EN CURSO", "PENDIENTES", "BLOQUEADAS", "% AVANCE"])
+r = f
+COD = f"TAREAS!$A${primera_tarea}:$A${ultima_tarea}"
+EST = f"TAREAS!$E${primera_tarea}:$E${ultima_tarea}"
+primera_fase = f + 1
+for cod, nombre, tareas in FASES:
+    r += 1
+    # patron ??.??.?? : cuenta solo codigos de tarea completos, nunca las filas
+    # de fase ('04') ni las de paquete ('04.01')
+    patron = f"{cod}.??.??"
+    corto = re.split(r" — | \(", nombre)[0]
+    pan.cell(row=r, column=1, value=f"{cod}. {corto.capitalize()}")
+    pan.cell(row=r, column=2, value=f'=COUNTIFS({COD},"{patron}")')
+    for j, et in enumerate(["Hecha", "En curso", "Pendiente", "Bloqueada"], start=3):
+        pan.cell(row=r, column=j, value=f'=COUNTIFS({COD},"{patron}",{EST},"{et}")')
+    pan.cell(row=r, column=7, value=f"=IFERROR(C{r}/B{r},0)").number_format = "0%"
     for j in range(1, 8):
-        cc = panel.cell(row=row, column=j); cc.border = THIN
-        if j > 1: cc.font = F_TXT; cc.alignment = CENTER
-    panel.cell(row=row, column=7).number_format = "0%"
-first_fase_row = 4
-row += 1
-panel.cell(row=row, column=1, value="TOTAL PROYECTO").font = Font(name=ARIAL, size=10, bold=True)
+        cc = pan.cell(row=r, column=j)
+        cc.border = BORDE
+        cc.font = F_TXT
+        cc.alignment = WRAP if j == 1 else CENTRO
+total = r + 1
+pan.cell(row=total, column=1, value="TOTAL PROYECTO").font = F_BOLD
 for j, col in zip(range(2, 7), "BCDEF"):
-    panel.cell(row=row, column=j, value=f"=SUM({col}{first_fase_row}:{col}{row-1})").font = Font(name=ARIAL, size=10, bold=True)
-panel.cell(row=row, column=7, value=f"=IFERROR(C{row}/B{row},0)")
-panel.cell(row=row, column=7).number_format = "0%"
-panel.cell(row=row, column=7).font = Font(name=ARIAL, size=10, bold=True)
+    cc = pan.cell(row=total, column=j, value=f"=SUM({col}{primera_fase}:{col}{total-1})")
+    cc.font = F_BOLD
+    cc.alignment = CENTRO
+cc = pan.cell(row=total, column=7, value=f"=IFERROR(C{total}/B{total},0)")
+cc.number_format = "0%"
+cc.font = F_BOLD
+cc.alignment = CENTRO
 for j in range(1, 8):
-    panel.cell(row=row, column=j).border = THIN
-    panel.cell(row=row, column=j).fill = FILL_PKG
-total_row = row
-
-# barras visuales en % avance
-panel.conditional_formatting.add(
-    f"G{first_fase_row}:G{total_row}",
-    DataBarRule(start_type="num", start_value=0, end_type="num", end_value=1, color="4472C4", showValue=True)
+    pan.cell(row=total, column=j).border = BORDE
+    pan.cell(row=total, column=j).fill = FILL_NOTA
+pan.conditional_formatting.add(
+    f"G{primera_fase}:G{total}",
+    DataBarRule(start_type="num", start_value=0, end_type="num", end_value=1, color="4472C4", showValue=True),
 )
 
-panel[f"A{total_row+2}"] = "PROXIMA PUERTA:"
-panel[f"A{total_row+2}"].font = Font(name=ARIAL, size=10, bold=True)
-panel[f"B{total_row+2}"] = "G1 — elegir mercado y tamaño de vela · lunes 3 de agosto de 2026"
-panel[f"B{total_row+2}"].font = F_TXT
-panel[f"A{total_row+3}"] = "EN MARCHA AHORA:"
-panel[f"A{total_row+3}"].font = Font(name=ARIAL, size=10, bold=True)
-panel[f"B{total_row+3}"] = "Fase 02 (medir mercados) + 01.02.01 (analisis gb2) + 03.01.01 (repositorio), en paralelo"
-panel[f"B{total_row+3}"].font = F_TXT
-
-leg = total_row + 5
-panel[f"A{leg}"] = "LEYENDA:"
-panel[f"A{leg}"].font = Font(name=ARIAL, size=10, bold=True)
-for i, (txt, fill) in enumerate([("Hecha", FILL_HECHA), ("En curso", FILL_CURSO), ("Pendiente", None), ("Bloqueada", FILL_BLOQ)]):
-    c = panel.cell(row=leg + 1 + i, column=1, value=txt)
-    c.font = F_TXT; c.border = THIN
-    if fill: c.fill = fill
-for j, w in enumerate([34, 9, 9, 10, 12, 12, 14], start=1):
-    panel.column_dimensions[get_column_letter(j)].width = w
-
-# ============ EQUIPO (agentes + modelo por rol) ============
-eq = wb.create_sheet("EQUIPO")
-eq["A1"] = "EQUIPO DE AGENTES — cada uno con su modelo segun su tarea"
-eq["A1"].font = F_TITLE
-eq.merge_cells("A1:E1")
-for c in range(1, 6):
-    eq.cell(row=1, column=c).fill = FILL_TITLE
-eq["A2"] = ("Propuesta inicial: se confirma con el analisis de gb2 (01.02.01) y la prueba de agentes (03.01.02). "
-            "Mientras trabajemos en chats: el chat director hace de Orquestador + Validador, y el chat analista de Investigador.")
-eq["A2"].font = F_SMALL
-eq.merge_cells("A2:E2")
-eq["A2"].fill = FILL_LEG
-
-hdrs = ["AGENTE","QUE HACE","QUE NO PUEDE HACER","MODELO","RESPALDO SI FALLA","POR QUE ESE MODELO"]
-for j, h in enumerate(hdrs, start=1):
-    c = eq.cell(row=4, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-equipo = [
-("Orquestador (jefe de proyecto)","Reparte tareas por codigo WBS, cierra tareas contra su criterio de hecho, decide la siguiente, escala excepciones al CEO","Ejecutar tareas de construccion; validar su propio reparto","Opus 5","Sonnet 5","Decidir y planificar sin humano detras es lo mas dificil del sistema. Opus 5 esta descrito por Anthropic para trabajo agentico complejo, a la mitad de precio que Fable"),
-("Investigador","Barre fuentes (papers, libros, foros, GitHub, X), redacta fichas de hipotesis con fuentes","Elegir sus propias fichas; tocar codigo o datos","Sonnet 5","Haiku 4.5","Mucho volumen de lectura y sintesis; el listo-y-rapido de la casa. Precio de salida 5 veces menor que Opus"),
-("Constructor de datos","Descarga y limpia historicos, mantiene los 3 cajones de datos, calcula costes reales","Abrir el cajon reservado (OOS)","Sonnet 5","Haiku 4.5","Trabajo de codigo y datos estandar"),
-("Constructor de motor y bot","Backtester, bot, ejecucion desatendida","Validar sus propios backtests; tocar el cajon reservado","Sonnet 5","Opus 5 si se atasca 2 veces","Codigo intensivo y repetitivo; escalar solo cuando falla"),
-("Critico de codigo","Revisa el codigo de los constructores e informa de fallos; analiza gb2 (01.02.01)","Revisar codigo escrito por el mismo","Sonnet 5 (Opus 5 en el codigo que toca dinero real)","Sonnet 5","Revision constante en Sonnet; se sube el liston donde un fallo cuesta dinero"),
-("Validador de estrategias","Intenta tumbar cada hipotesis: filtro de sentido, prueba de fuego OOS, Monte Carlo, veredictos pasa / no pasa","Construir estrategias; suavizar veredictos","FABLE 5","Opus 5","Es el que evita perder dinero: el puesto donde mas se nota el mejor razonamiento. Ojo: es el modelo mas caro (50 $ por millon de palabras de salida) y puede rechazar peticiones, por eso lleva respaldo"),
-("Arquitecto (solo en momentos clave)","Diseña el motor al arrancar la Fase 03 y revisa el planteamiento si el bucle de hipotesis falla 3 veces","Trabajo del dia a dia","FABLE 5","Opus 5","Uso puntual y caro: solo donde una decision de diseño condiciona meses de trabajo"),
-("Secretario","Informe diario y semanal, actualiza WBS, DECISIONES.md y LECCIONES.md, registro de todas las pruebas","Tomar decisiones de proyecto","Haiku 4.5","Sonnet 5","Trabajo mecanico y muy frecuente: el mas rapido y barato"),
-]
-r = 4
-for row_data in equipo:
-    r += 1
-    for j, v in enumerate(row_data, start=1):
-        c = eq.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
-r += 2
-eq.cell(row=r, column=1, value="PRECIOS OFICIALES (por millon de tokens; 1 token = mas o menos 3/4 de palabra) — fuente: platform.claude.com, consultado 29/07/2026").font = Font(name=ARIAL, size=10, bold=True)
+# lo que esta vivo ahora, leido del propio WBS
+vivas = [(t["codigo"], t["tarea"], t["estado"]) for _, _, ts in FASES for t in ts if t["estado"] in ("en_curso", "bloqueada")]
+r = total + 2
+pan.cell(row=r, column=1, value="ESTADO DE HOY (leido de WBS.md)").font = Font(name=ARIAL, size=11, bold=True)
 r += 1
-for j, h in enumerate(["MODELO","ID TECNICO","ENTRADA","SALIDA","MEMORIA (CONTEXTO)"], start=1):
-    c = eq.cell(row=r, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-precios = [
-("Claude Fable 5","claude-fable-5","10 $","50 $","1.000.000 tokens"),
-("Claude Opus 5","claude-opus-5","5 $","25 $","1.000.000 tokens"),
-("Claude Sonnet 5","claude-sonnet-5","3 $ (2 $ hasta 31/08/2026)","15 $ (10 $ hasta 31/08/2026)","1.000.000 tokens"),
-("Claude Haiku 4.5","claude-haiku-4-5-20251001","1 $","5 $","200.000 tokens"),
-]
-for p in precios:
+fila_hdr(pan, r, ["CODIGO", "TAREA", "", "", "", "", "ESTADO"])
+pan.merge_cells(start_row=r, start_column=2, end_row=r, end_column=6)
+for codigo, nombre, estado in vivas:
     r += 1
-    for j, v in enumerate(p, start=1):
-        c = eq.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
+    pan.cell(row=r, column=1, value=codigo).number_format = "@"
+    pan.cell(row=r, column=2, value=nombre)
+    pan.merge_cells(start_row=r, start_column=2, end_row=r, end_column=6)
+    pan.cell(row=r, column=7, value=ETIQUETA[estado])
+    for j in range(1, 8):
+        cc = pan.cell(row=r, column=j)
+        cc.border = BORDE
+        cc.font = F_TXT
+        cc.alignment = WRAP
+    pan.cell(row=r, column=7).fill = FILL_CURSO if estado == "en_curso" else FILL_BLOQ
+    pan.cell(row=r, column=7).alignment = CENTRO
+
 r += 2
-eq.cell(row=r, column=1, value="AVISO SOBRE FABLE 5: en junio de 2026 estuvo suspendido por controles de exportacion y volvio el 1 de julio. Ademas puede rechazar peticiones por sus filtros de seguridad. Por eso todo agente con Fable lleva respaldo obligatorio (tarea 03.01.04). Comprobar en la cuenta si su uso consume creditos aparte del plan Max.").font = F_SMALL
-eq.merge_cells(start_row=r, start_column=1, end_row=r, end_column=6)
-eq.cell(row=r, column=1).fill = FILL_LEG
-eq.cell(row=r, column=1).alignment = WRAP
-for j, w in enumerate([22, 42, 28, 16, 18, 42], start=1):
-    eq.column_dimensions[get_column_letter(j)].width = w
-
-# ============ RESPONSABILIDADES (RACI con agentes) ============
-raci = wb.create_sheet("RESPONSABILIDADES")
-raci["A1"] = "MATRIZ DE RESPONSABILIDADES (por paquete de trabajo)"
-raci["A1"].font = F_TITLE
-raci.merge_cells("A1:I1")
-for c in range(1, 10):
-    raci.cell(row=1, column=c).fill = FILL_TITLE
-raci["A2"] = "A = Aprueba (ultima palabra) · R = Realiza · C = Consultado (opina antes) · I = Informado (se entera despues) · — = no participa"
-raci["A2"].font = F_SMALL
-raci.merge_cells("A2:I2")
-raci["A2"].fill = FILL_LEG
-
-hdrs = ["CODIGO","PAQUETE","CEO","ORQUESTADOR","INVESTIGADOR","CONSTRUCTORES","CRITICO","VALIDADOR","SECRETARIO"]
-for j, h in enumerate(hdrs, start=1):
-    c = raci.cell(row=4, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-raci_rows = [
-("01.01","Plan y reglas","A","R","I","I","I","I","I"),
-("01.02","Herencia de gb2","C","A","—","—","R","—","I"),
-("02.01","Preparar la comparacion de mercados","A","R","R","—","—","—","I"),
-("02.02","Medir los mercados","I","A","R","—","—","—","I"),
-("02.03","Validar y decidir (puerta G1)","A","R","C","—","—","—","I"),
-("03.01","Montar la casa en Claude Code","A","C","—","R","C","—","I"),
-("04.01","Broker y cajones de datos","A","R","C","R","—","—","I"),
-("04.02","Investigacion de hipotesis","I","A","R","—","—","C","I"),
-("04.03","Laboratorio de pruebas","I","C","—","R","C","A","I"),
-("04.04","Decision y bucle (puerta G2)","A","R","—","—","—","C","R"),
-("05.01","Demo (puerta G3)","A","C","—","R","—","C","R"),
-("06.01","Real (puerta G4)","A","C","—","R","—","C","R"),
-("07.01","Motor y orden","I","A","—","R","C","—","I"),
-]
-r = 4
-for row_data in raci_rows:
+for etiqueta, texto in [
+    ("PROXIMA PUERTA", "G1 — elegir mercado y tamaño de vela (criterios en la hoja PUERTAS)"),
+    ("OBJETIVO DEL MES", "Llegar al 1 de septiembre con respuesta a: ¿existe alguna estrategia que merezca pasar a demo?"),
+    ("FUENTE DE VERDAD", "00-direccion/WBS.md — este Excel se genera de ahi. Si discrepan, manda el texto."),
+]:
+    pan.cell(row=r, column=1, value=etiqueta).font = F_BOLD
+    pan.cell(row=r, column=2, value=texto).font = F_TXT
+    pan.cell(row=r, column=2).alignment = WRAP
+    pan.merge_cells(start_row=r, start_column=2, end_row=r, end_column=7)
     r += 1
-    for j, v in enumerate(row_data, start=1):
-        c = raci.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT
-        c.alignment = CENTER if j >= 3 else WRAP
-        if j == 1: c.number_format = "@"
-for j, w in enumerate([9, 34, 8, 14, 14, 15, 10, 11, 12], start=1):
-    raci.column_dimensions[get_column_letter(j)].width = w
-
-# ============ DECISIONES DEL CEO ============
-dc = wb.create_sheet("DECISIONES CEO")
-dc["A1"] = "DECISIONES DEL CEO — formato obligatorio y decisiones abiertas"
-dc["A1"].font = F_TITLE
-dc.merge_cells("A1:F1")
-for c in range(1, 7):
-    dc.cell(row=1, column=c).fill = FILL_TITLE
-
-dc["A2"] = ("REGLA: nada llega al CEO en formato 'opina sobre esto'. Toda decision llega como FICHA: 1 linea de que se decide · 2-4 opciones cerradas · la recomendada marcada con su motivo · "
-            "que pasa con cada opcion · y se responde con una letra o un numero. Si no cabe en media pantalla de movil, el equipo no ha terminado su trabajo y la ficha vuelve atras. "
-            "Ninguna ficha puede pedir al CEO que redacte, busque o calcule nada.")
-dc["A2"].font = F_SMALL
-dc.merge_cells("A2:F2")
-dc["A2"].fill = FILL_LEG
-dc["A2"].alignment = WRAP
-dc.row_dimensions[2].height = 45
-
-dc["A4"] = "DECISIONES ABIERTAS AHORA (puerta G0) — rellenar solo la columna TU RESPUESTA"
-dc["A4"].font = Font(name=ARIAL, size=11, bold=True)
-dc.merge_cells("A4:F4")
-
-for j, h in enumerate(["#","QUE SE DECIDE","OPCIONES","RECOMENDADA Y POR QUE","QUE PASA SI ELIGES OTRA","TU RESPUESTA"], start=1):
-    c = dc.cell(row=5, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-fichas = [
-("D1","Aprobar el plan y los criterios de la puerta G1 (01.01.01 y 01.01.02)",
- "A) Apruebo todo\nB) Apruebo el plan, repasemos criterios\nC) Quiero cambios",
- "RESUELTA 29/07: se separa QUE se mide (fijado ahora, igual para los 8 candidatos) de DONDE se pone el corte (los umbrales se calibran en G1 con los numeros delante)",
- "El CEO tenia razon en no fijar umbrales a ciegas; y hacia falta fijar la vara de medir antes, o cada mercado se mide distinto y la comparacion no vale","A (con umbrales orientativos)"),
-("D2","Horizonte de trabajo y fecha de evaluacion",
- "A) 5 meses\nB) 4 meses\nC) 8 meses",
- "RESPONDIDA 29/07: el CEO fija 1 MES. Evaluacion el 1 de septiembre de 2026 (puerta GM)",
- "AVISO: en 1 mes no hay bot en demo. El objetivo del mes es tener VEREDICTO sobre si existe una estrategia que merezca ir a demo","1 mes (GM el 01/09/2026)"),
-("D3","Tiempo del CEO a la semana",
- "A) 1 hora dia fijo\nB) 2-3 horas\nC) 30 minutos",
- "RESPONDIDA 29/07: opcion A. Dia propuesto: LUNES (se cambia con una palabra)",
- "Lunes de agosto: 3, 10, 17, 24 y 31","A — lunes"),
-("D5","Confirmar los limites de dinero. El CEO dio: 1.000-2.000 €, caida de cuenta 50-60%, perdida maxima 25%. Esas dos ultimas cifras se contradicen: no se puede parar en -25% y a la vez tolerar -60%",
- "A) Capital 1.000 € · parada dura en -25% (750 €)\nB) Capital 1.000 € · parada dura en -50% (500 €)\nC) Capital 2.000 € · parada dura en -25% (1.500 €)\nD) Otra combinacion que me digas",
- "A — de una caida del 25% se vuelve subiendo un 33%; de una del 50% hay que subir un 100% y de una del 60%, un 150%. Cuanto mas hondo el agujero, mas dificil salir",
- "B o C: mismo criterio, mas dinero expuesto\nD: dime capital y % de parada y queda escrito",""),
-]
-r = 5
-for f in fichas:
-    r += 1
-    for j, v in enumerate(f, start=1):
-        c = dc.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
-    dc.cell(row=r, column=6).fill = FILL_CURSO
-    dc.row_dimensions[r].height = 78
+r += 1
 r += 2
-dc.cell(row=r, column=1, value="ABIERTAS AHORA: D1 (confirmar tras leer los criterios) y D5 (limites de dinero). Se responde en una linea: D1=A · D5=A").font = Font(name=ARIAL, size=10, bold=True)
-dc.merge_cells(start_row=r, start_column=1, end_row=r, end_column=6)
-for j, w in enumerate([6, 38, 30, 40, 42, 16], start=1):
-    dc.column_dimensions[get_column_letter(j)].width = w
+pan.cell(row=r, column=1, value="LEYENDA").font = F_BOLD
+for i, (txt, relleno) in enumerate([("Hecha", FILL_HECHA), ("En curso", FILL_CURSO), ("Pendiente", None), ("Bloqueada", FILL_BLOQ)]):
+    c = pan.cell(row=r + 1 + i, column=1, value=txt)
+    c.font = F_TXT
+    c.border = BORDE
+    if relleno:
+        c.fill = relleno
+anchos(pan, [36, 10, 10, 11, 12, 12, 14])
 
-# ============ CALENDARIO ============
+# ================================================================ 2 bis. SIGUIENTE
+sig = wb.create_sheet("SIGUIENTE", 1)
+f = cabecera(
+    sig,
+    "QUE SE HACE AHORA Y EN QUE ORDEN",
+    9,
+    "Orden calculado de WBS.md: (1) una tarea entra en la cola cuando TODAS sus dependencias estan hechas; "
+    "(2) primero lo ya empezado; (3) despues el PRODUCTO antes que el MOTOR (regla 12: el motor no manda); "
+    "(4) a igualdad, orden de codigo WBS (regla 4). MOTOR = fases 03 y 07 y lo que su texto marque como tal. "
+    "DESBLOQUEA = tareas vivas que la esperan directamente · EN CADENA = todas las que quedan detras contando el efecto domino.",
+)
+
+siguiente_equipo = next((t for t in COLA if not t["es_ceo"]), None)
+siguiente_ceo = next((t for t in COLA if t["es_ceo"]), None)
+r = f
+for etiqueta, t, relleno in [
+    ("AHORA — EQUIPO", siguiente_equipo, FILL_CURSO),
+    ("AHORA — CEO", siguiente_ceo, FILL_CEO),
+]:
+    sig.cell(row=r, column=1, value=etiqueta).font = Font(name=ARIAL, size=11, bold=True)
+    sig.merge_cells(start_row=r, start_column=1, end_row=r, end_column=2)
+    texto = f"{t['codigo']} — {t['tarea']}" if t else "nada disponible: todo lo pendiente espera a otra tarea"
+    quien = t["responsable"] if t else "—"
+    sig.cell(row=r, column=3, value=texto).font = F_TXT
+    sig.merge_cells(start_row=r, start_column=3, end_row=r, end_column=8)
+    sig.cell(row=r, column=9, value=quien).font = F_TXT
+    for j in range(1, 10):
+        cc = sig.cell(row=r, column=j)
+        cc.fill = relleno
+        cc.border = BORDE
+        cc.alignment = WRAP
+    sig.row_dimensions[r].height = 34
+    r += 1
+
+cuello = max(COLA, key=lambda t: t["cadena"]) if COLA else None
+if cuello:
+    sig.cell(row=r, column=1, value="CUELLO DE BOTELLA").font = Font(name=ARIAL, size=11, bold=True)
+    sig.merge_cells(start_row=r, start_column=1, end_row=r, end_column=2)
+    sig.cell(row=r, column=3, value=(
+        f"{cuello['codigo']} — {cuello['tarea']}. Detras de ella esperan {cuello['cadena']} de las "
+        f"{sum(1 for t in TODAS if t['estado'] != 'hecha')} tareas vivas."
+    )).font = F_TXT
+    sig.merge_cells(start_row=r, start_column=3, end_row=r, end_column=8)
+    sig.cell(row=r, column=9, value=cuello["responsable"]).font = F_TXT
+    for j in range(1, 10):
+        cc = sig.cell(row=r, column=j)
+        cc.fill = FILL_BLOQ
+        cc.border = BORDE
+        cc.alignment = WRAP
+    sig.row_dimensions[r].height = 34
+    r += 1
+
+r += 1
+fila_hdr(sig, r, ["ORDEN", "CODIGO", "QUE HAY QUE HACER", "QUIEN", "CARRIL", "ESTADO", "DESBLOQUEA", "EN CADENA", "QUE FALTA PARA PODER EMPEZARLA"])
+
+
+def bloque(fila, titulo, tareas, numerar):
+    fila += 1
+    sig.cell(row=fila, column=1, value=titulo)
+    sig.merge_cells(start_row=fila, start_column=1, end_row=fila, end_column=9)
+    for j in range(1, 10):
+        cc = sig.cell(row=fila, column=j)
+        cc.fill = FILL_FASE
+        cc.font = F_FASE
+        cc.border = BORDE
+    for i, t in enumerate(tareas, start=1):
+        fila += 1
+        falta = ", ".join(f"{d} ({ETIQUETA[POR_CODIGO[d]['estado']].lower()}, {POR_CODIGO[d]['responsable']})" for d in t["falta"])
+        valores = [
+            i if numerar else "—",
+            t["codigo"],
+            t["tarea"],
+            t["responsable"],
+            t["carril"],
+            ETIQUETA[t["estado"]],
+            t["desbloquea"] or "",
+            t["cadena"] or "",
+            falta if falta else "nada: se puede empezar ya",
+        ]
+        for j, v in enumerate(valores, start=1):
+            c = sig.cell(row=fila, column=j, value=v)
+            c.border = BORDE
+            c.font = F_TXT
+            c.alignment = WRAP if j in (3, 4, 9) else CENTRO
+            if j == 2:
+                c.number_format = "@"
+        if t["estado"] == "en_curso":
+            sig.cell(row=fila, column=6).fill = FILL_CURSO
+        elif t["estado"] == "bloqueada":
+            sig.cell(row=fila, column=6).fill = FILL_BLOQ
+        if t["es_ceo"]:
+            sig.cell(row=fila, column=4).fill = FILL_CEO
+        if t["carril"] == "MOTOR":
+            sig.cell(row=fila, column=5).fill = FILL_NOTA
+    return fila
+
+
+r = bloque(r, f"SE PUEDE TRABAJAR YA — {len(COLA)} tareas, en este orden", COLA, True)
+r = bloque(r, f"ESPERANDO A OTRA TAREA — {len(ESPERANDO)} tareas, en orden de codigo WBS", ESPERANDO, False)
+r += 2
+sig.cell(row=r, column=1, value=(
+    "Aviso de la regla 8 (CLAUDE.md): si la cola de arriba solo tuviera tareas de MOTOR, hay que parar y avisar al CEO; "
+    "significa que la cola esta mal llena. Ahora mismo la cola tiene "
+    f"{sum(1 for t in COLA if t['carril'] == 'PRODUCTO')} de producto y {sum(1 for t in COLA if t['carril'] == 'MOTOR')} de motor."
+))
+sig.cell(row=r, column=1).font = F_TXT
+sig.cell(row=r, column=1).alignment = WRAP
+sig.merge_cells(start_row=r, start_column=1, end_row=r, end_column=9)
+sig.cell(row=r, column=1).fill = FILL_NOTA
+sig.row_dimensions[r].height = 46
+sig.freeze_panes = "A9"  # deja siempre a la vista los dos AHORA y la cabecera
+anchos(sig, [8, 11, 56, 21, 11, 12, 12, 11, 42])
+
+# ================================================================ 3. CALENDARIO
 cal = wb.create_sheet("CALENDARIO")
-cal["A1"] = "CALENDARIO DEL MES — del 29 de julio al 1 de septiembre de 2026"
-cal["A1"].font = F_TITLE
-cal.merge_cells("A1:E1")
-for c in range(1, 6):
-    cal.cell(row=1, column=c).fill = FILL_TITLE
-cal["A2"] = ("OBJETIVO DEL MES: NO es tener el bot operando en demo. Es llegar al 1 de septiembre con una respuesta clara a la pregunta "
-             "'¿existe alguna estrategia que merezca pasar a demo?'. Puede ser que si (y arrancamos demo) o que no (y sabemos por que).")
-cal["A2"].font = F_SMALL
-cal.merge_cells("A2:E2")
-cal["A2"].fill = FILL_LEG
-cal["A2"].alignment = WRAP
-cal.row_dimensions[2].height = 32
-
-for j, h in enumerate(["SEMANA","FECHAS","QUE SE HACE (codigos WBS)","QUE TIENE QUE ESTAR HECHO AL FINAL","TU LUNES (1 h)"], start=1):
-    c = cal.cell(row=4, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-semanas = [
-("S1","29 jul - 4 ago","Fase 02 completa (02.01 a 02.03): medir los 8 mercados x 3 velas, costes, correlaciones y datos disponibles.\nEN PARALELO: 01.02.01 analisis de gb2 y 03.01.01 montar el repositorio","Mercado(s) y tamaño de vela ELEGIDOS (puerta G1)","Lun 3 ago: leer informe G1 y elegir"),
-("S2","5 - 11 ago","03.01.02 a 03.01.06: agentes con su modelo, ejecucion desatendida, respaldo de modelos, fichas automaticas y PRUEBA REAL de un dia.\n04.01.01 elegir broker y abrir demo","Motor funcionando solo 24 h sin caerse + broker elegido","Lun 10 ago: firmar broker (ficha)"),
-("S3","12 - 18 ago","04.01.02 y 04.01.03 (costes reales y los 3 cajones de datos) + 04.02.01 a 04.02.04: barrido de fuentes, fichas de hipotesis, filtro de sentido y pre-registro de variantes","3-5 hipotesis con sus variantes pre-registradas","Lun 17 ago: ver las hipotesis elegidas"),
-("S4","19 - 25 ago","04.03.01 y 04.03.02: backtests con costes reales sobre el cajon de construir y ajuste sobre el cajon de validacion","Variantes supervivientes tras el ajuste","Lun 24 ago: ver cuantas siguen vivas"),
-("S5","26 ago - 1 sept","04.03.03 a 04.03.05: prueba de fuego OOS (una bala por variante), Monte Carlo, walk-forward y veredictos.\n04.04.01 informe de la vuelta","Veredicto pasa / no pasa de cada variante","Lun 31 ago: preparar la evaluacion"),
-("GM","1 septiembre","PUERTA DEL MES: evaluacion completa contigo","Decision: arrancar demo, dar otra vuelta al bucle, o replantear","Mar 1 sept: la reunion de verdad"),
-]
-r = 4
-for sm in semanas:
+cuerpo_cal = seccion("Calendario del mes")
+objetivo = ""
+for linea in cuerpo_cal.splitlines():
+    if "Objetivo del mes" in linea:
+        objetivo = limpiar(linea)
+f = cabecera(cal, "CALENDARIO — 29 julio a 1 septiembre de 2026", 5, objetivo)
+tabla_cal = tablas(cuerpo_cal)[0]
+fila_hdr(cal, f, [limpiar(x) for x in tabla_cal[0]])
+r = f
+for filaf in tabla_cal[1:]:
     r += 1
-    for j, v in enumerate(sm, start=1):
-        c = cal.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
-    cal.row_dimensions[r].height = 66
-    if sm[0] == "GM":
+    for j, v in enumerate(filaf, start=1):
+        c = cal.cell(row=r, column=j, value=limpiar(v))
+        c.border = BORDE
+        c.font = F_TXT
+        c.alignment = WRAP
+    if limpiar(filaf[0]) == "GM":
         for j in range(1, 6):
             cal.cell(row=r, column=j).fill = FILL_CURSO
 r += 2
-cal.cell(row=r, column=1, value="LO QUE NO CABE EN ESTE MES (y hay que saberlo desde hoy)").font = Font(name=ARIAL, size=11, bold=True)
-r += 1
-cal.cell(row=r, column=1, value=("1) La DEMO: necesita 8-12 semanas de mercado real y ese reloj no se puede acelerar con agentes. Si el 1 de septiembre hay una estrategia buena, la demo arranca ese dia y termina en noviembre.\n"
-                                 "2) Las 3 vueltas del bucle de hipotesis: en un mes cabe UNA vuelta completa y quiza media segunda.\n"
-                                 "3) El dinero real: imposible antes de terminar la demo.\n"
-                                 "Lo que SI cabe: saber si el planteamiento tiene futuro o no. Eso es mucho, y es la pregunta que te interesa."))
-cal.cell(row=r, column=1).font = F_TXT
-cal.cell(row=r, column=1).alignment = WRAP
-cal.merge_cells(start_row=r, start_column=1, end_row=r, end_column=5)
-cal.row_dimensions[r].height = 82
-for j, w in enumerate([9, 16, 62, 42, 26], start=1):
-    cal.column_dimensions[get_column_letter(j)].width = w
+no_cabe = [limpiar(l) for l in cuerpo_cal.splitlines() if l.startswith("**Lo que NO cabe")]
+if no_cabe:
+    cal.cell(row=r, column=1, value=no_cabe[0]).font = F_TXT
+    cal.cell(row=r, column=1).alignment = WRAP
+    cal.merge_cells(start_row=r, start_column=1, end_row=r, end_column=5)
+    cal.cell(row=r, column=1).fill = FILL_NOTA
+    cal.row_dimensions[r].height = 46
+anchos(cal, [9, 16, 46, 40, 30])
 
-# ============ AUTONOMIA ============
-au = wb.create_sheet("AUTONOMIA")
-au["A1"] = "AUTONOMIA — que llega al CEO y que no"
-au["A1"].font = F_TITLE
-au.merge_cells("A1:C1")
-for c in range(1, 4):
-    au.cell(row=1, column=c).fill = FILL_TITLE
-au["A2"] = "Regla general: el CEO decide en las puertas y en las excepciones. Todo lo demas lo cierra el Orquestador. Ninguna tarea normal necesita firma del CEO."
-au["A2"].font = F_SMALL
-au.merge_cells("A2:C2")
-au["A2"].fill = FILL_LEG
-
-for j, h in enumerate(["SITUACION","QUIEN DECIDE","COMO"], start=1):
-    c = au.cell(row=4, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-auto = [
-("Cerrar una tarea que cumple su criterio de hecho","Orquestador","Sin consultar. Queda en el informe diario"),
-("Elegir en que orden se hacen tareas ya aprobadas","Orquestador","Sin consultar"),
-("Crear subtareas dentro de una tarea existente (1.4.1, 1.4.2)","Orquestador","Sin consultar. Se anotan en el WBS"),
-("Descartar una hipotesis o variante que no pasa el filtro","Validador","Sin consultar. Queda en el registro de pruebas"),
-("Reescribir una tarea ambigua","Orquestador","Sin consultar. Se anota el cambio"),
-("Corregir, mover o borrar archivos para mantener el orden","Constructores","Sin consultar. Git permite deshacer"),
-("Mejora del motor no prevista","CEO","Se propone en el informe semanal. Sin aprobacion, no se hace"),
-("Añadir una tarea nueva de primer nivel al WBS","CEO","Revision semanal"),
-("Cambiar de mercado, de vela o de planteamiento","CEO","Solo en una puerta"),
-("Gasto nuevo (datos de pago, VPS, broker, creditos extra)","CEO","Excepcion inmediata: se avisa y se para hasta respuesta"),
-("Cualquier cosa con dinero real","CEO","Excepcion inmediata"),
-("Bloqueo que impide avanzar mas de 24 h","CEO","Excepcion inmediata en el informe diario, marcada en rojo"),
-("3 vueltas del bucle de hipotesis sin exito","CEO","Revision completa del planteamiento"),
-]
-r = 4
-for a in auto:
+# ================================================================ 4. PUERTAS
+pue = wb.create_sheet("PUERTAS")
+f = cabecera(pue, "PUERTAS — donde decide el CEO", 2, "Criterios tal y como estan escritos en WBS.md (G1 corregida el 30/07/2026).")
+fila_hdr(pue, f, ["PUERTA", "QUE SE DECIDE Y CON QUE CRITERIO"])
+r = f
+for linea in seccion("Puertas").splitlines():
+    if not linea.strip().startswith("- **"):
+        continue
+    m = re.match(r"- \*\*(G[0-9M]+)\*\*(.*)", linea.strip())
+    if not m:
+        continue
     r += 1
-    for j, v in enumerate(a, start=1):
-        c = au.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
-        if v == "CEO":
-            c.fill = FILL_CURSO
+    pue.cell(row=r, column=1, value=m.group(1)).font = F_BOLD
+    pue.cell(row=r, column=2, value=limpiar(m.group(2)).lstrip(": "))
+    for j in (1, 2):
+        cc = pue.cell(row=r, column=j)
+        cc.border = BORDE
+        cc.alignment = WRAP
+        if j == 2:
+            cc.font = F_TXT
+anchos(pue, [12, 118])
+
+# ================================================================ 5. EQUIPO
+eq = wb.create_sheet("EQUIPO")
+cuerpo_eq = seccion("Equipo de agentes")
+f = cabecera(eq, "EQUIPO DE AGENTES — un modelo por puesto", 5,
+             "Regla 29: identificador exacto del modelo, nunca un alias, y ningun agente sin modelo.")
+tabla_eq = tablas(cuerpo_eq)[0]
+fila_hdr(eq, f, [limpiar(x) for x in tabla_eq[0]])
+r = volcar(eq, f, [[limpiar(v) for v in filaf] for filaf in tabla_eq[1:]])
 r += 2
-au.cell(row=r, column=1, value="PRINCIPIO DE RESTRICCION JUSTIFICADA (leccion de gb2)").font = Font(name=ARIAL, size=11, bold=True)
-r += 1
-au.cell(row=r, column=1, value=("MATIZ IMPORTANTE (29/07): el principio se aplica SOLO al trabajo reversible (archivos, carpetas, codigo, pruebas), porque git lo deshace todo. "
-                                "Las barreras sobre lo IRREVERSIBLE se ponen ANTES de soltar nada y no se negocian: dinero real, ordenes al broker, borrar el cajon de datos reservado, gastar dinero nuevo. "
-                                "Dicho corto: manga ancha con lo que se puede deshacer, cero manga con lo que no.\n\n"
-                                "En gb2 se pusieron muchas restricciones por adelantado, sobre el papel, y luego hubo que ir quitandolas. Aqui se hace al reves: "
-                                "se empieza con permisos AMPLIOS y una red de seguridad (git: todo se puede deshacer). Una restriccion nueva solo se añade si ha ocurrido un incidente real, "
-                                "y se apunta junto al incidente que la origino. Cada mes se revisan: la restriccion que ya no tenga un incidente vivo detras, se quita."))
-au.cell(row=r, column=1).font = F_TXT
-au.cell(row=r, column=1).alignment = WRAP
-au.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
-au.row_dimensions[r].height = 110
-for j, w in enumerate([56, 18, 52], start=1):
-    au.column_dimensions[get_column_letter(j)].width = w
+for linea in cuerpo_eq.splitlines():
+    if linea.startswith("**Precios") or linea.startswith("> Aviso"):
+        eq.cell(row=r, column=1, value=limpiar(linea.lstrip("> ")))
+        eq.cell(row=r, column=1).font = F_TXT
+        eq.cell(row=r, column=1).alignment = WRAP
+        eq.merge_cells(start_row=r, start_column=1, end_row=r, end_column=5)
+        eq.cell(row=r, column=1).fill = FILL_NOTA
+        eq.row_dimensions[r].height = 46
+        r += 2
+anchos(eq, [22, 50, 38, 16, 18])
 
-# ============ PUERTAS Y DECISIONES ============
-pd_ = wb.create_sheet("PUERTAS Y DECISIONES")
-pd_["A1"] = "PUERTAS DEL PROYECTO"
-pd_["A1"].font = F_TITLE
-pd_.merge_cells("A1:E1")
-for c in range(1, 6):
-    pd_.cell(row=1, column=c).fill = FILL_TITLE
-
-hdrs = ["PUERTA","QUE SE DECIDE","CRITERIOS PARA PASAR (en llano)","ESTADO","FECHA"]
-for j, h in enumerate(hdrs, start=1):
-    c = pd_.cell(row=3, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-
-gates = [
-("G0","Aprobar plan, criterios y limites","El CEO ha leido el plan y ha puesto por escrito: fecha tope, horas semanales y perdida maxima futura","En curso",""),
-("G1","Elegir mercados y tamaño de vela","1) El coste no se come mas del 10-15% del movimiento medio de vela · 2) El conjunto puede generar cientos de operaciones · 3) Minimo 5 años de historial · 4) Correlacion menor de 0,7 entre elegidos · 5) Operable sin nadie delante","Pendiente",""),
-("G2","Que estrategias pasan a demo","Solo pasan variantes que: ganan despues de costes en la prueba de fuego (OOS) · aguantan el Monte Carlo · y estaban pre-registradas. Todo veredicto lo firma el validador, no quien la construyo","Pendiente",""),
-("G3","Si entra dinero real","La demo (8-12 semanas) se parece a lo que prometian las pruebas; el CEO fija cuanto dinero y que perdida maxima","Pendiente",""),
-("G4","Seguir, ampliar o parar (mensual)","El bot respeta sus limites; si pierde mas de lo escrito en 01.01.03, se para sin discusion","Pendiente",""),
-]
-r = 3
-for g in gates:
+# ================================================================ 6. REGLAS
+reg = wb.create_sheet("REGLAS")
+f = cabecera(reg, "LAS 29 REGLAS — mandan sobre cualquier otra instruccion", 2)
+fila_hdr(reg, f, ["Nº", "REGLA"])
+r = f
+for linea in seccion("Reglas (sin ambigüedad").splitlines():
+    m = re.match(r"(\d+)\. (.+)", linea.strip())
+    if not m:
+        continue
     r += 1
-    for j, v in enumerate(g, start=1):
-        c = pd_.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
+    reg.cell(row=r, column=1, value=int(m.group(1))).alignment = CENTRO
+    reg.cell(row=r, column=2, value=limpiar(m.group(2)))
+    for j in (1, 2):
+        cc = reg.cell(row=r, column=j)
+        cc.border = BORDE
+        cc.font = F_TXT
+        if j == 2:
+            cc.alignment = WRAP
+anchos(reg, [6, 130])
 
+# ================================================================ 7. DECISIONES
+dec = wb.create_sheet("DECISIONES")
+f = cabecera(dec, "REGISTRO DE DECISIONES — solo se añade, nunca se reescribe (regla 21)", 3)
+tabla_dec = tablas(seccion("Registro de decisiones"))[0]
+fila_hdr(dec, f, [limpiar(x) for x in tabla_dec[0]])
+r = volcar(dec, f, [[limpiar(v) for v in filaf] for filaf in tabla_dec[1:]])
+anchos(dec, [13, 70, 60])
+
+# ================================================================ 8. TRASPLANTE
+tra = wb.create_sheet("TRASPLANTE gb2")
+cuerpo_tra = seccion("Trasplante desde gb2")
+f = cabecera(tra, "TRASPLANTE DESDE gb2 (D6 = B, 30/07/2026)", 4,
+             "Ninguna pieza entra por ser buena en gb2: entra si pasa su prueba, ejecutada aqui.")
+tabla_tra = tablas(cuerpo_tra)[0]
+fila_hdr(tra, f, [limpiar(x) for x in tabla_tra[0]])
+r = volcar(tra, f, [[limpiar(v) for v in filaf] for filaf in tabla_tra[1:]])
 r += 2
-pd_.cell(row=r, column=1, value="LOS 5 CRITERIOS DE G1, EXPLICADOS CON UN EJEMPLO").font = Font(name=ARIAL, size=12, bold=True)
-r += 1
-for j, h in enumerate(["CRITERIO","QUE MIDE, EN LLANO","EJEMPLO CON NUMEROS","POR QUE ESE UMBRAL"], start=1):
-    c = pd_.cell(row=r, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-crit = [
-("1. Coste relativo (10-15% max)","De cada movimiento tipico de una vela, que parte se lleva el broker antes de que ganes nada","Si el EURUSD se mueve de media 10 pips en una vela de 1 h y el broker cobra 1 pip por operar, el coste es el 10% del movimiento","Con un coste del 30%, el bot tiene que acertar muchisimo solo para empatar. Por debajo del 10% queda margen para que la estrategia gane"),
-("2. Cientos de operaciones","Que la estrategia genere suficientes operaciones para saber si gana por habilidad o por suerte","Con 20 operaciones ganadoras no sabes nada: es como decir que sabes jugar a los dados por acertar 20 veces. Con 300 ya se puede juzgar","Menos de 100 operaciones no permite distinguir habilidad de casualidad. Por eso 4h en un solo mercado da problemas: pocas señales"),
-("3. Cinco años de datos minimo","Que la estrategia haya visto epocas distintas: subidas, bajadas, crisis y calma","5 años incluyen mercados tranquilos y sacudidas. Una estrategia probada solo en 2024 puede fallar en cuanto cambie el clima","Una estrategia que solo ha visto un tipo de mercado se rompe cuando el mercado cambia, y el mercado siempre cambia"),
-("4. Correlacion menor de 0,7","Que los mercados elegidos NO suban y bajen a la vez","EURUSD y GBPUSD suelen moverse casi igual: elegir los dos es hacer la misma apuesta dos veces. Si una pierde, pierden las dos","Diversificar de verdad exige mercados que no se muevan juntos. Por encima de 0,7 la diversificacion es un espejismo"),
-("5. Operable sin nadie delante","Que el bot pueda funcionar solo: horarios compatibles, el broker permite bots y no hace falta decidir a mano","Cripto opera 24/7 (bien para desatendido) pero se mueve mucho de noche; forex cierra el fin de semana y abre con saltos de precio","Todo el proyecto se basa en que no estes tu delante. Un mercado que exija vigilancia manual rompe la premisa"),
-]
-for cr in crit:
-    r += 1
-    for j, v in enumerate(cr, start=1):
-        c = pd_.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
-    pd_.row_dimensions[r].height = 62
+for linea in cuerpo_tra.splitlines():
+    if linea.startswith("**NO se trae"):
+        tra.cell(row=r, column=1, value=limpiar(linea)).font = F_TXT
+        tra.cell(row=r, column=1).alignment = WRAP
+        tra.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+        tra.cell(row=r, column=1).fill = FILL_NOTA
+        tra.row_dimensions[r].height = 40
+anchos(tra, [26, 38, 62, 38])
 
+# ================================================================ 9. LECCIONES
+lec = wb.create_sheet("LECCIONES")
+f = cabecera(lec, "LECCIONES APRENDIDAS", 3)
+tabla_lec = tablas(seccion("Lecciones aprendidas"))[0]
+fila_hdr(lec, f, [limpiar(x) for x in tabla_lec[0]])
+r = volcar(lec, f, [[limpiar(v) for v in filaf] for filaf in tabla_lec[1:]])
+anchos(lec, [9, 100, 26])
+
+# ================================================================ 10. AUTONOMIA
+aut = wb.create_sheet("AUTONOMIA")
+f = cabecera(aut, "AUTONOMIA — que llega al CEO y que no", 2)
+fila_hdr(aut, f, ["CUANDO", "QUE PASA"])
+r = f
+for parrafo in seccion("Autonomía: qué llega al CEO").split("\n\n"):
+    p = parrafo.strip()
+    if not p.startswith("**"):
+        continue
+    m = re.match(r"\*\*(.+?):?\*\*:?\s*(.*)", p, flags=re.S)
+    if not m:
+        continue
+    r += 1
+    aut.cell(row=r, column=1, value=limpiar(m.group(1))).font = F_BOLD
+    aut.cell(row=r, column=2, value=limpiar(m.group(2).replace(" · ", "\n· ")))
+    for j in (1, 2):
+        cc = aut.cell(row=r, column=j)
+        cc.border = BORDE
+        cc.alignment = WRAP
+        if j == 2:
+            cc.font = F_TXT
 r += 2
-pd_.cell(row=r, column=1, value="REGISTRO DE DECISIONES").font = Font(name=ARIAL, size=12, bold=True)
+aut.cell(row=r, column=1, value="FORMATO OBLIGATORIO DE FICHA DE DECISION (regla 10)").font = F_BOLD
 r += 1
-for j, h in enumerate(["FECHA","DECISION","MOTIVO"], start=1):
-    c = pd_.cell(row=r, column=j, value=h)
-    c.font = F_HDR; c.fill = FILL_HDR; c.alignment = CENTER; c.border = THIN
-decisions = [
-("2026-07-29","Producto antes que motor; motor en paralelo con maximo el 20% del esfuerzo","Evitar la deriva que hubo en gb2"),
-("2026-07-29","Portafolio de 3-5 mercados poco correlacionados, no un solo par","Repartir riesgo y ganar muestra de operaciones"),
-("2026-07-29","Mercado y tamaño de vela se deciden en la puerta G1 con datos","Evitar corazonadas"),
-("2026-07-29","Revision del CEO: semanal + puertas; nada de firmar tareas sueltas","Direccion por excepcion"),
-("2026-07-29","Broker DESPUES de G1; costes provisionales de referencia mientras","Buscar broker ya enfocado al mercado"),
-("2026-07-29","Fuente de verdad del WBS: archivo de texto; el Excel es la vista del CEO","Los agentes trabajan mejor con texto"),
-("2026-07-29","Cada agente con su modelo segun su tarea (hoja EQUIPO); se confirma con el analisis de gb2","Replicar lo que funcionaba en gb2, con criterio"),
-("2026-07-29","gb2 se analiza como informacion, no como copia (tarea 01.02.01)","Aprovechar lecciones sin contaminar el proyecto nuevo"),
-("2026-07-29","Validacion en 3 cajones (train/validacion/OOS) + Monte Carlo + walk-forward, con pre-registro de variantes (max. 5-7 por hipotesis)","Cuantas mas variantes se prueban, mas facil que una salga bien por suerte; el pre-registro y el registro de fallidas lo controlan"),
-("2026-07-29","Si ninguna variante pasa el filtro: bucle de vuelta a investigacion; a la 3a vuelta sin exito, revision del planteamiento con el CEO","El bucle es sano; infinito, no"),
-("2026-07-29","Regla de no-ambiguedad: toda tarea debe poder ejecutarse sin adivinar nada; si un agente tiene que suponer, la tarea vuelve al orquestador","Lo ambiguo fue una causa del caos de gb2"),
-("2026-07-29","Principio de restriccion justificada: se empieza con permisos amplios + git como red de seguridad; una restriccion solo se añade tras un incidente real y se revisa cada mes","En gb2 se restringio de mas sobre el papel y hubo que ir quitando restricciones"),
-("2026-07-29","Modelos asignados por puesto (hoja EQUIPO): Fable 5 en validacion y arquitectura, Opus 5 en orquestacion, Sonnet 5 en construccion e investigacion, Haiku 4.5 en secretaria","Consultado en platform.claude.com el 29/07/2026; se paga el modelo caro solo donde un error cuesta dinero"),
-("2026-07-29","Todo agente con Fable 5 lleva modelo de respaldo obligatorio","Fable 5 estuvo suspendido en junio de 2026 y puede rechazar peticiones por sus filtros; el motor no puede depender de un solo modelo"),
-("2026-07-29","La Fase 03 no se da por buena hasta pasar un dia entero de trabajo desatendido real (03.01.05)","Evitar el error de gb2: motor perfecto en papel que no aguanta la realidad"),
-("2026-07-29","Escalado definido en la hoja AUTONOMIA: el CEO solo interviene en puertas y excepciones","El CEO no firma tareas"),
-("2026-07-29","D2 del CEO: horizonte de 1 mes con evaluacion el 1 de septiembre de 2026 (puerta GM). NO es fecha de demo: en 1 mes el objetivo es tener veredicto sobre si existe una estrategia que merezca ir a demo","Decision del CEO el 29/07/2026"),
-("2026-07-29","D3 del CEO: 1 hora semanal, lunes, dia fijo","Decision del CEO el 29/07/2026"),
-("2026-07-29","Fase 03 (montar la casa) pasa a ejecutarse EN PARALELO con la Fase 02: el motor no depende del mercado elegido","Ganar 1 semana dentro del mes; lo forzo el plazo del CEO"),
-("2026-07-29","D1 resuelta: se fija AHORA que se mide (misma vara para los 8 candidatos) y se calibran los umbrales en G1 con los numeros delante","El CEO no quiere poner cortes a ciegas; sin vara comun, cada mercado se mediria distinto y la comparacion no valdria"),
-("2026-07-29","Los guardarrailes se separan en dos: lo reversible empieza permisivo (git deshace); lo irreversible (dinero, ordenes al broker, borrar datos reservados) lleva barrera desde el minuto uno","Matiz aportado por un video de TikTok analizado el 29/07"),
-("2026-07-29","Se añade cola de aprobacion del CEO con Aprobado / Saltar / Corregir, y toda correccion escrita va a LECCIONES.md","Idea del mismo video: el valor esta en que la correccion quede guardada, no en aprobar"),
-("2026-07-29","Formato obligatorio de ficha de decision del CEO (hoja DECISIONES CEO): opciones cerradas, recomendacion con motivo, consecuencias y respuesta de una letra","Reducir al minimo el tiempo del CEO: ni redactar, ni buscar, ni calcular"),
-]
-for d in decisions:
-    r += 1
-    for j, v in enumerate(d, start=1):
-        c = pd_.cell(row=r, column=j, value=v)
-        c.border = THIN; c.font = F_TXT; c.alignment = WRAP
-for j, w in enumerate([9, 42, 62, 11, 11], start=1):
-    pd_.column_dimensions[get_column_letter(j)].width = w
+plantilla = seccion("Plantilla de ficha de decisión")
+bloque = re.search(r"```(.*?)```", plantilla, flags=re.S)
+if bloque:
+    aut.cell(row=r, column=1, value=bloque.group(1).strip()).font = F_TXT
+    aut.cell(row=r, column=1).alignment = WRAP
+    aut.merge_cells(start_row=r, start_column=1, end_row=r, end_column=2)
+    aut.cell(row=r, column=1).fill = FILL_NOTA
+    aut.row_dimensions[r].height = 100
+anchos(aut, [40, 96])
 
-wb.save("WBS_Bot_Trading_v0.7.xlsx")
-print("OK filas plan:", last_row)
+# ================================================================ 11. LIMITES
+lim = wb.create_sheet("LIMITES CEO")
+f = cabecera(lim, "LIMITES DEL CEO", 1)
+r = f
+for linea in seccion("Límites del CEO").splitlines():
+    if linea.strip().startswith("- "):
+        r += 1
+        c = lim.cell(row=r, column=1, value=limpiar(linea.strip()[2:]))
+        c.font = F_TXT
+        c.alignment = WRAP
+        c.border = BORDE
+        lim.row_dimensions[r].height = 34
+anchos(lim, [130])
+
+wb.save(SALIDA)
+n_tareas = sum(len(t) for _, _, t in FASES)
+print(f"OK -> {SALIDA}")
+print(f"   fases: {len(FASES)} · tareas: {n_tareas} · hojas: {len(wb.sheetnames)}")
+for cod, nombre, tareas in FASES:
+    cuenta = {e: sum(1 for t in tareas if t['estado'] == e) for e in ESTADOS}
+    print(f"   {cod} {nombre[:38]:40s} {len(tareas):2d} tareas  {cuenta}")
