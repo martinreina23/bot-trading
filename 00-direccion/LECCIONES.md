@@ -84,3 +84,22 @@ mecanicamente una tarea de producto se registra como deuda.
 los corrigio fue leer el codigo y reproducir el fallo.
 **Regla:** jerarquia de la prueba (regla 9 de CLAUDE.md).
 **Evento:** auditoria de gb2, error 7 de la lista de diez.
+
+## L-013 · Se trabajo una tarea sin ficha escrita antes
+**Causa raiz:** la tarea 01.01.02 era una fila de una linea en el WBS sin alcance ni criterio de
+hecho, y el trabajo de apoyo (calculo de arrastre e investigacion de umbrales) se autoasigno alcance
+dentro de ella.
+**Regla:** la regla 5 vale tambien para las tareas asignadas al CEO; una fila del WBS sin alcance no
+es una ficha, y antes de trabajarla hay que escribirla.
+**Evento:** hallazgo de `critico-codigo` en la revision del calculo de arrastre, 01/08/2026, confirmado
+por grep sobre `00-direccion/WBS.md`.
+
+## L-014 · Un supuesto expresado en porcentaje decidio el orden de magnitud sin declararse
+**Causa raiz:** fijar la actividad como "porcentaje de velas operadas" hace que a 15 minutos se abran
+~15 veces mas operaciones que a 4 horas solo por haber mas velas; eso produjo un multiplicador de
+coste x60-x69 entre velas que al fijar el NUMERO de operaciones cae a x4,3. La conclusion "1h es
+inviable" era un artefacto del supuesto, no un hallazgo.
+**Regla:** todo supuesto expresado en porcentaje se recalcula ademas en valor absoluto antes de sacar
+conclusiones, y se declara cual de las dos formulaciones sostiene el titular.
+**Evento:** hallado por `critico-codigo` y confirmado de forma independiente por `validador` con
+experimento ejecutado, 01/08/2026, sobre `01-investigacion/mercados/arrastre_coste.md`.
