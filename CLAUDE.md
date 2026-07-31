@@ -97,6 +97,31 @@ Fecha de evaluación del primer mes: **1 de septiembre de 2026 (puerta GM)**.
 
 Si un modelo no está disponible o rechaza la petición, se usa el respaldo indicado en su ficha y **se anota en el informe**.
 
+## Comandos
+
+| Comando | Cuándo |
+|---|---|
+| `/autonomo` | Lanzar una tirada de trabajo completa. Es el comando principal. |
+| `/estado` | Saber dónde está el proyecto, incluidas las desalineaciones entre el WBS y el disco. |
+| `/fin` | Cerrar la tarea en curso pasando las dos puertas. |
+| `/informe` | Informe semanal del CEO (lunes). |
+| `/verificar` | Probar por ejecución que las barreras muerden (regla 25). |
+| `/leccion` · `/decision` · `/ficha` | Registrar lección, registrar decisión, preparar decisión del CEO. |
+
+## Qué tiene muro mecánico y qué es solo prosa
+
+**Con muro (te bloquea de verdad, comprobado por `/verificar`):**
+- Los datos no entran en git → `.githooks/pre-commit` + `.gitignore`.
+- El mensaje de commit exige código WBS → `.githooks/commit-msg`.
+- Los registros solo admiten añadir → `.githooks/pre-commit`.
+- El cajón reservado y los ficheros sensibles → `.claude/settings.json`.
+
+**Solo prosa (depende de que la cumplas):** el techo del 20% de motor · nadie valida su propio
+trabajo · el pre-registro de variantes · el test de compuerta · la jerarquía de la prueba.
+
+Esta distinción es obligatoria conocerla. En el proyecto anterior se creyó tener muro donde solo
+había texto durante meses. **Si una regla no tiene muro, cumplirla es una decisión activa tuya.**
+
 ## Las puertas
 
 - **G1** — elegir mercado y tamaño de vela. *En curso.*

@@ -1,65 +1,58 @@
-# Como instalar esto — 4 pasos
+# Como instalar esto — 5 pasos
 
-## 1. Descomprimir donde quieras que viva el proyecto
-No dentro de la carpeta de gb2. Carpeta nueva y separada.
+## 1. Descomprimir
+Carpeta nueva, separada de gb2.
 
-## 2. Arrancar git
+## 2. Arrancar git e instalar el muro mecanico
 ```
 cd bot-trading
 git init
+git config core.hooksPath .githooks     # <-- IMPRESCINDIBLE: sin esto los hooks no corren
+pip install -r requirements.txt
 git add -A
-git commit -m "arranque del proyecto"
+git commit -m "arranque: estructura inicial del proyecto"
 ```
 
-## 3. Comprobar que los datos NO entran en git (regla 27)
+## 3. Probar que las barreras muerden (regla 25)
 ```
-git status --porcelain 02-datos/
+python3 03-motor/scripts/verificar_barreras.py
 ```
-Tiene que salir **vacio**. Si sale algo, avisa antes de seguir: en el proyecto anterior este
-mismo fallo metio 50.089 ficheros y 1,4 GB en el repositorio.
+Cada barrera sale **VERIFICADA** o **NO VERIFICADA**. Lo que salga NO VERIFICADA se documenta como
+tal, nunca como muro. Es la tarea **03.01.08**.
 
-## 4. Abrir Claude Code en la carpeta y pegar esto
-
+## 4. Comprobar los agentes en Claude Code
+Abre Claude Code en la carpeta y pega:
 ```
 Lee CLAUDE.md y 00-direccion/WBS.md enteros.
-
-Despues:
-1. Dime cuantos agentes has cargado y sus nombres (deben ser 8). Si falta alguno, reinicia la
-   sesion: Claude Code no carga agentes creados a mitad de sesion.
-2. Comprueba con una tarea de prueba que puedes invocar a cada uno de los 8 por su nombre, y
-   dime cuales responden y cuales no. Ningun agente fantasma.
-3. Dime cual es la siguiente tarea del WBS por su codigo, y por que es esa y no otra.
+1. Dime cuantos agentes has cargado (deben ser 8) y cuantos comandos (deben ser 8).
+2. Invoca a cada agente por su nombre con una tarea trivial y dime cuales responden.
+3. Dime la siguiente tarea del WBS por su codigo y por que esa.
 4. NO ejecutes nada todavia.
 ```
+Si falta algun agente o comando, reinicia la sesion: Claude Code no carga lo creado a mitad de sesion.
 
-Esa comprobacion es la tarea **03.01.02** del WBS y es obligatoria antes de empezar: en el proyecto
-anterior tres agentes nunca llegaron a activarse y nadie se dio cuenta hasta la auditoria.
-
----
-
-## Lo primero que hay que rellenar a mano
-
-Tres ficheros estan vacios con un aviso dentro. Su contenido vive en la conversacion del CEO y hay
-que **copiarlo y pegarlo**:
-
+## 5. Rellenar los tres huecos
+Estos ficheros tienen un aviso dentro y su contenido esta en la conversacion del CEO:
 - `01-investigacion/mercados/entrega_brief_A.md`
 - `01-investigacion/mercados/entrega_brief_B.md`
 - `01-investigacion/herencia-gb2/INFORME_GB2.md`
 
-Hasta que se peguen, las tareas que dependen de ellos estan bloqueadas.
+---
 
-## Lo primero que hay que ejecutar
+## Comandos disponibles
 
-```
-pip install yfinance pandas
-python3 03-motor/scripts/atr_local.py
-```
-Es la tarea **02.02.01**: calcula el movimiento medio real por vela. **Aviso conocido:** el script
-usa el futuro de oro (GC=F) como aproximacion del oro al contado. Esta pendiente de corregir con
-datos de Dukascopy — anotalo en el informe si lo usas asi.
+| Comando | Que hace |
+|---|---|
+| `/autonomo` | Una tirada de trabajo completa siguiendo el WBS, sin intervencion |
+| `/estado` | Donde esta el proyecto, en una pantalla, incluidas las desalineaciones |
+| `/fin` | Cierra la tarea en curso pasando las dos puertas |
+| `/informe` | Informe semanal del CEO (lunes) |
+| `/verificar` | Prueba por ejecucion que las barreras muerden |
+| `/leccion` | Registra una leccion (exige causa raiz + regla + evento) |
+| `/decision` | Registra una decision firmada (con test de compuerta) |
+| `/ficha` | Prepara una decision para el CEO en el formato obligatorio |
 
 ## Que NO hacer todavia
-
-- Nada de `awesome-claude-code` hasta que el proyecto este funcionando en Claude Code.
-- Nada de elegir broker hasta cerrar la puerta G1.
-- Nada de ejecucion desatendida 24/7 hasta pasar la prueba de barreras (tarea 03.01.08).
+- Nada de `awesome-claude-code` hasta que el proyecto funcione.
+- Nada de broker hasta cerrar G1.
+- Nada de ejecucion desatendida hasta que `/verificar` salga limpio.

@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Muro mecanico del proyecto. Bloquea por defecto (regla 26).
+# Instalar con:  git config core.hooksPath .githooks
+set -euo pipefail
+fallo=0
+
+# --- Regla 27: los datos NUNCA entran en git ---
+datos=$(git diff --cached --name-only | grep -E '^02-datos/(bruto|limpio|reservado)/' | grep -v '\.gitkeep$' | grep -v 'README\.md$' || true)
+if [ -n "$datos" ]; then
+  echo "BLOQUEADO (regla 27): intentas commitear ficheros de datos:"
+  echo "$datos" | sed 's/^/   /'
+  echo "   Los datos se descargan, no se versionan. Saca esto del commit."
+  fallo=1
+fi
+
+# --- Regla 22: el cajon reservado no se toca ---
+res=$(git diff --cached --name-only | grep -E '^02-datos/reservado/' | grep -v 'README\.md$' || true)
+if [ -n "$res" ]; then
+  echo "BLOQUEADO (regla 22): tocaste el cajon reservado. Solo el CEO lo autoriza."
+  fallo=1
+fi
+
+# --- Regla 21: registros que solo permiten añadir ---
+for f in 04-resultados/registro-pruebas.md 00-direccion/DECISIONES.md 00-direccion/LECCIONES.md; do
+  if git diff --cached --name-only | grep -qx "$f"; then
+    if git diff --cached --numstat -- "$f" | awk '{ if ($2 > 0) exit 0; else exit 1 }'; then
+      echo "BLOQUEADO (regla 21): $f solo admite AÑADIR, y este commit borra lineas."
+      echo "   Una correccion es una entrada nueva que cita a la anterior."
+      fallo=1
+    fi
+  fi
+done
+
+# --- Regla 13: nada de referencias a codigo por numero de linea ---
+lineas=$(git diff --cached -U0 --diff-filter=ACM -- '*.md' '*.py' 2>/dev/null | grep -E '^\+' | grep -Ei '\.(py|md|json):[0-9]+' || true)
+if [ -n "$lineas" ]; then
+  echo "AVISO (regla 13): referencias a codigo por numero de linea. Usa el nombre del simbolo:"
+  echo "$lineas" | head -5 | sed 's/^/   /'
+fi
+
+# --- Regla 1: el mensaje debe llevar codigo WBS (lo valida commit-msg) ---
+exit $fallo

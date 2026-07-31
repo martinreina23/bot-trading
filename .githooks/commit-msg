@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Regla 1: toda tarea se anuncia por su codigo WBS. Prohibidos los identificadores opacos.
+set -euo pipefail
+msg=$(head -1 "$1")
+
+# Prefijos permitidos sin codigo (papeleo y mantenimiento)
+if echo "$msg" | grep -qE '^(meta|org|doc|leccion|decision|merge|arranque):'; then exit 0; fi
+
+# Todo lo demas necesita un codigo tipo 02.02.01 o similar
+if ! echo "$msg" | grep -qE '^[0-9]{2}\.[0-9]{2}\.[0-9]{2}'; then
+  echo "BLOQUEADO (regla 1): el mensaje debe empezar por el codigo WBS."
+  echo "   Correcto:  02.02.01: calculado el ATR real de los 8 instrumentos"
+  echo "   O bien un prefijo de papeleo: meta: org: doc: leccion: decision:"
+  echo "   Recibido:  $msg"
+  exit 1
+fi
+exit 0
