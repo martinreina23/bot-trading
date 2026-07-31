@@ -18,3 +18,6 @@ __pycache__/
 # temporales
 *.tmp
 *.bak
+
+# ficheros de bloqueo de Excel (aparecen al abrir el xlsx)
+~$*
