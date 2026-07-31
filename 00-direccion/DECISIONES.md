@@ -46,3 +46,8 @@ decisiones no tenia modelo asignado.
 ## D-9 · 2026-07-30 · Los datos nunca entran en git
 **Motivo:** gb2 versiono 50.089 ficheros de datos (1,4 GB por clon) contra su propio .gitignore.
 **Decide:** direccion tecnica.
+
+## D-10 · 2026-07-31 · El cajon reservado se protege cifrandolo con una contraseña que solo tiene el CEO
+**Motivo:** el 31/07 `verificar_barreras.py` demostro POR EJECUCION que el guardia anterior era un filtro sobre el TEXTO del comando: un comando que nombraba la ruta se bloqueaba, pero un programa que la construia por dentro entraba sin obstaculo. La condicion que activaba la exencion la elegia el vigilado, que es justo lo que prohibe la regla 26. Cifrar convierte el bloqueo en un hecho matematico que no depende de la buena voluntad de ningun agente.
+**Decide:** CEO. **Condicion:** la contraseña no se guarda en ningun sitio (ni fichero, ni variable de entorno, ni sesion); cada operacion la vuelve a pedir; nada se descifra a disco; el cajon se queda dentro del proyecto. Toda apertura queda anotada en `04-resultados/registro-cajon.md`.
+**Que bloqueaba:** 04.01.03 (partir el historico en tres cajones) y, detras, toda la puerta G2.
