@@ -1,0 +1,1517 @@
+{
+  "generado_desde": {
+    "costes": "01-investigacion/mercados/coste_operar.md (02.01.02, NO recalculado)",
+    "atr": "04-resultados/atr_15m_1h_4h.json (02.02.01, NO recalculado)"
+  },
+  "formula": "coste_relativo_pct = (coste_ida_y_vuelta_en_unidad_atr / atr14_medio) x 100",
+  "formula_ampliacion_p10_p90": "ratios_p10 = coste / atr14_p10 x 100 (vela tranquila, caso desfavorable); ratios_p90 = coste / atr14_p90 x 100 (vela agitada, mejor caso, NO tipico); multiplicador_vs_media = coste_relativo_pct(escenario) / coste_relativo_pct(media)",
+  "umbral_g1_pct": [
+    10.0,
+    15.0
+  ],
+  "instrumentos": {
+    "EURUSD": {
+      "unidad_coste_original": "pip",
+      "divisor_pip_aplicado": 0.0001,
+      "tipo_cuenta_coste": "Raw/ECN",
+      "fuente_atr": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 0.0006864200358254897,
+          "atr14_mediana_crudo": 0.0005999999999999657,
+          "ratio_medio_vs_mediana_atr": 1.1440333930425481,
+          "atr14_p10_crudo": 0.00032214285714288985,
+          "atr14_p90_crudo": 0.0011392857142857539,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_medio_crudo": 0.0006864200358254897,
+              "coste_relativo_pct": 11.65467145838654,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_p10_crudo": 0.00032214285714288985,
+              "coste_relativo_pct": 24.83370288248085,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 2.1307939027840086
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_p90_crudo": 0.0011392857142857539,
+              "coste_relativo_pct": 7.021943573667468,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6025003449251737
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_mediana_crudo": 0.0005999999999999657,
+              "coste_relativo_pct": 13.333333333334096,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.1440333930425481
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 0.0014073808721804524,
+          "atr14_mediana_crudo": 0.00128071428571427,
+          "ratio_medio_vs_mediana_atr": 1.098903079226245,
+          "atr14_p10_crudo": 0.0008178571428571463,
+          "atr14_p90_crudo": 0.002112142857142867,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_medio_crudo": 0.0014073808721804524,
+              "coste_relativo_pct": 5.684317698311202,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_p10_crudo": 0.0008178571428571463,
+              "coste_relativo_pct": 9.781659388646249,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.7208150402206335
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_p90_crudo": 0.002112142857142867,
+              "coste_relativo_pct": 3.7876225904632896,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.666328448107076
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_mediana_crudo": 0.00128071428571427,
+              "coste_relativo_pct": 6.246514221974421,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.098903079226245
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 0.002850109334203657,
+          "atr14_mediana_crudo": 0.0026321428571428373,
+          "ratio_medio_vs_mediana_atr": 1.0828095163867435,
+          "atr14_p10_crudo": 0.0018539999999999826,
+          "atr14_p90_crudo": 0.0040246428571428725,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_medio_crudo": 0.002850109334203657,
+              "coste_relativo_pct": 2.8069098627176925,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_p10_crudo": 0.0018539999999999826,
+              "coste_relativo_pct": 4.314994606256783,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.5372758005413611
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_p90_crudo": 0.0040246428571428725,
+              "coste_relativo_pct": 1.9877540154405817,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7081645341885002
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.8,
+              "coste_convertido_unidad_atr": 8e-05,
+              "atr14_mediana_crudo": 0.0026321428571428373,
+              "coste_relativo_pct": 3.039348710990525,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0828095163867435
+            }
+          }
+        }
+      }
+    },
+    "GBPUSD": {
+      "unidad_coste_original": "pip",
+      "divisor_pip_aplicado": 0.0001,
+      "tipo_cuenta_coste": "Raw/ECN",
+      "fuente_atr": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 0.0008275062698847064,
+          "atr14_mediana_crudo": 0.0007542857142857073,
+          "ratio_medio_vs_mediana_atr": 1.0970727062865526,
+          "atr14_p10_crudo": 0.0004249999999999928,
+          "atr14_p90_crudo": 0.00130714285714284,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_medio_crudo": 0.0008275062698847064,
+              "coste_relativo_pct": 9.909290477209892,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_p10_crudo": 0.0004249999999999928,
+              "coste_relativo_pct": 19.29411764705915,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.947073576199342
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_p90_crudo": 0.00130714285714284,
+              "coste_relativo_pct": 6.273224043715929,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6330649059227345
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_mediana_crudo": 0.0007542857142857073,
+              "coste_relativo_pct": 10.871212121212222,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0970727062865528
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 0.0016947220851437727,
+          "atr14_mediana_crudo": 0.0015985714285714492,
+          "ratio_medio_vs_mediana_atr": 1.0601478638075297,
+          "atr14_p10_crudo": 0.0010807142857143046,
+          "atr14_p90_crudo": 0.002396571428571437,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_medio_crudo": 0.0016947220851437727,
+              "coste_relativo_pct": 4.838551448572376,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_p10_crudo": 0.0010807142857143046,
+              "coste_relativo_pct": 7.587574355584797,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.568149979643913
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_p90_crudo": 0.002396571428571437,
+              "coste_relativo_pct": 3.4215546018121006,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.707144408441009
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_mediana_crudo": 0.0015985714285714492,
+              "coste_relativo_pct": 5.129579982126833,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0601478638075297
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 0.0034138554638309814,
+          "atr14_mediana_crudo": 0.003228571428571438,
+          "ratio_medio_vs_mediana_atr": 1.0573888604786195,
+          "atr14_p10_crudo": 0.0025431428571428645,
+          "atr14_p90_crudo": 0.00452828571428575,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_medio_crudo": 0.0034138554638309814,
+              "coste_relativo_pct": 2.4019763246795676,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_p10_crudo": 0.0025431428571428645,
+              "coste_relativo_pct": 3.2243568138411325,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.3423766007649027
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_p90_crudo": 0.00452828571428575,
+              "coste_relativo_pct": 1.810839800618321,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7538957740809097
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.82,
+              "coste_convertido_unidad_atr": 8.2e-05,
+              "atr14_mediana_crudo": 0.003228571428571438,
+              "coste_relativo_pct": 2.53982300884955,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0573888604786192
+            }
+          }
+        }
+      }
+    },
+    "USDJPY": {
+      "unidad_coste_original": "pip",
+      "divisor_pip_aplicado": 0.01,
+      "tipo_cuenta_coste": "Raw/ECN",
+      "fuente_atr": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 0.12025397226635862,
+          "atr14_mediana_crudo": 0.10864285714285213,
+          "ratio_medio_vs_mediana_atr": 1.106874169447139,
+          "atr14_p10_crudo": 0.05685714285714231,
+          "atr14_p90_crudo": 0.1917785714285745,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_medio_crudo": 0.12025397226635862,
+              "coste_relativo_pct": 9.646250998101234,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_p10_crudo": 0.05685714285714231,
+              "coste_relativo_pct": 20.40201005025145,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 2.115019612724921
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_p90_crudo": 0.1917785714285745,
+              "coste_relativo_pct": 6.048642407538359,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6270459278665849
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_mediana_crudo": 0.10864285714285213,
+              "coste_relativo_pct": 10.677186061801939,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.106874169447139
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 0.2485955452760412,
+          "atr14_mediana_crudo": 0.2305000000000003,
+          "ratio_medio_vs_mediana_atr": 1.0785056194188325,
+          "atr14_p10_crudo": 0.14078571428571413,
+          "atr14_p90_crudo": 0.3666571428571376,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_medio_crudo": 0.2485955452760412,
+              "coste_relativo_pct": 4.666213944871508,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_p10_crudo": 0.14078571428571413,
+              "coste_relativo_pct": 8.239472349061398,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.7657725184498125
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_p90_crudo": 0.3666571428571376,
+              "coste_relativo_pct": 3.1637185381438933,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6780054612843114
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_mediana_crudo": 0.2305000000000003,
+              "coste_relativo_pct": 5.03253796095444,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0785056194188325
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 0.5073094771241831,
+          "atr14_mediana_crudo": 0.4826428571428626,
+          "ratio_medio_vs_mediana_atr": 1.051107396735013,
+          "atr14_p10_crudo": 0.3022071428571408,
+          "atr14_p90_crudo": 0.722428571428571,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_medio_crudo": 0.5073094771241831,
+              "coste_relativo_pct": 2.2865726983374417,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_p10_crudo": 0.3022071428571408,
+              "coste_relativo_pct": 3.8384268122621927,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.6786812923346361
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_p90_crudo": 0.722428571428571,
+              "coste_relativo_pct": 1.6056950761320952,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.702227870252973
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 1.16,
+              "coste_convertido_unidad_atr": 0.0116,
+              "atr14_mediana_crudo": 0.4826428571428626,
+              "coste_relativo_pct": 2.4034334763948224,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0511073967350129
+            }
+          }
+        }
+      }
+    },
+    "AUDUSD": {
+      "unidad_coste_original": "pip",
+      "divisor_pip_aplicado": 0.0001,
+      "tipo_cuenta_coste": "Raw/ECN",
+      "fuente_atr": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 0.0005591770660616106,
+          "atr14_mediana_crudo": 0.000499285714285718,
+          "ratio_medio_vs_mediana_atr": 1.119954066503933,
+          "atr14_p10_crudo": 0.00032071428571430117,
+          "atr14_p90_crudo": 0.0008492857142857191,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_medio_crudo": 0.0005591770660616106,
+              "coste_relativo_pct": 15.200909543495946,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_p10_crudo": 0.00032071428571430117,
+              "coste_relativo_pct": 26.50334075723703,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.743536508877989
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_p90_crudo": 0.0008492857142857191,
+              "coste_relativo_pct": 10.00841042893182,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6584086564224142
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_mediana_crudo": 0.000499285714285718,
+              "coste_relativo_pct": 17.02432045779673,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.1199540665039331
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 0.0011479960250542045,
+          "atr14_mediana_crudo": 0.001049642857142858,
+          "ratio_medio_vs_mediana_atr": 1.0937015550023035,
+          "atr14_p10_crudo": 0.0007578571428571435,
+          "atr14_p90_crudo": 0.0015971428571428606,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_medio_crudo": 0.0011479960250542045,
+              "coste_relativo_pct": 7.404206821707993,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_p10_crudo": 0.0007578571428571435,
+              "coste_relativo_pct": 11.215834118755883,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.5147921159998916
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_p90_crudo": 0.0015971428571428606,
+              "coste_relativo_pct": 5.3220035778175205,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7187810532539727
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_mediana_crudo": 0.001049642857142858,
+              "coste_relativo_pct": 8.097992514460696,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0937015550023037
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 0.002324031362299901,
+          "atr14_mediana_crudo": 0.0021378571428571436,
+          "ratio_medio_vs_mediana_atr": 1.0870844995722886,
+          "atr14_p10_crudo": 0.0016235714285714306,
+          "atr14_p90_crudo": 0.003164285714285699,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_medio_crudo": 0.002324031362299901,
+              "coste_relativo_pct": 3.6574377342258657,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_p10_crudo": 0.0016235714285714306,
+              "coste_relativo_pct": 5.235371755389347,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.4314315473910502
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_p90_crudo": 0.003164285714285699,
+              "coste_relativo_pct": 2.686230248307011,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7344568639322521
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.85,
+              "coste_convertido_unidad_atr": 8.5e-05,
+              "atr14_mediana_crudo": 0.0021378571428571436,
+              "coste_relativo_pct": 3.9759438690277302,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0870844995722886
+            }
+          }
+        }
+      }
+    },
+    "USDCHF": {
+      "unidad_coste_original": "pip",
+      "divisor_pip_aplicado": 0.0001,
+      "tipo_cuenta_coste": "Raw/ECN",
+      "fuente_atr": "HistData.com (ASCII M1, precio BID, forex minorista agregado)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 0.0005720270375857604,
+          "atr14_mediana_crudo": 0.0005050000000000174,
+          "ratio_medio_vs_mediana_atr": 1.1327268071004766,
+          "atr14_p10_crudo": 0.000294285714285739,
+          "atr14_p90_crudo": 0.0009185714285714353,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_medio_crudo": 0.0005720270375857604,
+              "coste_relativo_pct": 12.761634538831668,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_p10_crudo": 0.000294285714285739,
+              "coste_relativo_pct": 24.805825242716363,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.943781195679605
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_p90_crudo": 0.0009185714285714353,
+              "coste_relativo_pct": 7.947122861586256,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6227354997045557
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_mediana_crudo": 0.0005050000000000174,
+              "coste_relativo_pct": 14.455445544553957,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.1327268071004764
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 0.0011738976292714615,
+          "atr14_mediana_crudo": 0.001065714285714289,
+          "ratio_medio_vs_mediana_atr": 1.1015125207641026,
+          "atr14_p10_crudo": 0.0007304285714285733,
+          "atr14_p90_crudo": 0.0016985714285714382,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_medio_crudo": 0.0011738976292714615,
+              "coste_relativo_pct": 6.218600172598091,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_p10_crudo": 0.0007304285714285733,
+              "coste_relativo_pct": 9.994132603168369,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.6071354204772559
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_p90_crudo": 0.0016985714285714382,
+              "coste_relativo_pct": 4.29772918418837,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6911087808999314
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_mediana_crudo": 0.001065714285714289,
+              "coste_relativo_pct": 6.849865951742606,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.1015125207641026
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 0.0023876011749347265,
+          "atr14_mediana_crudo": 0.0021800000000000114,
+          "ratio_medio_vs_mediana_atr": 1.095229896759043,
+          "atr14_p10_crudo": 0.0016695000000000182,
+          "atr14_p90_crudo": 0.003236285714285705,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_medio_crudo": 0.0023876011749347265,
+              "coste_relativo_pct": 3.0574620571626965,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_p10_crudo": 0.0016695000000000182,
+              "coste_relativo_pct": 4.372566636717532,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.430129484836598
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_p90_crudo": 0.003236285714285705,
+              "coste_relativo_pct": 2.2556722874547606,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7377596991499573
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.73,
+              "coste_convertido_unidad_atr": 7.3e-05,
+              "atr14_mediana_crudo": 0.0021800000000000114,
+              "coste_relativo_pct": 3.348623853210992,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0952298967590433
+            }
+          }
+        }
+      }
+    },
+    "XAUUSD": {
+      "unidad_coste_original": "usd",
+      "divisor_pip_aplicado": null,
+      "tipo_cuenta_coste": "Raw/ECN",
+      "fuente_atr": "Dukascopy (oro al contado / spot OTC, lado BID)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 7.064494481192823,
+          "atr14_mediana_crudo": 5.438607142857238,
+          "ratio_medio_vs_mediana_atr": 1.2989528928323006,
+          "atr14_p10_crudo": 2.3893071428571795,
+          "atr14_p90_crudo": 12.968971428571422,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_medio_crudo": 7.064494481192823,
+              "coste_relativo_pct": 3.6803765746038155,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_p10_crudo": 2.3893071428571795,
+              "coste_relativo_pct": 10.881815708678081,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 2.9567125776659102
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_p90_crudo": 12.968971428571422,
+              "coste_relativo_pct": 2.0047850473878324,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.5447228039711244
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_mediana_crudo": 5.438607142857238,
+              "coste_relativo_pct": 4.78063579829386,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.2989528928323006
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 14.464676282400184,
+          "atr14_mediana_crudo": 11.279714285714297,
+          "ratio_medio_vs_mediana_atr": 1.2823619389650345,
+          "atr14_p10_crudo": 5.525571428571474,
+          "atr14_p90_crudo": 25.471928571428602,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_medio_crudo": 14.464676282400184,
+              "coste_relativo_pct": 1.7974823281482877,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_p10_crudo": 5.525571428571474,
+              "coste_relativo_pct": 4.705395692753135,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 2.617770210625933
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_p90_crudo": 25.471928571428602,
+              "coste_relativo_pct": 1.0207315055509274,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.5678673384246589
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_mediana_crudo": 11.279714285714297,
+              "coste_relativo_pct": 2.3050229235796227,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.2823619389650345
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 28.42890772406983,
+          "atr14_mediana_crudo": 22.152714285714215,
+          "ratio_medio_vs_mediana_atr": 1.283314873175744,
+          "atr14_p10_crudo": 11.209885714285708,
+          "atr14_p90_crudo": 48.773142857142886,
+          "reproducible": true,
+          "ratios": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_medio_crudo": 28.42890772406983,
+              "coste_relativo_pct": 0.9145620455191337,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_p10_crudo": 11.209885714285708,
+              "coste_relativo_pct": 2.3193813623689308,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 2.5360568741428344
+            }
+          },
+          "ratios_p90": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_p90_crudo": 48.773142857142886,
+              "coste_relativo_pct": 0.5330802666572936,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.5828803734739514
+            }
+          },
+          "ratios_mediana": {
+            "unico": {
+              "coste_original": 0.26,
+              "coste_convertido_unidad_atr": 0.26,
+              "atr14_mediana_crudo": 22.152714285714215,
+              "coste_relativo_pct": 1.1736710754567359,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.2833148731757438
+            }
+          }
+        }
+      }
+    },
+    "BTCUSD": {
+      "unidad_coste_original": "usd",
+      "divisor_pip_aplicado": null,
+      "tipo_cuenta_coste": "CFD spread-only",
+      "fuente_atr": "Kraken (par real contra USD, no USDT/Tether)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 123.92806627601533,
+          "atr14_mediana_crudo": 110.66428571428644,
+          "ratio_medio_vs_mediana_atr": 1.1198560174686654,
+          "atr14_p10_crudo": 48.92285714285671,
+          "atr14_p90_crudo": 214.98428571428542,
+          "reproducible": false,
+          "ratios": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_medio_crudo": 123.92806627601533,
+              "coste_relativo_pct": 16.315916650361967,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_medio_crudo": 123.92806627601533,
+              "coste_relativo_pct": 29.775337507337124,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            }
+          },
+          "ratios_p10": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_p10_crudo": 48.92285714285671,
+              "coste_relativo_pct": 41.33037435028945,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 2.533132231303262
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_p10_crudo": 48.92285714285671,
+              "coste_relativo_pct": 75.42486713776859,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 2.5331322313032616
+            }
+          },
+          "ratios_p90": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_p90_crudo": 214.98428571428542,
+              "coste_relativo_pct": 9.405338596176477,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.5764517432716734
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_p90_crudo": 214.98428571428542,
+              "coste_relativo_pct": 17.164045212606922,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.5764517432716733
+            }
+          },
+          "ratios_mediana": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_mediana_crudo": 110.66428571428644,
+              "coste_relativo_pct": 18.27147744142504,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.1198560174686656
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_mediana_crudo": 110.66428571428644,
+              "coste_relativo_pct": 33.344090879751924,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.1198560174686651
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 298.6939785815318,
+          "atr14_mediana_crudo": 303.1142857142851,
+          "ratio_medio_vs_mediana_atr": 0.9854170280284319,
+          "atr14_p10_crudo": 150.49285714285662,
+          "atr14_p90_crudo": 428.99714285714265,
+          "reproducible": false,
+          "ratios": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_medio_crudo": 298.6939785815318,
+              "coste_relativo_pct": 6.7694702437668095,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_medio_crudo": 298.6939785815318,
+              "coste_relativo_pct": 12.353781008654561,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_p10_crudo": 150.49285714285662,
+              "coste_relativo_pct": 13.435853623807537,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.984771797494641
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_p10_crudo": 150.49285714285662,
+              "coste_relativo_pct": 24.519436138402476,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.9847717974946413
+            }
+          },
+          "ratios_p90": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_p90_crudo": 428.99714285714265,
+              "coste_relativo_pct": 4.713318104016679,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6962609974327912
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_p90_crudo": 428.99714285714265,
+              "coste_relativo_pct": 8.6014558871521,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.6962609974327915
+            }
+          },
+          "ratios_mediana": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_mediana_crudo": 303.1142857142851,
+              "coste_relativo_pct": 6.6707512489395935,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.9854170280284319
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_mediana_crudo": 303.1142857142851,
+              "coste_relativo_pct": 12.173626166462464,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.9854170280284321
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 809.1331380076782,
+          "atr14_mediana_crudo": 779.2642857142865,
+          "ratio_medio_vs_mediana_atr": 1.0383295537097705,
+          "atr14_p10_crudo": 527.798571428572,
+          "atr14_p90_crudo": 1105.1071428571427,
+          "reproducible": false,
+          "ratios": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_medio_crudo": 809.1331380076782,
+              "coste_relativo_pct": 2.4989706947100863,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_medio_crudo": 809.1331380076782,
+              "coste_relativo_pct": 4.560436134263214,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            }
+          },
+          "ratios_p10": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_p10_crudo": 527.798571428572,
+              "coste_relativo_pct": 3.8310069588235725,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.5330339675183826
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_p10_crudo": 527.798571428572,
+              "coste_relativo_pct": 6.991303500523731,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.5330339675183828
+            }
+          },
+          "ratios_p90": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_p90_crudo": 1105.1071428571427,
+              "coste_relativo_pct": 1.8296868435510458,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7321761905508515
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_p90_crudo": 1105.1071428571427,
+              "coste_relativo_pct": 3.339042756035291,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7321761905508514
+            }
+          },
+          "ratios_mediana": {
+            "feb-2025": {
+              "coste_original": 20.22,
+              "coste_convertido_unidad_atr": 20.22,
+              "atr14_mediana_crudo": 779.2642857142865,
+              "coste_relativo_pct": 2.594755126172119,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0383295537097705
+            },
+            "abr-2026": {
+              "coste_original": 36.9,
+              "coste_convertido_unidad_atr": 36.9,
+              "atr14_mediana_crudo": 779.2642857142865,
+              "coste_relativo_pct": 4.735235616011434,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.0383295537097705
+            }
+          }
+        }
+      }
+    },
+    "ETHUSD": {
+      "unidad_coste_original": "usd",
+      "divisor_pip_aplicado": null,
+      "tipo_cuenta_coste": "CFD spread-only",
+      "fuente_atr": "Kraken (par real contra USD, no USDT/Tether)",
+      "velas": {
+        "15min": {
+          "atr14_medio_crudo": 5.452330773893716,
+          "atr14_mediana_crudo": 4.946428571428539,
+          "ratio_medio_vs_mediana_atr": 1.102276257538087,
+          "atr14_p10_crudo": 2.2792857142857623,
+          "atr14_p90_crudo": 8.667,
+          "reproducible": false,
+          "ratios": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_medio_crudo": 5.452330773893716,
+              "coste_relativo_pct": 55.205748235455,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_medio_crudo": 5.452330773893716,
+              "coste_relativo_pct": 129.11909221847282,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            }
+          },
+          "ratios_p10": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_p10_crudo": 2.2792857142857623,
+              "coste_relativo_pct": 132.0589157004046,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 2.392122558273595
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_p10_crudo": 2.2792857142857623,
+              "coste_relativo_pct": 308.86869319961744,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 2.392122558273595
+            }
+          },
+          "ratios_p90": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_p90_crudo": 8.667,
+              "coste_relativo_pct": 34.72943348332757,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.629090893491833
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_p90_crudo": 8.667,
+              "coste_relativo_pct": 81.22764509057345,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.629090893491833
+            }
+          },
+          "ratios_mediana": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_mediana_crudo": 4.946428571428539,
+              "coste_relativo_pct": 60.851985559567176,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.102276257538087
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_mediana_crudo": 4.946428571428539,
+              "coste_relativo_pct": 142.32490974729336,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.1022762575380871
+            }
+          }
+        },
+        "1h": {
+          "atr14_medio_crudo": 12.247821782178214,
+          "atr14_mediana_crudo": 12.33357142857137,
+          "ratio_medio_vs_mediana_atr": 0.9930474601870378,
+          "atr14_p10_crudo": 7.438428571428556,
+          "atr14_p90_crudo": 16.6882857142857,
+          "reproducible": false,
+          "ratios": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_medio_crudo": 12.247821782178214,
+              "coste_relativo_pct": 24.57579848508121,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_medio_crudo": 12.247821782178214,
+              "coste_relativo_pct": 57.47960841693413,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            }
+          },
+          "ratios_p10": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_p10_crudo": 7.438428571428556,
+              "coste_relativo_pct": 40.465536115539074,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.64656038094159
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_p10_crudo": 7.438428571428556,
+              "coste_relativo_pct": 94.64364593136051,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.6465603809415905
+            }
+          },
+          "ratios_p90": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_p90_crudo": 16.6882857142857,
+              "coste_relativo_pct": 18.03660394802172,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.7339173113325648
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_p90_crudo": 16.6882857142857,
+              "coste_relativo_pct": 42.185279665804956,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.7339173113325648
+            }
+          },
+          "ratios_mediana": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_mediana_crudo": 12.33357142857137,
+              "coste_relativo_pct": 24.404934267678346,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.9930474601870377
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_mediana_crudo": 12.33357142857137,
+              "coste_relativo_pct": 57.07997915098192,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.9930474601870379
+            }
+          }
+        },
+        "4h": {
+          "atr14_medio_crudo": 30.967611638714885,
+          "atr14_mediana_crudo": 30.312142857142835,
+          "ratio_medio_vs_mediana_atr": 1.02162396715604,
+          "atr14_p10_crudo": 19.901428571428557,
+          "atr14_p90_crudo": 43.26128571428569,
+          "reproducible": false,
+          "ratios": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_medio_crudo": 30.967611638714885,
+              "coste_relativo_pct": 9.719832562860539,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_medio_crudo": 30.967611638714885,
+              "coste_relativo_pct": 22.733428984231963,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false
+            }
+          },
+          "ratios_p10": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_p10_crudo": 19.901428571428557,
+              "coste_relativo_pct": 15.124542387481165,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.5560496839494964
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_p10_crudo": 19.901428571428557,
+              "coste_relativo_pct": 35.37434498600246,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.5560496839494962
+            }
+          },
+          "ratios_p90": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_p90_crudo": 43.26128571428569,
+              "coste_relativo_pct": 6.957722014734391,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 0.7158273529648889
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_p90_crudo": 43.26128571428569,
+              "coste_relativo_pct": 16.273210293598044,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 0.7158273529648886
+            }
+          },
+          "ratios_mediana": {
+            "feb-2025": {
+              "coste_original": 3.01,
+              "coste_convertido_unidad_atr": 3.01,
+              "atr14_mediana_crudo": 30.312142857142835,
+              "coste_relativo_pct": 9.930013902962044,
+              "pasa_g1_10pct": true,
+              "pasa_g1_15pct": true,
+              "multiplicador_vs_media": 1.02162396715604
+            },
+            "abr-2026": {
+              "coste_original": 7.04,
+              "coste_convertido_unidad_atr": 7.04,
+              "atr14_mediana_crudo": 30.312142857142835,
+              "coste_relativo_pct": 23.225015905931162,
+              "pasa_g1_10pct": false,
+              "pasa_g1_15pct": false,
+              "multiplicador_vs_media": 1.0216239671560399
+            }
+          }
+        }
+      }
+    }
+  },
+  "prueba_cordura": {
+    "regla": "ningun coste relativo de DIVISA (EUR/GBP/USD/AUD/CHF) puede superar 100%",
+    "ok": true,
+    "errores": []
+  }
+}
