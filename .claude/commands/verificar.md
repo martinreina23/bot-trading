@@ -1,8 +1,8 @@
 ---
-description: Prueba por ejecucion que las barreras del proyecto muerden de verdad (regla 25)
+description: Prueba por ejecucion que las barreras del proyecto muerden de verdad (regla 25 de CLAUDE.md)
 ---
 
-**Regla 25: una barrera no verificada por ejecucion NO es una barrera.** En el proyecto anterior,
+**Regla 25 de CLAUDE.md: una barrera no verificada por ejecucion NO es una barrera.** En el proyecto anterior,
 una capa entera de seguridad estuvo documentada como activa durante meses sin funcionar nunca.
 
 Ejecuta `python3 03-motor/scripts/verificar_barreras.py` y ademas comprueba a mano lo que el script

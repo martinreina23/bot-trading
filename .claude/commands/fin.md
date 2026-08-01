@@ -6,10 +6,10 @@ Cierra la tarea en curso. **Doble puerta: nadie se auto-aprueba.**
 
 ## Puerta 1 — Mecanica
 - Los tests pasan.
-- `git status --porcelain 02-datos/` sale VACIO (regla 27: los datos no entran en git).
+- `git status --porcelain 02-datos/` sale VACIO (regla 27 de CLAUDE.md: los datos no entran en git).
 - El entregable de la tarea existe en disco y se puede abrir.
-- Ninguna referencia a decision `D-N` sin `grep` que la localice (regla 12).
-- Ninguna referencia a codigo por numero de linea (regla 13).
+- Ninguna referencia a decision `D-N` sin `grep` que la localice (regla 12 de CLAUDE.md).
+- Ninguna referencia a codigo por numero de linea (regla 13 de CLAUDE.md).
 
 ## Puerta 2 — Revision por otro agente
 - Codigo → invoca a `critico-codigo`.

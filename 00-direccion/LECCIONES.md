@@ -128,3 +128,30 @@ Antes de automatizar una metrica hay que preguntarse que deja fuera su filtro, p
 punto ciego lo vuelve permanente (L-009 aplicada a un indicador en lugar de a un guardia).
 **Evento:** hallado por `critico-codigo` al revisar `01-investigacion/ecosistema/INFORME_AWESOME.md`
 y reproducido por el orquestador con `git show --stat` sobre los seis commits exentos, 01/08/2026.
+
+## L-017 · L-015 cita mal su propia regla de grep
+**Causa raiz:** L-015 afirma "la regla 20 de CLAUDE.md exige que toda cita se localice con grep
+antes de entrar en un informe". La regla 20 de CLAUDE.md es "Se guardan TODAS las pruebas,
+tambien las fallidas"; la exigencia de grep previo es la regla 12 de CLAUDE.md. LECCIONES.md es
+de solo-anadir (regla 21 de CLAUDE.md): no se corrige en su sitio, se anota aqui.
+**Regla:** toda cita de regla se verifica por grep contra CLAUDE.md antes de escribirse (regla 12
+de CLAUDE.md), incluidas las citas dentro de las propias lecciones.
+**Evento:** hallado en la tarea 03.01.13 (pasada 1, constructor-motor), 01/08/2026, verificado por
+grep sobre CLAUDE.md: regla 20 = "se guardan las pruebas"; regla 12 = "grep previo a decision".
+
+## L-018 · Un recuento sin `-i` da cifras bajas, aunque lo repitan dos agentes
+**Causa raiz:** en la pasada 1 de 03.01.13, quien ejecuto el recuento y quien lo reviso grepearon
+"regla" en minuscula, sin `-i`. Los dos dieron la MISMA cifra baja (5 citas operativas en los
+hooks en vez de 12, 3 en DECISIONES.md en vez de 4, 36 en el WBS en vez de 39) porque el error
+estaba en el metodo de los dos, no en el dato: un `grep` sin `-i` se come toda cita que empiece
+con mayuscula (encabezados de comentario `# --- Regla N:`, notas de cabecera `Regla N`).
+**Regla:** un recuento se entrega con la UNIDAD de recuento definida por escrito y el comando
+exacto que lo produjo pegado al lado (regla 12 de CLAUDE.md, grep previo); sin los dos, el numero
+no se acepta, ni siquiera si dos agentes distintos coinciden en el (el contraste entre agentes es
+el nivel mas debil de la jerarquia de la prueba, regla 9 de CLAUDE.md, y no zanja lo que zanja
+una ejecucion).
+**Evento:** hallado en la tarea 03.01.13 (pasada 2, constructor-motor, ordenada por el
+orquestador tras el rechazo del revisor de la pasada 1), 01/08/2026. Verificado por ejecucion:
+`grep -inoE 'regla[s]? [0-9]+' .githooks/pre-commit .githooks/commit-msg` = 12 (no 5);
+`grep -inoE 'regla[s]? [0-9]+' 00-direccion/DECISIONES.md` = 4 (no 3);
+`grep -inoE 'regla[s]? [0-9]+' 00-direccion/WBS.md | wc -l` = 39 (no 36).

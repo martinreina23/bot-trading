@@ -18,6 +18,11 @@ Fecha de evaluación del primer mes: **1 de septiembre de 2026 (puerta GM)**.
 
 ## Las 29 reglas
 
+**Nota normativa (03.01.13, 01/08/2026):** esta es la ÚNICA lista de reglas normativa del
+proyecto. Toda cita se escribe **"regla N de CLAUDE.md"**, nunca "regla N" a secas. La lista
+que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md` queda
+**DEROGADA** por decisión del CEO, **D-16** en `00-direccion/DECISIONES.md`.
+
 ### Sobre las tareas
 1. Toda tarea se ejecuta y se anuncia por su **código WBS** ("Ejecutando 02.02.01"). Prohibidos los identificadores opacos.
 2. No se inventan tareas. Trabajo nuevo = primero se añade al WBS con código y motivo. Subtareas dentro del alcance las crea el orquestador; tareas nuevas de primer nivel, solo en la revisión del lunes.
@@ -91,17 +96,17 @@ CEO → Claude Code → orquestador (REPARTE)
                       CEO
 ```
 
-**Las cuatro reglas que sostienen esto:**
+**Las cuatro reglas que sostienen esto** (numeradas C1-C4 para no colisionar con las 29 reglas de arriba):
 
-1. **Ningún comando suplanta a un agente.** Si un comando dice «eres el orquestador» o «eres el
+C1. **Ningún comando suplanta a un agente.** Si un comando dice «eres el orquestador» o «eres el
    secretario», está mal escrito: tiene que **invocarlo**. Para eso están creados.
-2. **Nadie valida su propio trabajo, en ninguna capa.** El que ejecuta no revisa; el orquestador no
+C2. **Nadie valida su propio trabajo, en ninguna capa.** El que ejecuta no revisa; el orquestador no
    revisa su propio reparto; Claude Code no da por bueno lo que ha decidido él.
-3. **El filtro de Claude Code es obligatorio y es el último.** Antes de que algo llegue al CEO:
+C3. **El filtro de Claude Code es obligatorio y es el último.** Antes de que algo llegue al CEO:
    ¿responde a lo que se pidió o a una versión más cómoda? ¿es **plausible** la cantidad? Un barrido
    que devuelve 3 hallazgos de un catálogo enorme, o 0 de algo que seguro que tiene, casi siempre
    significa que se buscó mal. **Esa pregunta la hace Claude Code, no el CEO.**
-4. **Límite técnico comprobado (01/08/2026):** un subagente **no puede** invocar a otro subagente —
+C4. **Límite técnico comprobado (01/08/2026):** un subagente **no puede** invocar a otro subagente —
    el sistema le quita la herramienta aunque su ficha la declare. Por eso el orquestador **decide**
    a quién se llama y con qué instrucciones, y **Claude Code marca el teléfono por él**. La autoridad
    es del orquestador; la mano es de Claude Code, que no puede alterar su reparto.

@@ -80,15 +80,15 @@ Menús para elegir, no formularios que rellenar. Solo lo que aplique al caso.
 El refuerzo **hereda** `CLAUDE.md`, no lo sustituye. La versión reforzada incluye:
 
 - afirmación sobre el proyecto → `grep` previo que la localiza por fichero y **símbolo**, nunca por
-  número de línea (reglas 12 y 13)
-- dato numérico → recalculado sobre datos brutos, no copiado de un resumen (regla 14)
-- trabajo a ejecutar → existe en `00-direccion/WBS.md` con su código, o no se ejecuta (reglas 1 y 2)
-- fallo reportado ≠ fallo verificado: reprodúcelo antes de encolar o reparar (regla 11)
-- si la reescritura obliga a suponer algo **del proyecto**, no supongas: ahí sí se pregunta (regla 6)
-- `02-datos/reservado/` no se abre por ninguna vía ni con ninguna excusa (regla 22)
+  número de línea (reglas 12 y 13 de CLAUDE.md)
+- dato numérico → recalculado sobre datos brutos, no copiado de un resumen (regla 14 de CLAUDE.md)
+- trabajo a ejecutar → existe en `00-direccion/WBS.md` con su código, o no se ejecuta (reglas 1 y 2 de CLAUDE.md)
+- fallo reportado ≠ fallo verificado: reprodúcelo antes de encolar o reparar (regla 11 de CLAUDE.md)
+- si la reescritura obliga a suponer algo **del proyecto**, no supongas: ahí sí se pregunta (regla 6 de CLAUDE.md)
+- `02-datos/reservado/` no se abre por ninguna vía ni con ninguna excusa (regla 22 de CLAUDE.md)
 - dinero real, gasto nuevo o cualquier acción irreversible → ficha de decisión al CEO y parar
-  (reglas 23 y formato de decisión)
-- una barrera sin caso prohibido inyectado y bloqueado se describe como *no verificada* (regla 25)
+  (regla 23 de CLAUDE.md y formato de decisión)
+- una barrera sin caso prohibido inyectado y bloqueado se describe como *no verificada* (regla 25 de CLAUDE.md)
 
 ## Nunca
 
