@@ -9,11 +9,17 @@ Regla 11 del WBS: el texto se actualiza siempre; este Excel se regenera para la
 revision de los lunes y para las puertas. Como lee el markdown, no puede quedarse
 desfasado respecto a la fuente de verdad.
 """
+import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
-import openpyxl
+try:
+    import openpyxl
+except ImportError:
+    sys.exit("FALTA openpyxl. Crea el entorno:  python3 -m venv .venv && .venv/bin/pip install openpyxl formulas\n"
+             "y ejecuta este script con .venv/bin/python (el Python del sistema no deja instalar paquetes).")
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.formatting.rule import CellIsRule, DataBarRule
 from openpyxl.worksheet.datavalidation import DataValidation
@@ -87,15 +93,53 @@ def limpiar(texto):
     return t.strip()
 
 
-def partir_estado(celda):
-    """'bloqueada — depende de X' -> ('bloqueada', 'depende de X')."""
-    plano = limpiar(celda)
-    minus = plano.lower()
-    for e in ESTADOS:
-        if minus.startswith(e):
-            resto = plano[len(e):].lstrip(" —-–:")
-            return e, resto
-    return "pendiente", plano
+AVISOS = []
+
+
+def partir_estado(celda, codigo=""):
+    """Saca (estado, ficha, resultado) de la celda ESTADO del WBS.
+
+    Convive con los dos formatos que usa WBS.md:
+      A) 'hecha 31/07 — artefacto'            -> el estado abre la celda
+      B) 'FICHA (31/07): ... — **hecha** 31/07 — artefacto'
+         -> la ficha va delante y el estado aparece EN NEGRITA en medio.
+    En el formato B el estado nunca se busca en texto llano, porque frases como
+    "sin esto sigue bloqueada" o "decision del CEO pendiente" darian un falso
+    positivo: solo cuenta la palabra en negrita.
+    """
+    bruto = celda.strip()
+    plano = limpiar(bruto)
+
+    # formato A: la celda abre con el estado (con o sin negrita)
+    apertura = re.match(r"\*{0,2}(pendiente|en_curso|hecha|bloqueada)\*{0,2}\b", bruto, flags=re.I)
+    if apertura:
+        estado = apertura.group(1).lower()
+        resto = limpiar(bruto[apertura.end():]).lstrip(" —-–:")
+        return estado, "", resto
+
+    # formato B: ultima marca de estado EN NEGRITA
+    marcas = list(re.finditer(r"\*\*(pendiente|en_curso|hecha|bloqueada)\*\*", bruto, flags=re.I))
+    if marcas:
+        m = marcas[-1]
+        estado = m.group(1).lower()
+        ficha = limpiar(bruto[:m.start()]).rstrip(" —-–:")
+        resultado = limpiar(bruto[m.end():]).lstrip(" —-–:")
+        if len(marcas) > 1:
+            AVISOS.append(f"{codigo}: {len(marcas)} marcas de estado en negrita; me quedo con la ultima ({estado})")
+        return estado, ficha, resultado
+
+    # sin marca: no se supone nada, se avisa
+    if plano:
+        AVISOS.append(f"{codigo}: la celda ESTADO no declara estado ({plano[:60]}...) -> lo doy por pendiente")
+    return "pendiente", "", plano
+
+
+def recortar(texto, tope=700):
+    """La vista del CEO no reproduce fichas de 3.000 caracteres: apunta al WBS."""
+    if len(texto) <= tope:
+        return texto
+    corte = texto.rfind(" ", 0, tope)
+    return texto[:corte if corte > 0 else tope] + " […] texto completo en 00-direccion/WBS.md"
 
 
 def es_codigo(celda):
@@ -131,11 +175,12 @@ for titulo, cuerpo in SEC.items():
         for fila in tabla:
             if len(fila) < 5 or not es_codigo(fila[0]):
                 continue
-            estado, nota = partir_estado(fila[4])
             codigo = limpiar(fila[0])
+            estado, ficha, nota = partir_estado(fila[4], codigo)
             tareas.append({
                 "codigo": codigo,
                 "paquete": paquetes.get(codigo[:5], ""),
+                "ficha": ficha,
                 "tarea": limpiar(fila[1]),
                 "responsable": limpiar(fila[2]),
                 "depende": limpiar(fila[3]),
@@ -267,11 +312,11 @@ tar.title = "TAREAS"
 f = cabecera(
     tar,
     "TODAS LAS TAREAS — WBS v0.9 · generado de 00-direccion/WBS.md",
-    6,
+    7,
     "Una fila por tarea. Filtra por ESTADO con la flecha de la cabecera. Verde = hecha · amarillo = en curso · rojo = bloqueada. "
-    "Las tareas del CEO llevan la columna RESPONSABLE en naranja.",
+    "Las tareas del CEO llevan la columna RESPONSABLE en naranja. Los textos largos se cortan y se apunta al WBS: esto es la vista, no la fuente.",
 )
-fila_hdr(tar, f, ["CODIGO", "QUE SE HACE", "RESPONSABLE", "DEPENDE DE", "ESTADO", "DETALLE / DONDE ESTA"])
+fila_hdr(tar, f, ["CODIGO", "QUE SE HACE", "RESPONSABLE", "DEPENDE DE", "ESTADO", "RESULTADO / DONDE ESTA", "FICHA (LO QUE SE ENCARGO)"])
 hdr_tareas = f
 r = f
 primera_tarea = f + 1
@@ -280,7 +325,7 @@ for cod, nombre, tareas in FASES:
     c = tar.cell(row=r, column=1, value=cod)
     c.number_format = "@"
     tar.cell(row=r, column=2, value=nombre.upper())
-    for j in range(1, 7):
+    for j in range(1, 8):
         cc = tar.cell(row=r, column=j)
         cc.fill = FILL_FASE
         cc.font = F_FASE
@@ -295,14 +340,15 @@ for cod, nombre, tareas in FASES:
             c = tar.cell(row=r, column=1, value=t["codigo"][:5])
             c.number_format = "@"
             tar.cell(row=r, column=2, value=paquete_actual)
-            for j in range(1, 7):
+            for j in range(1, 8):
                 cc = tar.cell(row=r, column=j)
                 cc.fill = FILL_NOTA
                 cc.font = F_BOLD
                 cc.border = BORDE
                 cc.alignment = WRAP
         r += 1
-        valores = [t["codigo"], t["tarea"], t["responsable"], t["depende"], ETIQUETA[t["estado"]], t["nota"]]
+        valores = [t["codigo"], t["tarea"], t["responsable"], t["depende"], ETIQUETA[t["estado"]],
+                   recortar(t["nota"]), recortar(t["ficha"], 500)]
         for j, v in enumerate(valores, start=1):
             c = tar.cell(row=r, column=j, value=v)
             c.border = BORDE
@@ -320,9 +366,9 @@ tar.add_data_validation(dv)
 dv.add(rango)
 for etiqueta, relleno in [("Hecha", FILL_HECHA), ("En curso", FILL_CURSO), ("Bloqueada", FILL_BLOQ)]:
     tar.conditional_formatting.add(rango, CellIsRule(operator="equal", formula=[f'"{etiqueta}"'], fill=relleno))
-tar.auto_filter.ref = f"A{hdr_tareas}:F{ultima_tarea}"
+tar.auto_filter.ref = f"A{hdr_tareas}:G{ultima_tarea}"
 tar.freeze_panes = f"A{primera_tarea}"
-anchos(tar, [10, 62, 20, 16, 12, 60])
+anchos(tar, [10, 58, 19, 16, 12, 56, 50])
 
 # ================================================================ 2. PANEL (primero)
 pan = wb.create_sheet("PANEL", 0)
@@ -704,3 +750,36 @@ print(f"   fases: {len(FASES)} · tareas: {n_tareas} · hojas: {len(wb.sheetname
 for cod, nombre, tareas in FASES:
     cuenta = {e: sum(1 for t in tareas if t['estado'] == e) for e in ESTADOS}
     print(f"   {cod} {nombre[:38]:40s} {len(tareas):2d} tareas  {cuenta}")
+if AVISOS:
+    print("\nAVISOS de lectura del WBS (revisar a mano):")
+    for a in AVISOS:
+        print("   !", a)
+
+# ---- que ha cambiado desde la generacion anterior (no depende de la memoria de nadie)
+INSTANTANEA = Path(__file__).resolve().parent / "ultimo_estado.json"
+ahora = {t["codigo"]: t["estado"] for t in TODAS}
+print("\nCAMBIOS DESDE LA ULTIMA GENERACION:")
+if INSTANTANEA.exists():
+    previo = json.loads(INSTANTANEA.read_text(encoding="utf-8")).get("tareas", {})
+    nuevas = [c for c in ahora if c not in previo]
+    idas = [c for c in previo if c not in ahora]
+    movidas = [(c, previo[c], ahora[c]) for c in ahora if c in previo and previo[c] != ahora[c]]
+    if not (nuevas or idas or movidas):
+        print("   nada: el WBS no ha cambiado de estado desde la ultima vez")
+    for c in nuevas:
+        print(f"   NUEVA      {c}  ({ahora[c]})  {POR_CODIGO[c]['tarea'][:60]}")
+    for c, antes, despues in movidas:
+        print(f"   CAMBIA     {c}  {antes} -> {despues}  {POR_CODIGO[c]['tarea'][:52]}")
+    for c in idas:
+        print(f"   DESAPARECE {c}  (estaba {previo[c]}) — ojo: los codigos no se borran (regla 3)")
+else:
+    print("   primera generacion con registro: no hay con que comparar")
+INSTANTANEA.write_text(json.dumps({
+    "_aviso": "Instantanea para calcular cambios entre generaciones. NO es fuente de verdad: lo es 00-direccion/WBS.md",
+    "generado": datetime.now().strftime("%Y-%m-%d %H:%M"),
+    "tareas": ahora,
+}, indent=1, ensure_ascii=False), encoding="utf-8")
+
+print("\nEstado leido de cada tarea (contrastar con WBS.md):")
+for t in TODAS:
+    print(f"   {t['codigo']}  {t['estado']:10s} {t['tarea'][:60]}")
