@@ -103,3 +103,28 @@ inviable" era un artefacto del supuesto, no un hallazgo.
 conclusiones, y se declara cual de las dos formulaciones sostiene el titular.
 **Evento:** hallado por `critico-codigo` y confirmado de forma independiente por `validador` con
 experimento ejecutado, 01/08/2026, sobre `01-investigacion/mercados/arrastre_coste.md`.
+
+## L-015 · Dos listas de reglas con el mismo numero y contenido distinto
+**Causa raiz:** `CLAUDE.md` y `00-direccion/WBS.md` contienen cada uno una lista de "29 reglas", y no
+coinciden. Comprobado por grep el 01/08/2026: la regla 16 es "nadie valida su propio trabajo" en
+CLAUDE.md y "test de compuerta" en el WBS; la 23 es "dos niveles de barrera" frente a "un fallo
+reportado no es un fallo verificado"; la 25 es "toda barrera se verifica por ejecucion" frente a
+"cada agente lleva el identificador exacto de su modelo". Toda cita `regla N` del proyecto es por
+tanto ambigua, incluidas las de los informes y las fichas del WBS.
+**Regla:** una sola fuente de verdad por tema, y las citas de regla llevan el documento delante hasta
+que exista una sola lista. Un numero de regla sin documento no es una cita verificable, y la regla 20
+de CLAUDE.md exige que toda cita se localice con grep antes de entrar en un informe.
+**Evento:** hallado por `critico-codigo` al revisar `01-investigacion/ecosistema/INFORME_AWESOME.md`
+y reproducido por el orquestador con grep sobre los dos ficheros, 01/08/2026. Se abre 03.01.13.
+
+## L-016 · Un indicador que solo mira lo etiquetado es ciego justo donde importa
+**Causa raiz:** se midio el reparto producto/motor contando solo los commits que llevan codigo WBS
+(2 de 10 = 20%, "exactamente en el techo"). Pero `.githooks/commit-msg` EXIME de llevar codigo a los
+mensajes que empiezan por `meta:`, `org:` o `arranque:`, y ahi es justo donde vive el trabajo de
+motor. Clasificando los 16 commits por contenido, el motor sale 7 de 16 (43,8%), mas del doble del
+techo. La aritmetica era correcta; el denominador estaba mal construido.
+**Regla:** un indicador se valida contra el universo completo, no contra el subconjunto etiquetado.
+Antes de automatizar una metrica hay que preguntarse que deja fuera su filtro, porque automatizar un
+punto ciego lo vuelve permanente (L-009 aplicada a un indicador en lugar de a un guardia).
+**Evento:** hallado por `critico-codigo` al revisar `01-investigacion/ecosistema/INFORME_AWESOME.md`
+y reproducido por el orquestador con `git show --stat` sobre los seis commits exentos, 01/08/2026.
