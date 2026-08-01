@@ -2,6 +2,9 @@
 description: Registra una leccion aprendida en LECCIONES.md
 ---
 
+**La escribe el `secretario`, no tu.** Invocalo con la leccion y estas reglas, y comprueba su
+entrada antes de darla por buena (Paso 5 de `/autonomo`).
+
 Añade una leccion a `00-direccion/LECCIONES.md`. **Solo se añade, nunca se reescribe.**
 
 ## Criterio de entrada — las TRES cosas o no entra

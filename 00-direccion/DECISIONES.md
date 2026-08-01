@@ -106,3 +106,30 @@ a ser requisito de 05.01.01 y 06.01.01, y se verifica por inyeccion antes de dec
 pierda la cuenta entera"). La parada de -30% NO refleja esa tolerancia: la limita a proposito,
 porque la condicion con la que el CEO toleraria mas ("si se que puede recuperar") no se puede
 conocer por adelantado ni la puede verificar el sistema.
+
+## D-15 · 2026-08-01 · Flujo obligatorio de cuatro capas: CEO → Claude Code → orquestador → agentes
+**Motivo:** medido sobre los transcripts de sesion, de 39 invocaciones de subagente el `orquestador`
+tenia UNA, y era la prueba de activacion del 30/07: cero trabajo real. La causa: los comandos
+suplantaban a los agentes en vez de invocarlos (`/autonomo` empezaba con "Eres el ORQUESTADOR" y
+`/informe` con "Eres el SECRETARIO"), asi que el rol se ejercia desde la sesion principal y el agente
+no hacia falta nunca. Consecuencia real: el 01/08 un barrido del catalogo `awesome-claude-code`
+devolvio 3 hallazgos, nadie lo cuestiono y tuvo que ser el CEO quien dijera que era imposible. Con el
+flujo de capas, esa implausibilidad la caza el orquestador al juzgar, y si se le escapa la caza
+Claude Code en el filtro final. El CEO no deberia ser el primer control de calidad.
+**Forma operativa:** ver la seccion "Como se trabaja: las cuatro capas" de `CLAUDE.md`. En corto:
+el CEO pide · Claude Code entiende y llama al `orquestador` · el orquestador REPARTE (que tarea, que
+agente, con que instrucciones y quien revisa) · Claude Code cumple la orden sin alterarla · un agente
+distinto REVISA · el orquestador JUZGA buscando discrepancias y manda corregir tantas veces como
+haga falta · cuando da el CERRAR, Claude Code aplica su FILTRO ("¿responde a lo que se pidio?, ¿es
+plausible la cantidad?") y solo entonces sube al CEO.
+**Decide:** CEO.
+**Que bloqueaba:** que el orquestador, el jefe de proyecto, no se usara nunca; y que llegasen al CEO
+resultados sin que nadie hubiera preguntado "¿has mirado bien?".
+**Limite tecnico comprobado POR EJECUCION (01/08/2026):** un subagente NO puede invocar a otro
+subagente. Se añadio la herramienta `Agent` a la ficha del orquestador y se le invoco: el sistema se
+la retira y solo recibe Read, Edit, Write, Bash. Por eso el orquestador DECIDE a quien se llama y con
+que instrucciones exactas, y Claude Code ejecuta esa llamada por el. La autoridad es del orquestador;
+Claude Code no puede cambiar su reparto, solo devolverselo para que decida el.
+**Premisa que se registra a peticion del CEO:** el CEO dirige y NO es tecnico. Todo lo que le llegue
+va masticado: opciones cerradas, recomendada con motivo, consecuencias, respuesta de una letra.
+Ninguna ficha puede pedirle redactar, buscar ni calcular nada.

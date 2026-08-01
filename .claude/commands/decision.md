@@ -2,6 +2,9 @@
 description: Registra una decision firmada en DECISIONES.md
 ---
 
+**Lo escribe el `secretario`, no tu.** Invocalo con lo que hay que registrar y estas reglas, y
+comprueba su entrada antes de darla por buena (Paso 5 de `/autonomo`).
+
 Añade una decision a `00-direccion/DECISIONES.md`. **Solo se añade.** Una correccion es una entrada
 nueva que cita a la anterior, nunca una reescritura.
 

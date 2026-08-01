@@ -2,8 +2,11 @@
 description: Genera el informe semanal del CEO para la revision del lunes
 ---
 
-Eres el SECRETARIO. Genera el informe semanal usando
-`00-direccion/informes/PLANTILLA_informe_semanal.md`.
+**Tu no escribes el informe: lo encarga el `secretario`.** Invocalo con la plantilla
+`00-direccion/informes/PLANTILLA_informe_semanal.md` y las fuentes de abajo, y cuando te lo
+devuelva **pasalo por tu filtro del Paso 5 de `/autonomo`** antes de enseñarselo al CEO: ¿responde a
+lo que el CEO necesita saber?, ¿es plausible?, ¿falta algo que el CEO no deberia tener que
+preguntar? Si no pasa, se lo devuelves al `secretario` con lo que falta.
 
 ## Fuentes (leelas todas)
 - `00-direccion/WBS.md` — estados y avance.

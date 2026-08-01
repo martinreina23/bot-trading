@@ -2,6 +2,10 @@
 description: Prepara una ficha de decision para el CEO en el formato obligatorio
 ---
 
+**La redacta el `secretario`, no tu.** Invocalo con el asunto y este formato. Cuando te la devuelva,
+pasala por tu filtro (Paso 5 de `/autonomo`): si obliga al CEO a redactar, buscar o calcular algo, o
+no cabe en media pantalla, se la devuelves al `secretario`. Al CEO le llega ya bien hecha.
+
 Convierte un asunto pendiente en una ficha de decision que el CEO pueda responder con una letra.
 
 ## Formato obligatorio

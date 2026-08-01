@@ -62,15 +62,55 @@ Fecha de evaluación del primer mes: **1 de septiembre de 2026 (puerta GM)**.
 28. **Una sola fuente de verdad por tema.** Documento que se sustituye, se borra: git guarda el historial.
 29. **Cada agente lleva el identificador exacto de su modelo**, nunca un alias, y ningún agente sin modelo.
 
-## Cómo se trabaja (ciclo de una tirada)
+## Cómo se trabaja: las cuatro capas (PREMISA DEL PROYECTO — D-15)
 
-1. Leer `00-direccion/WBS.md` y `00-direccion/LECCIONES.md`.
-2. Coger la siguiente tarea desbloqueada **que avance el producto**. Anunciarla por su código.
-3. Enrutar al agente **por tipo de tarea** (ver tabla de agentes), no al que esté libre.
-4. Ejecutar. El constructor lee y ejecuta su artefacto completo antes de entregar.
-5. Revisión por un agente distinto. Si es estrategia, veredicto del validador.
-6. Cerrar contra el criterio de "hecho". Actualizar WBS, registro de pruebas y, si procede, `LECCIONES.md`.
-7. Al parar la tirada: **vaciar o archivar "en curso"**. No dejar tareas colgadas.
+**Quién es quién, como en una empresa:**
+
+| Capa | Quién | Qué hace | Qué NO hace |
+|---|---|---|---|
+| 1 | **CEO** | Dirige. Decide en las puertas. Responde con una letra. | No redacta, no busca, no calcula, no es técnico. |
+| 2 | **Claude Code** (la sesión) | Entiende la petición, llama al orquestador, cumple sus órdenes y **filtra lo que sube al CEO**. | **No decide el trabajo ni lo hace.** |
+| 3 | **`orquestador`** | Decide qué tarea toca, quién la hace y quién la revisa. Juzga los resultados y manda corregir. | No implementa, no investiga, no se valida a sí mismo. |
+| 4 | **Los demás agentes** | Ejecutan o revisan una cosa concreta. | No eligen su tarea ni revisan lo suyo. |
+
+**El recorrido de cualquier trabajo, siempre el mismo:**
+
+```
+CEO → Claude Code → orquestador (REPARTE)
+                       ↓
+                  agente que EJECUTA
+                       ↓
+                  agente que REVISA  (distinto, obligatorio)
+                       ↓
+                  orquestador (JUZGA: ¿discrepancias?)
+                       ↓
+              ¿corregir? ─sí→ vuelve al agente, sin límite de vueltas
+                       ↓ no
+                  Claude Code (FILTRA: "¿has mirado bien?")
+                       ↓
+                      CEO
+```
+
+**Las cuatro reglas que sostienen esto:**
+
+1. **Ningún comando suplanta a un agente.** Si un comando dice «eres el orquestador» o «eres el
+   secretario», está mal escrito: tiene que **invocarlo**. Para eso están creados.
+2. **Nadie valida su propio trabajo, en ninguna capa.** El que ejecuta no revisa; el orquestador no
+   revisa su propio reparto; Claude Code no da por bueno lo que ha decidido él.
+3. **El filtro de Claude Code es obligatorio y es el último.** Antes de que algo llegue al CEO:
+   ¿responde a lo que se pidió o a una versión más cómoda? ¿es **plausible** la cantidad? Un barrido
+   que devuelve 3 hallazgos de un catálogo enorme, o 0 de algo que seguro que tiene, casi siempre
+   significa que se buscó mal. **Esa pregunta la hace Claude Code, no el CEO.**
+4. **Límite técnico comprobado (01/08/2026):** un subagente **no puede** invocar a otro subagente —
+   el sistema le quita la herramienta aunque su ficha la declare. Por eso el orquestador **decide**
+   a quién se llama y con qué instrucciones, y **Claude Code marca el teléfono por él**. La autoridad
+   es del orquestador; la mano es de Claude Code, que no puede alterar su reparto.
+
+**El CEO no es técnico y solo dirige.** Todo lo que le llegue va masticado: opciones cerradas,
+recomendada con motivo, consecuencias, y respuesta de una letra. Si una ficha le obliga a redactar,
+buscar o calcular algo, está mal hecha y se rehace antes de enseñársela.
+
+Al parar una tirada: **vaciar o archivar «en curso»**. No dejar tareas colgadas.
 
 ## Qué llega al CEO y qué no
 
