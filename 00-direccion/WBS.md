@@ -79,7 +79,7 @@ RESPUESTA: [una letra]
 |---|---|---|---|---|
 | 01.01.01 | Aprobar plan y reglas | CEO | — | en_curso |
 | 01.01.02 | Aprobar criterios de la puerta G1 | CEO | 01.01.01 | **hecha** 01/08 — opción A de la ficha: los 7 criterios G1-C1..G1-C7 aprobados (D-11). Recorrido: constructor-datos, investigador, crítico-código, validador. Propuesta inicial corregida en cuatro puntos por crítico y validador. |
-| 01.01.03 | Fijar límites: fecha tope, horas CEO/semana, pérdida máxima futura | CEO | 01.01.01 | pendiente |
+| 01.01.03 | Fijar límites: fecha tope, horas CEO/semana, pérdida máxima futura | CEO | 01.01.01 | **hecha** 01/08 — los tres limites firmados como **D-12, D-13 y D-14** y escritos en la seccion «Limites del CEO» de este WBS. (1) FECHA TOPE 01/12/2026 + revision de avance el dia 1 de cada mes con poder de parar; GM gana una cuarta salida (parar). (2) 1 h los lunes como MINIMO garantizado, no techo, con tope de 5 fichas por revision. (3) DINERO REAL: aviso a -25% que no para nada, parada dura automatica a -30% del capital inicial ingresado, aplicada por el bot de forma continua (regla 26); genera requisito nuevo en 05.01.01 y 06.01.01. Resuelta la contradiccion que este WBS arrastraba (-25% propuesto frente a tolerancia declarada del 50-60%). No se reabrio el capital: los 1.000-2.000 € ya son entrada de G1-C6 (D-11). FICHA ORIGINAL (escrita ANTES de trabajarla, regla 5; la celda no tenia ficha): ALCANCE: tres limites, una ficha de decision cada uno. (1) FECHA TOPE — D-5 fija la evaluacion GM del 01/09/2026 pero NO fija ninguna fecha de parada, y las tres salidas de GM (arrancar demo, otra vuelta, replantear) tampoco cierran el proyecto: falta decidir que pasa si GM no arranca demo → ficha D-12. (2) HORAS CEO/SEMANA — D-4 ya fija 1 h los lunes; lo que falta es convertirlo en TOPE y decir que pasa cuando hay mas decisiones que hora → ficha D-13. (3) PERDIDA MAXIMA — sin decidir, y con contradiccion viva ya registrada en la seccion Limites de este WBS: parada dura propuesta en -25% frente a la tolerancia del 50-60% mencionada por el CEO → ficha D-14, SIN recomendacion (`.claude/commands/ficha.md` prohibe recomendar en decisiones de tolerancia al riesgo). NO SE REABRE EL CAPITAL: los 1.000-2.000 € ya son entrada del criterio G1-C6 aprobado en D-11; cambiarlos obliga a re-verificar G1-C6. HECHO CUANDO: las tres respuestas esten firmadas como D-12, D-13 y D-14 en DECISIONES.md y sus cifras escritas en la seccion Limites de este WBS, con la parada de G4 comprobable por calculo sobre el capital inicial. AVISO DE DEPENDENCIA: 01.01.01 sigue en_curso en este WBS mientras CHECKLIST_MIGRACION.md lo da por aprobado; manda el WBS. |
 | 01.02.01 | Analizar gb2 como información (no copia) | Crítico | 01.01.01 | **hecha** 30/07 — `INFORME_GB2.md` |
 | 01.02.02 | **Trasplante pieza a pieza desde gb2** (D6=B). Una tarea por pieza, cada una con su criterio de aceptación (ver sección Trasplante). Ninguna entra sin pasar su prueba ejecutada | Crítico + Constructores | 03.01.01 | pendiente |
 | 01.02.03 | Auditar el catálogo `awesome-claude-code` y proponer máximo 4 piezas concretas para el motor, con motivo y coste de integración. **Carril de motor: cuenta contra el 20%** y se limita a 1 tirada | Investigador | 03.01.02 | pendiente |
@@ -152,7 +152,7 @@ RESPUESTA: [una letra]
 
 | Código | Tarea | Responsable | Depende de | Estado |
 |---|---|---|---|---|
-| 05.01.01 | Bot en demo, solo y con guardias automáticos | Constructores | 04.04.03 | pendiente |
+| 05.01.01 | Bot en demo, solo y con guardias automáticos | Constructores | 04.04.03 | pendiente — REQUISITO AÑADIDO POR D-14 (01/08): el guardia de parada dura (-30% del capital inicial) lo aplica el BOT de forma CONTINUA, no una revision periodica; comprobado solo una vez al mes, un -30% puede ser un -45% cuando alguien mire. Se verifica por inyeccion antes de declararlo activo (regla 25). |
 | 05.01.02 | Seguimiento semanal real vs. prometido (8-12 semanas) | Secretario | 05.01.01 | pendiente |
 | 05.01.03 | PUERTA G3: CEO decide dinero, cuánto y pérdida máxima | CEO | 05.01.02 | pendiente |
 
@@ -160,7 +160,7 @@ RESPUESTA: [una letra]
 
 | Código | Tarea | Responsable | Depende de | Estado |
 |---|---|---|---|---|
-| 06.01.01 | Dinero pequeño respetando los límites de 01.01.03 | Constructores | 05.01.03 | pendiente |
+| 06.01.01 | Dinero pequeño respetando los límites de 01.01.03 | Constructores | 05.01.03 | pendiente — limites ya escritos y firmados (D-14, 01/08): capital 1.000-2.000 €, AVISO a -25% del capital inicial que no para nada, PARADA DURA AUTOMATICA a -30% aplicada por el bot de forma continua y sin exencion activable desde dentro (regla 26). |
 | 06.01.02 | PUERTA G4 mensual: seguir, ampliar o parar. Si pierde más de lo escrito, se para sin discusión | CEO | 06.01.01 | pendiente |
 
 ## Fase 07 — MOTOR Y ORDEN (paralela; máx. 20% del esfuerzo semanal)
@@ -186,11 +186,13 @@ RESPUESTA: [una letra]
 
 **Lo que NO cabe en el mes:** la demo (8-12 semanas de mercado real, reloj no acelerable) · las 3 vueltas del bucle (cabe una y media) · el dinero real.
 
-## Límites del CEO (decisión 29/07/2026)
+## Límites del CEO (29/07/2026, cerrados el 01/08/2026 en la tarea 01.01.03)
 
-- Horizonte: 1 mes. Evaluación el 1 de septiembre (puerta GM).
-- Tiempo del CEO: 1 hora, lunes.
-- Dinero real (pendiente de confirmar, ficha D5): capital 1.000-2.000 €, parada dura propuesta en -25%. Nota: el CEO mencionó tolerar caídas del 50-60%, incompatible con parar en -25%; recuperarse de -25% exige +33%, de -50% exige +100% y de -60% exige +150%.
+- **Horizonte:** 1 mes. Evaluación el 1 de septiembre (puerta GM). *(D-5)*
+- **FECHA TOPE: 01/12/2026** *(D-12)*. Si a esa fecha no hay ninguna estrategia en demo, el proyecto se cierra y se escribe el informe de por qué. Antes del 01/08/2026 no existía ninguna fecha de parada.
+- **Revisión de avance el día 1 de cada mes** *(D-12)*: 01/09 (= GM), 01/10 y 01/11. Cada una puede PARAR el proyecto. Pregunta fija: «¿avanza por buen camino?».
+- **Tiempo del CEO: 1 hora los lunes, como MÍNIMO GARANTIZADO, no como techo** *(D-4 + D-13)*. Máximo 5 fichas de decisión por revisión; si hay más, el orquestador prioriza y las sobrantes esperan al lunes siguiente. El CEO sigue el proyecto a diario, lo que NO amplía lo que se le puede preguntar.
+- **Dinero real** *(D-14)*: capital 1.000-2.000 € (ya es entrada de G1-C6, D-11; cambiarlo obliga a re-verificar G1-C6). **AVISO a -25%** del capital inicial ingresado, que no para nada: se reporta y decide el CEO. **PARADA DURA AUTOMÁTICA a -30%** del capital inicial, aplicada por el bot de forma CONTINUA y sin exención activable desde dentro (regla 26). Se mide sobre el capital inicial ingresado, no sobre el máximo alcanzado. Recuperar desde -30% exige +43%.
 
 ## Puertas
 
@@ -207,8 +209,9 @@ RESPUESTA: [una letra]
   - **HUECO DECLARADO EN G1:** el DESLIZAMIENTO no entra en ningun criterio porque no existe ningun factor publicado por clase de activo, vela u hora. La convencion encontrada (mitad del spread mas impacto de mercado) no da un numero. Se mide con precios del broker real en la tarea 04.01.02 y se re-verifica G1 si algun resultado cambia.
 - **G2**: solo pasan variantes que ganan después de costes en OOS, aguantan Monte Carlo y estaban pre-registradas. Veredicto del Validador.
 - **G3**: demo de 8-12 semanas parecida a lo prometido; CEO fija dinero y pérdida máxima.
-- **G4** (mensual): si pierde más de lo escrito en 01.01.03, se para.
-- **GM** (1 de septiembre de 2026): puerta de evaluación del primer mes. Decisión: arrancar demo, dar otra vuelta al bucle o replantear.
+- **G4** (mensual): si toca la parada dura de **-30% del capital inicial** (D-14), se para sin discusión. El aviso de -25% NO para: se reporta y decide el CEO. La parada la aplica el bot de forma continua, no esta revisión mensual.
+- **GM** (1 de septiembre de 2026): puerta de evaluación del primer mes. Decisión: arrancar demo, dar otra vuelta al bucle, replantear **o PARAR** (cuarta salida añadida en D-12). Es la primera de las revisiones mensuales de avance; las siguientes, 01/10 y 01/11.
+- **FECHA TOPE (1 de diciembre de 2026)** (D-12): si no hay ninguna estrategia en demo, el proyecto se cierra y se escribe el informe de por qué.
 
 ## Registro de decisiones
 

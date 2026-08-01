@@ -56,3 +56,53 @@ decisiones no tenia modelo asignado.
 **Motivo:** definicion de la barra de elegibilidad de mercados y vela. **G1-C1** presupuesto de coste TOTAL al año ≤5% del capital, formula compuesta, con el coste de mantener DENTRO de ese mismo 5% (no aparte); anclado en la regla publicada de Robert Carver ("no gastar mas de un tercio del retorno esperado en costes") con retorno objetivo del 15% anual, que ES UN SUPUESTO ELEGIDO POR EL ORQUESTADOR Y APROBADO POR EL CEO, NO UN DATO MEDIDO. **G1-C2** coste de ida y vuelta ÷ ATR de la vela tranquila (percentil 10) ≤10%. **G1-C3** coste de mantener, sin umbral propio, suma dentro de G1-C1. **G1-C4** minimo 1.000 velas/año en la vela elegida, sin minimo de operaciones (ninguna fuente primaria lo respalda). **G1-C5** correlacion ≤0,7 entre los elegidos en las tres ventanas (3 meses, 1 año, 2 años), filtra la CESTA y no instrumentos sueltos. **G1-C6** tamaño minimo operable con capital de 1.000-2.000 €, medido con ATR MEDIANA, que no elimina instrumentos sino que impone requisito al broker de 04.01.01. **G1-C7** criterio nuevo del hueco de fin de semana: percentil 90 del salto del lunes ÷ stop de 1xATR ≤0,5, que no cumple ningun instrumento. Recorrido: constructor-datos, investigador, critico-codigo y validador; la propuesta del orquestador fue corregida en cuatro puntos por el critico y el validador antes de llegar al CEO. Lo que SALE de G1: "operable sin nadie delante", que pasa a la Fase 03. Hueco declarado: el deslizamiento, sin factor publicado, se mide con precios del broker real en la tarea 04.01.02 y obliga a re-verificar G1 si algun resultado cambia.
 **Decide:** CEO.
 **Que bloqueaba:** 02.03.01 (revision transversal, RECHAZA 31/07 por criterios sin numerar ni aprobar) y puerta G1 completa.
+
+## D-12 · 2026-08-01 · Fecha tope el 01/12/2026, con revision de avance el dia 1 de cada mes
+**Motivo:** D-5 fijaba la evaluacion GM del 01/09/2026 pero NO fijaba ninguna fecha de parada, y las
+tres salidas de GM (arrancar demo, dar otra vuelta, replantear) tampoco cerraban el proyecto: no
+existia fecha tope en ningun documento. Sin fecha de parada el proyecto puede derivar
+indefinidamente, que es lo que ocurrio en gb2.
+**Forma operativa:** revision de avance el dia 1 de cada mes (01/09 = GM, 01/10, 01/11), cada una
+con poder explicito de PARAR el proyecto ademas de las tres salidas que GM ya tenia. La pregunta de
+cada revision la fija el CEO: "¿avanza por buen camino?". El 01/12/2026 es fecha tope dura: si a esa
+fecha no hay ninguna estrategia en demo, el proyecto se cierra y se escribe el informe de por que.
+**Decide:** CEO (opcion B de la ficha, con el seguimiento mensual añadido por el CEO).
+**Que bloqueaba:** cierre de 01.01.03 y puerta G0.
+**Consecuencia:** GM gana una cuarta salida explicita (parar) y el proyecto gana una fecha tope que
+antes no existia. No toca G4, que sigue siendo la puerta mensual de la fase de dinero real.
+
+## D-13 · 2026-08-01 · Tope de 5 fichas por revision del lunes; la hora es minimo garantizado, no techo
+**Motivo:** D-4 fija 1 h los lunes, pero lo que se desborda no es el tiempo sino el numero de
+decisiones acumuladas: cerrar solo la tarea 01.01.03 genero 3 fichas en un dia.
+**Forma operativa:** maximo 5 fichas de decision por revision del lunes; si hay mas, el orquestador
+prioriza y las sobrantes esperan al lunes siguiente. El CEO declara que ademas sigue el proyecto dia
+a dia y que pasar de la hora no le supone problema: la hora del lunes es un MINIMO GARANTIZADO, no
+un techo.
+**Decide:** CEO (opcion B de la ficha, con la aclaracion del CEO de que la hora no es techo).
+**Que bloqueaba:** cierre de 01.01.03 y puerta G0.
+**Aviso registrado:** el modelo de autonomia de CLAUDE.md esta construido sobre un CEO escaso. Con
+un CEO disponible a diario el riesgo deja de ser su tiempo y pasa a ser que el equipo consulte en
+vez de decidir. Se mantiene SIN CAMBIO la lista de lo que el equipo cierra sin consultar: que el CEO
+este disponible no amplia lo que se le puede preguntar.
+
+## D-14 · 2026-08-01 · Dinero real: aviso a -25% y parada dura automatica a -30% del capital inicial
+**Motivo:** el WBS registraba una contradiccion viva sin resolver — parada dura propuesta en -25%
+frente a una tolerancia del 50-60% mencionada por el CEO. El CEO fija el nivel entre el 25% y el 30%
+y pide explicitamente que no se pare solo, porque una estrategia puede bajar y recuperar. Eso obliga
+a DOS niveles, no a uno.
+**Forma operativa:** (1) AVISO a -25% del capital inicial ingresado: NO para nada, se reporta al CEO
+y decide el CEO. (2) PARADA DURA a -30% del capital inicial: el bot deja de abrir posiciones,
+automaticamente y sin exencion activable desde dentro (regla 26). Se mide sobre el CAPITAL INICIAL
+INGRESADO, no sobre el maximo alcanzado. Recuperar desde -30% exige +43%.
+**Decide:** CEO (opcion A de la ficha refinada). SIN recomendacion del equipo:
+`.claude/commands/ficha.md` prohibe recomendar en decisiones de tolerancia al riesgo.
+**Que bloqueaba:** cierre de 01.01.03 y puerta G0. Da numero a G4, que hasta hoy decia "si pierde
+mas de lo escrito en 01.01.03" sin que existiera nada escrito.
+**Requisito tecnico que genera:** la parada dura la aplica EL BOT de forma continua, no la revision
+mensual. Comprobada una vez al mes, una caida del -30% puede ser del -45% cuando alguien mire. Pasa
+a ser requisito de 05.01.01 y 06.01.01, y se verifica por inyeccion antes de declararla activa
+(regla 25).
+**Declarado como NO resuelto:** el CEO declara que su tolerancia real llega mas abajo ("mientras no
+pierda la cuenta entera"). La parada de -30% NO refleja esa tolerancia: la limita a proposito,
+porque la condicion con la que el CEO toleraria mas ("si se que puede recuperar") no se puede
+conocer por adelantado ni la puede verificar el sistema.
