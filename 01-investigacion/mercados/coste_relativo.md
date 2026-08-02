@@ -261,7 +261,7 @@ siendo el más barato en las tres velas, el orden no cambia).
 
 ## AMPLIACIÓN (31/07) — coste relativo contra la vela tranquila (p10) y la agitada (p90)
 
-**Motivo:** el revisor del Brief A avisó de que "el coste relativo medio oculta esa cola" y la lección **L-008**
+**Motivo:** el analista del Brief A avisó en `entrega_brief_A.md`, sección "Lo que un experto vería (riesgos y puntos ciegos no evidentes)", de que "el coste relativo medio oculta esa cola" (atribución corregida el 02/08 por la revisión 02.03.01: la frase es del analista, no del revisor) y la lección **L-008**
 dice que un umbral sobre una magnitud inestable necesita más de un número. La tabla anterior divide el coste
 entre el ATR **medio**, pero un bot no opera la vela media: opera todas, incluidas las tranquilas, que son
 justo las que más penalizan un coste fijo (spread) frente a un movimiento pequeño.

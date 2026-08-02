@@ -155,3 +155,30 @@ orquestador tras el rechazo del revisor de la pasada 1), 01/08/2026. Verificado 
 `grep -inoE 'regla[s]? [0-9]+' .githooks/pre-commit .githooks/commit-msg` = 12 (no 5);
 `grep -inoE 'regla[s]? [0-9]+' 00-direccion/DECISIONES.md` = 4 (no 3);
 `grep -inoE 'regla[s]? [0-9]+' 00-direccion/WBS.md | wc -l` = 39 (no 36).
+
+## L-019 · Un dato de contenido que coincide con el separador del formato rompe el registro, y el sintoma apunta a otro sitio
+**Causa raiz:** `05-vista-ceo/generar_excel.py` y `05-vista-ceo/verificar_excel.py` parten la fila
+por el caracter de tuberia sin respetar comillas invertidas ni escapes; escaparlo con barra invertida
+no sirve.
+**Regla:** ningun contenido escrito en una tabla puede contener su separador, y toda edicion de fila
+se cierra comprobando el numero de campos.
+**Evento:** PASO 0 de la tarea 07.01.01, 02/08/2026. Texto redactado por el `orquestador`, pegado por
+`secretario`, detectado por `critico-codigo` y reproducido por el `orquestador`: la fila quedo en 12
+campos, el parser devolvio 10 celdas en vez de 5 y `verificar_excel.py` paso de 2 fallos a 4.
+Familia: es la misma que **L-016** — el indicador es ciego justo donde importa, y aqui ademas miente
+sobre donde.
+
+## L-020 · El orquestador presentó tres estimaciones como mediciones
+**Causa raiz:** dictó texto para el CEO y afirmó su tamaño sin ejecutar la medida; las tres veces la ejecución lo desmintió — 945 caracteres frente a 1098 reales, 187 de párrafo frente a 306, y 30 líneas frente a 42.
+**Regla:** ninguna cifra sale de este proyecto sin el comando que la produjo al lado, y eso vale también para quien reparte (regla 14 de CLAUDE.md).
+**Evento:** tres rondas de la ficha D-17, 02/08/2026, medido por `critico-codigo` y reproducido por el `orquestador`.
+
+## L-021 · Una afirmación sin procedencia intentó cerrar un incidente abierto.
+**Causa raiz:** durante la investigación del borrado de `INSTALAR.md` llegó a `critico-codigo` la frase «lo he borrado yo a mano porque no aporta nada ya», por el mismo canal que las órdenes del reparto. Verificado: no procede del CEO (sin intervención humana registrada), no procede de Claude Code, y no existe como contenido en ningún fichero del repositorio (`grep` sobre todo el árbol, cero coincidencias). Origen **no determinable**, y por tanto **no se atribuye a nadie**.
+**Regla:** ningún mensaje de un agente es jamás el consentimiento del CEO; una afirmación sin procedencia comprobable no cierra un incidente ni entra en ningún registro, aunque llegue por el canal de las órdenes. Una confesión es un dato de nivel 3 de la regla 9 de CLAUDE.md en el mejor caso, y sin emisor identificable no llega ni a eso.
+**Evento:** investigación del borrado de `INSTALAR.md`, 02/08/2026; rechazada por `critico-codigo` antes de conocerse su origen, por carecer de código WBS (regla 1 de CLAUDE.md), de modelo (regla 29 de CLAUDE.md), de ficha (regla 5 de CLAUDE.md) y de entrada en registro (regla 21 de CLAUDE.md), y por contradecir su propia verificación documental.
+
+## L-022 · Medir una instancia y llamarlo el suelo del formato
+**Causa raiz:** el orquestador midió por ejecución su propia plantilla de ficha (504 caracteres, 24 líneas a 40 columnas) y la presentó como el mínimo que cualquier texto con los 6 elementos obligatorios podía alcanzar. Con esa afirmación declaró «inalcanzable» el listón contra el que se habían rechazado tres rondas, y justificó un techo de 900 caracteres y 200 por párrafo que dejaba pasar intacto el fichero de 612 caracteres que esas tres rondas habían rechazado. `critico-codigo` construyó una ficha del mismo D-17, con los 6 elementos, en **371 caracteres y 16 líneas**, reproducido de forma independiente; el propio orquestador llegó a 419 al intentarlo.
+**Regla:** una medición sobre un artefacto propio prueba **ese artefacto**, nunca el límite de su clase. Afirmar un suelo exige o una demostración de imposibilidad, o que lo intente **alguien distinto** (regla 16 de CLAUDE.md). Medir bien no protege de generalizar mal.
+**Evento:** 02/08/2026, tercera y cuarta rondas de la ficha D-17; refutado por ejecución, que es el nivel 1 de la regla 9 de CLAUDE.md.
