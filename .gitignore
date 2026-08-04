@@ -19,5 +19,8 @@ __pycache__/
 *.tmp
 *.bak
 
+# worktrees de agentes
+.claude/worktrees/
+
 # ficheros de bloqueo de Excel (aparecen al abrir el xlsx)
 ~$*

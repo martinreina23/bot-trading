@@ -11,3 +11,5 @@ La contraseña no aparece aqui ni puede deducirse de aqui.
 | Fecha (UTC) | Operacion | Fichero | Motivo / variante | Resultado |
 |---|---|---|---|---|
 | 2026-07-31 18:31:29 | SELLAR | _sello.enc | fijar la contraseña del cajon | sellado |
+| 2026-08-03 14:26:49 | COMPROBAR | _sello.enc | verificacion de contraseña | RECHAZADO: incorrecta |
+| 2026-08-03 14:26:53 | COMPROBAR | _sello.enc | verificacion de contraseña | correcta |

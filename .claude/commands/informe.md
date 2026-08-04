@@ -1,5 +1,5 @@
 ---
-description: Genera el informe semanal del CEO para la revision del lunes
+description: Genera el informe semanal del CEO para el checkpoint del lunes
 ---
 
 **Tu no escribes el informe: lo encarga el `secretario`.** Invocalo con la plantilla

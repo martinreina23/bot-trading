@@ -140,3 +140,123 @@ Ninguna ficha puede pedirle redactar, buscar ni calcular nada.
 **Que bloqueaba:** cierre de la tarea 03.01.13, y toda cita "regla N" del proyecto, que hasta hoy significaba dos cosas distintas.
 **Forma operativa:** toda cita se escribe **"regla N de CLAUDE.md"**, nunca "regla N" a secas. La seccion "## Reglas (sin ambiguedad posible)" del WBS se sustituye por un puntero sin texto propio. Las 39 instancias de "regla N" que hay hoy en el WBS se traducen con la tabla ya escrita en `00-direccion/PENDIENTE-03.01.13-lista-de-reglas.md`, que se borra al aplicarse.
 **Nota de proceso:** la edicion de `CLAUDE.md` declarando la derogacion se hizo ANTES de esta firma, y el revisor `critico-codigo` la rechazo por ese motivo — la ficha de 03.01.13 reservaba la eleccion al CEO. La decision del CEO llega ahora y la convalida. El rechazo fue correcto y queda registrado.
+
+## D-17 · 2026-08-03 · Techo del 20% de motor (regla 8 de CLAUDE.md) suspendido hasta que 03.01.05 esté hecha o 01/09/2026
+**Motivo:** el CEO ordenó el 03/08 construir el motor antes que el producto, lo que incumple la regla 8 de CLAUDE.md (cada tirada autónoma cierra al menos una tarea que avanza el PRODUCTO). B lo pone por escrito con condición de vuelta automática en vez de saltarse la regla en silencio cada semana. La regla 8 NO se elimina —tiene incidente vivo detrás: el proyecto anterior murió al 70% de motor— se suspende con disparador que impone el sistema, no el vigilado (regla 26 de CLAUDE.md).
+**Forma operativa:** la suspensión es por DOS condiciones, ambas deben cumplirse para levantar la suspensión: (1) la tarea 03.01.05 esté hecha, O (2) llegue la fecha 01/09/2026, lo que ocurra PRIMERO. Si llega el 01/09 y 03.01.05 sigue pendiente, la suspensión se retira automáticamente; la regla 8 vuelve a aplicarse sin necesidad de ficha nueva. Mientras esté en vigor la suspensión, el equipo puede dedicar más del 20% a motor en una tirada si es necesario para desbloquear producto.
+**Decide:** CEO (opción B de la ficha, con la condición de vuelta automática).
+**Que bloqueaba:** la ejecución del plan de motor de la semana actual.
+**Requisito administrativo:** añadir esta decisión a la sección de límites del CEO en el WBS.
+
+## D-18 · 2026-08-03 · El lunes deja de ser la única ventana de decisión del CEO
+**Motivo:** D-13 ya decía «1 h los lunes como MÍNIMO garantizado, no techo», pero el equipo siguió calculando el calendario solo por lunes disponibles. El CEO supervisa durante toda la semana y lo que esté listo le llega el día que esté listo. La hora de los lunes se creó para revisar, no para ser su única ventana.
+**Forma operativa (versión inicial del 03/08):** lo que esté listo con su ficha se le presenta al CEO el día que esté listo, con un tope de 2 fichas al día entre semana; lo que exceda se acumula al lunes. **ENMIENDA DEL MISMO 03/08 — ANTES DEL PRIMER COMMIT:** el CEO rechaza el tope de 2. Palabras del CEO: «si estoy aquí que me lleguen lo que me tenga que llegar, si no puedo continuar ya lo dejamos para el día siguiente, pero mientras pueda se hace». Forma operativa corregida: lo que esté listo con su ficha se le presenta al CEO **el día que esté listo, sin tope de número**. El CEO marca el final del día — cuando dice que no puede seguir, lo que quede se acumula al día siguiente. **Lo que le protege no es el número de fichas, sino que cada una llegue en formato obligatorio** (sección «Qué llega al CEO y qué no» de `CLAUDE.md`): masticada, con opciones cerradas, recomendada con motivo, respuesta de una letra. El lunes sigue siendo **checkpoint de revisión**: qué se hizo la semana anterior, dónde estamos, qué falla, qué falta, cómo se sigue. Consecuencia: el calendario del proyecto **deja de calcularse por lunes disponibles** — G1 y la elección de broker ya no esperan a un lunes.
+**Decide:** CEO (opción B de la ficha, enmendada el mismo 03/08/2026).
+**Que bloqueaba:** el calendario del proyecto, que se calculaba contando lunes disponibles: G1 estaba planeada para lunes 10/08, elección de broker para 17/08, aunque el material estuviera listo antes.
+**Nota registrada:** esta decisión hace que D-13 (que ya lo decía) no haya sido recogida en el WBS ni en el reparto. Materia de lección, pero no se escribe aquí. **El tope de 5 fichas del checkpoint del lunes (D-13) NO se toca** — sigue vigente.
+
+## D-19 · 2026-08-03 · PUERTA G1: un solo mercado, ORO al contado (XAUUSD), vela de 4h
+**Qué se decide:** el bot se construye sobre **XAUUSD (oro al contado) y vela de 4 horas, un único mercado**. No es ninguna de las cuatro opciones A-D de la ficha presentada: es una quinta opción del propio CEO, que se registra como tal.
+**Motivo, con las palabras del CEO:** «el oro converge en todo y todo está de acuerdo con el oro, vamos de momento con el oro; cuando encontremos y probemos que las hipótesis ganan dinero de verdad, entonces ya nos metemos con otra moneda, la que sea, ya veremos; vamos a centralizar de momento en esto y poner foco en una cosa».
+**Verificación de la observación del CEO (regla 9 de CLAUDE.md, nivel 1 — ejecutado):** `03-motor/scripts/cestas_g1.py` sobre `04-resultados/correlaciones_8x8.json` enumera **4 cestas de 3 admisibles a 4h y ninguna de 4 ni de 5**, y XAUUSD está en las 4. La observación es correcta. Matiz declarado: USDJPY también está en las 4; el oro se distingue por ser el más barato de los 8 en coste relativo (0,94% central frente a 1,93% de USDJPY) y el que más margen deja en el filtro de coste sobre volatilidad a 4h (2,32% frente a un umbral de 10%).
+**Esta decisión DEROGA D-2** («Portafolio de 3-5 mercados poco correlacionados, no un solo par», 29/07/2026), cuyo motivo era repartir riesgo y ganar muestra de operaciones. El CEO acepta concentrar a cambio de foco, y declara la ampliación a un segundo mercado como paso posterior condicionado a que una hipótesis demuestre ganar dinero.
+**Consecuencias que quedan registradas, sin suavizar:**
+1. **G1-C5 (correlación ≤0,7 en tres ventanas) queda sin objeto** mientras haya un solo mercado: no hay par que comparar. Vuelve a aplicarse el día que entre el segundo mercado, y ese día la cesta se recalcula, no se hereda.
+2. **Los cinco huecos declarados del oro dejan de estar repartidos y pasan a ser el riesgo entero del proyecto:** (a) el hueco de fin de semana máximo medido —5,05x lo arriesgado— se midió precisamente en el oro; (b) mantener una posición larga de oro de una noche a otra cuesta entre −6,64% y −8,16% anual, mientras que en corto es casi neutro: la asimetría es del propio instrumento; (c) operar oro exige unos 1.962 € por lote mínimo, contra un techo de cuenta de 2.000 €, salvo que el broker admita lotes fraccionados de 0,1 oz; (d) el coste del oro es de febrero de 2025 y bajo la cota de deriva medida podría casi duplicarse; (e) L-007 sin resolver — la fórmula de coste del broker referencia un producto con componente de futuro mientras el precio usado es de contado, y podrían no ser el mismo instrumento.
+3. Los puntos 2(c), 2(d) y 2(e) **se resuelven todos en 04.01.01 y 04.01.02** (elegir broker y recalcular costes con sus precios reales). Ninguno bloquea hoy.
+4. **02.01.01 queda ratificado por la vía de los hechos:** elegir XAUUSD ratifica el censo de candidatos del que salió.
+**Decide:** CEO, 03/08/2026, opción propia fuera de la ficha D-19.
+**Qué desbloquea:** 02.03.03 (puerta G1) y con ella 04.01.01 y toda la Fase 04.
+
+## D-20 · 2026-08-03 · Las auditorías del ecosistema se cierran; lo que valía de ellas son las ideas, no las piezas
+**Qué se decide:** `01.02.03` (catálogo `awesome-claude-code` y mecanismos nativos) y `01.02.04` (servidores MCP) se cierran con hueco declarado. Su resultado no se registra como «cero», sino como **cinco ideas construibles por el propio proyecto**.
+**Motivo, con las palabras del CEO, que corrigen el planteamiento con el que se ejecutaron:** «yo no quería buscar algo que ya estaba construido, yo quería ver qué ideas podíamos coger de ahí y aplicarlas para construirlas nosotros con lo que nos interesa».
+**Consecuencia de método, y es lo importante de esta decisión:** las dos auditorías se juzgaron con un criterio de admisión de PIEZA INSTALABLE («¿se puede escribir en menos de 100 líneas propias? entonces no entra»). Con ese criterio, todo lo que el proyecto puede construir barato se descartaba por barato. El criterio para futuras auditorías del ecosistema pasa a ser: **se busca la idea aplicable, y que se pueda construir aquí en pocas líneas es un argumento A FAVOR, no en contra.**
+**Forma operativa — las cinco ideas y dónde viven:** (1) contador mecánico producto/motor → tarea nueva **03.01.18**; (2) registro de autoría contra la auto-revisión → tarea nueva **03.01.19**; (3) detección de fallo o rechazo de modelo → ya es **03.01.04**, cuya ficha se corrige porque un hook no puede cambiar de modelo por sí solo; (4) arranque desatendido por reloj del sistema → ya es **03.01.03**; (5) aviso al humano sin instalar nada, con hook nativo de tipo `http` → se incorpora a **03.01.03** como implementación recomendada, no como tarea aparte.
+**Hallazgo verificado por ejecución al preparar esta decisión:** `.claude/settings.json` contiene solo las claves `permissions` y `_nota`. **El proyecto no tiene configurado ni un solo hook.** Las cinco ideas estaban escritas en dos informes y ninguna existía en el proyecto.
+**Hallazgo que las auditorías dejan cerrado y no requiere tarea:** no existe ningún tope de gasto que este proyecto pueda configurar. Lo que hay es el límite del propio plan, que deja de cortar en cuanto se activan créditos de uso. Cualquier salida implica gasto nuevo o cambio de forma de pago, y por tanto decisión del CEO (regla 23 de CLAUDE.md).
+**Decide:** CEO, 03/08/2026.
+**Qué bloqueaba:** el cierre de 01.02.03 y 01.02.04, que llevaban dos tiradas cada una.
+
+## D-21 · 2026-08-03 · Se elimina el trasplante desde gb2: lo que haga falta se construye desde cero
+**Qué se decide:** se elimina del WBS la tarea `01.02.02` («Trasplante pieza a pieza desde gb2») y la sección «Trasplante desde gb2 — criterios de aceptación». **Deroga parcialmente D-6**, que decidió repositorio nuevo MÁS trasplante de cinco piezas verificadas; la mitad del repositorio nuevo sigue vigente, la mitad del trasplante desaparece.
+**Motivo, con las palabras del CEO:** «algo que quiero quitar es lo de gb2, de mirarlo; lo que ya hay vamos a construirlo de 0; hay que quitar una tarea».
+**Qué se pierde exactamente, comprobado pieza por pieza antes de borrar (regla 11 de CLAUDE.md):** nada vivo. T1 (dataset histórico) quedó sustituido por 02.02.01, que descarga de HistData y Dukascopy. **T2 (motor de backtest) ya se construyó desde cero aquí** — commit `0c35959`; no se copió una sola línea de gb2, y de hecho no se podía: `01-investigacion/herencia-gb2/` contiene únicamente cuatro ficheros `.md` de informe y ningún código de gb2 está en este repositorio. T3 (testbed de invarianza) es la tarea 03.01.10, que ya existe. T4 (guardias del cajón reservado) son las tareas 03.01.08 y 03.01.11, que ya existen. T5 (las 13 fichas de hipótesis) lo sustituye 04.02.01, que barre fuentes desde cero — y el propio informe de gb2 declara que 12 de esas 13 nunca se probaron, así que no eran conocimiento validado.
+**Qué NO toca esta decisión:** las lecciones ya extraídas de gb2 (L-009 a L-012 de `LECCIONES.md` y las reglas de `CLAUDE.md` que nacieron de su auditoría). No son código heredado: son conocimiento propio ya incorporado, y se quedan.
+**Decide:** CEO, 03/08/2026.
+**Qué bloqueaba:** nada. Libera una tarea pendiente de la Fase 01 y cierra la dependencia mental de mirar atrás.
+
+## D-22 · 2026-08-03 · El motor de backtest se tira y se construye desde cero
+
+**Qué se decide:** se retira del árbol de trabajo el motor de backtest introducido por el commit `0c35959` y se construye uno nuevo desde su especificación, sin mirar el anterior.
+
+**Motivo, con las palabras del CEO:** eligió la opción B sobre una A recomendada por el equipo, sabiendo el precio que se le declaró — se deshace el commit de ayer, cumple su orden al 100%, ahorra la auditoría, cuesta una tirada de construcción y pierde 44 pruebas que quizá estaban bien.
+
+**Qué la provoca, medido y no supuesto:** ese motor entró al repositorio el 03/08 con el mensaje literal «pieza T2 del trasplante», que es justo lo que D-21 había ordenado dejar de heredar; ningún fichero fuera de su carpeta lo importaba; y su criterio de aceptación había sido borrado del WBS la noche anterior por la propia cirugía de D-21.
+
+**Forma operativa:** se retira con `git revert`, **nunca reescribiendo el historial**: el código y sus 44 pruebas siguen existiendo en el commit `0c35959` para siempre, como exige la regla 20 de CLAUDE.md y porque son la prueba del incidente del 03/08. La construcción nueva vive en dos tareas del WBS, `04.03.06` (especificación) y `04.03.07` (construcción), colocadas en la Fase 04 porque el motor de backtest es PRODUCTO y no motor de agentes.
+
+**Riesgo declarado, no disimulado:** quien construye el motor nuevo es el mismo agente que escribió el anterior teniendo gb2 delante. El guardia es mecánico y no de confianza: el código viejo se retira del árbol antes de empezar, y el revisor compara el nuevo contra gb2 y contra `0c35959` con el procedimiento del lote (d) de la tarea 07.01.03.
+
+**Decide:** CEO, 03/08/2026, opción B.
+
+**Confirmación del CEO sobre ESTE TEXTO: pendiente al escribirse.** Si corrige algo, se corrige con entrada nueva (regla 21 de CLAUDE.md), nunca editando ésta.
+
+**Qué bloqueaba:** la construcción del motor y el cierre de 07.01.03.
+
+## D-23 · 2026-08-03 · Corrección de hecho sobre D-21: sí se copiaron líneas de gb2
+
+**Qué se corrige, y qué NO:** D-21 decidió eliminar el trasplante desde gb2 y construir desde cero. **Esa decisión no se toca: es del CEO y sigue en pie.** Lo que se corrige es una afirmación de hecho de su motivación, porque `00-direccion/DECISIONES.md` solo admite añadir (regla 21 de CLAUDE.md) y no se puede editar en su sitio.
+
+**La frase corregida:** D-21 afirma «no se copió una sola línea de gb2, y de hecho no se podía». **Las dos mitades son falsas, medidas por ejecución** en el lote (d) de la tarea 07.01.03, con criterio pre-registrado antes de mirar y autorización expresa del CEO para abrir gb2 una vez:
+
+1. **«De hecho no se podía»** — gb2 está en el disco de esta máquina, en `/home/server/projects/gold-bot-2`, y su ruta lleva escrita en este repositorio desde el 30/07, en `01-investigacion/herencia-gb2/INFORME_GB2.md`, puesta por la tarea 01.02.01.
+2. **«Ni una sola línea»** — hay **109 líneas no triviales idénticas**: 23 en `costs.py`, **76 en `execution.py`** y 10 en `sizing.py`. «Ni una sola» exige cero.
+
+**Veredicto del lote (d): COPIA**, y se declara qué lo disparó sin redondear: **ningún fichero cruza el umbral del 30% de líneas literales** —el máximo es 24,8% en `execution.py`— **lo que cruza es el umbral del 50% de nombres de símbolo**: `execution.py` comparte 66,7% de los suyos y el 100% de los de gb2; `sizing.py`, 50% y 50%. Símbolos compartidos: `Trade`, `BacktestResult`, `run_backtest`, `_find_exit`, `SizingConfig`, `implied_risk_pct`. Es código reescrito por dentro sobre el mismo esqueleto, que es el escenario para el que ese sub-criterio existía.
+
+**Lo que sí era cierto en D-21:** `01-investigacion/herencia-gb2/` contiene solo cuatro ficheros `.md` y ningún `.py` de gb2 está commiteado en este repositorio. Verificado.
+
+**Lo que remata la corrección:** las 12 menciones a gb2 dentro del código retirado son referencia declarada, no copia encubierta — una de ellas dice «Construido como información, no como copia en bloque de /home/server/projects/gold-bot-2/engine/core/execution.py». **Esa frase solo se puede escribir con el fichero delante.** Constantes y mensajes de error: intersección vacía.
+
+**Consecuencia práctica: ninguna.** El código ya se retiró del árbol el 03/08 (commit `eb7ac2f`) por decisión B del CEO, registrada en D-22. Esta entrada no cambia ninguna decisión: pone el registro de acuerdo con lo medido.
+
+**Decide:** no hay decisión nueva. Es corrección de hecho exigida por la regla 21 de CLAUDE.md, dictada por el `orquestador` y medida por `critico-codigo`.
+
+**Confirmación del CEO sobre ESTE TEXTO: pendiente al escribirse.**
+
+## D-24 · 2026-08-04 · Tres correcciones de hecho sobre D-20, D-21 y D-22
+
+**Por qué una sola entrada y no tres:** las tres salen de la misma auditoría, del mismo lote (a) de la tarea 07.01.03. Separarlas sugeriría tres hallazgos independientes. Cada apartado nombra su decisión para que siga siendo localizable por `grep`.
+
+**(1) Sobre D-21 — «comprobado pieza por pieza… nada vivo».** D-23 corrigió ya la mitad de las líneas copiadas; **esta mitad seguía sin corregir**. Es falsa: al eliminarse la sección «Trasplante desde gb2 — criterios de aceptación» se perdió el **criterio de aceptación de T2**, que era la única especificación escrita del motor de backtest y que no recogía ninguna tarea viva. Hubo que reconstruirla desde cero en la tarea **04.03.06**. La fila del registro de decisiones del WBS que repite «comprobado pieza por pieza» queda igualmente corregida por esta entrada.
+
+**(2) Sobre D-20 — «el proyecto no tiene configurado ni un solo hook».** **Falsa, refutada por ejecución** en el lote (a) y reproducida por el `orquestador` el 04/08/2026 a las 09:05: `git config core.hooksPath` devuelve `.githooks`, con `commit-msg` y `pre-commit` ejecutables desde el 31/07/2026. **Los dos muros mecánicos del proyecto son hooks.** La afirmación solo es cierta restringida a los hooks de Claude Code, y `.claude/settings.json` sigue sin ninguno. **Consecuencia de diseño, y no es menor:** las tareas 03.01.19 y 03.01.20 se plantearon sobre la premisa de que no existía ninguna infraestructura de hooks. Existe, de otra clase, y hay que decidir cuál de las dos usa cada guardia antes de construir nada.
+
+**(3) Sobre D-22 — cronología invertida y un rótulo que no corresponde.** D-22 afirma, bajo el epígrafe «medido y no supuesto», que el criterio de aceptación del motor se había borrado «la noche anterior» a que el motor entrara. **Es al revés, y las dos fechas están medidas:** el commit `0c35959` es del **03/08/2026 a las 17:32:44**, y la cirugía de D-21 que borró el criterio es del **mismo día**, entre las 21:44 y las 21:58. El motor entró **antes** de que existiera la orden que supuestamente contradecía. Y el rótulo «con las palabras del CEO» cubre una elección hecha **sin palabras**: el CEO eligió la opción B y no añadió nada más. **Origen del error, declarado y no repartido:** un endurecimiento introducido al transportar el veredicto entre agentes, que Claude Code detectó y confesó por su cuenta. **La decisión B en sí no se toca: es del CEO y sigue en pie.**
+
+**(4) Corrección de fecha que afecta a D-22 y a la ficha de 04.03.07:** la retirada del motor anterior, commit `eb7ac2f`, es del **03/08/2026 a las 23:08:14**, no del 04/08. Medido con `git show -s --format='%ci'` el 04/08 a las 09:05. Es el mismo error de fecha que se corrigió en el encabezado del PASO 0-bis, y se ataja aquí antes de que se propague.
+
+**Decide:** no hay decisión nueva. Son correcciones de hecho exigidas por la regla 21 de CLAUDE.md. Medidas por `validador` en el lote (a); las de los apartados (2) y (4) reproducidas por el `orquestador` por ejecución.
+
+**Confirmación del CEO sobre ESTE TEXTO: pendiente al escribirse.** Si corrige algo, se corrige con entrada nueva, nunca editando ésta.
+
+## D-25 · 2026-08-04 · Tres respuestas del CEO: segunda lectura de gb2, vela de 4h y D-2, y permiso para arreglar su Excel
+
+**Las tres se contestaron con la letra A sobre fichas presentadas el 04/08/2026.**
+
+**(1) Segunda lectura de gb2 — AUTORIZADA, y acotada.** Se autoriza **una segunda** apertura de `/home/server/projects/gold-bot-2` **en solo lectura**, con un fin único: la prueba de aceptación de la tarea **04.03.07**, que compara el motor de backtest nuevo contra gb2 y contra el motor retirado en el commit `0c35959`. **Qué desbloquea:** esa prueba de aceptación, que estaba parada porque la primera autorización, gastada en el lote (d) de 07.01.03, cubría solo la pregunta de si el motor anterior era copia. **Lo que NO autoriza:** ninguna tercera apertura, ningún otro fin, y ningún traslado de contenido de gb2 a este repositorio. Una apertura posterior necesita autorización nueva.
+
+**(2) Vela de 4h y figura de D-2 — dos cosas, y se registran por separado.**
+
+**(2a) La vela de 4 horas queda ratificada COMO DECISIÓN DEL CEO.** Y se declara lo que corrige: cuando se escribió **D-19**, «vela de 4h» era una **inferencia del equipo** —la cita del CEO no contenía ni «vela» ni «4h», y las cuatro opciones de la ficha la llevaban como base común— y D-19 la firmó como suya **sin declarar que era una inferencia**. Hoy deja de serlo. **La ratificación no borra el defecto de proceso: lo cierra.**
+
+**(2b) D-2 queda SUSPENDIDA CON DISPARADOR, no derogada.** Esto **sustituye** la cláusula de D-19 que decía «Esta decisión DEROGA D-2». Palabras del CEO recogidas en la ficha: dijo literalmente «de momento», dos veces. **Disparador declarado por el CEO:** D-2 —portafolio de 3 a 5 mercados poco correlacionados— vuelve el día que **una hipótesis demuestre ganar dinero**. **HUECO DECLARADO Y NO RELLENADO:** «demuestre ganar dinero» **no tiene hoy definición medible**, y un disparador que no se puede medir no puede dispararlo el sistema, sino el vigilado, que es lo que prohíbe la regla 26 de CLAUDE.md. **No se inventa aquí un umbral.** La definición medible corresponde a los criterios de la puerta G2, que ya viven en las tareas 04.03.05 y 04.04.03, y se escribe allí antes de que este disparador pueda usarse. Mientras tanto, sigue vigente un solo mercado.
+
+**(3) Arreglar el Excel del CEO — PERMISO DE MOTOR CONCEDIDO.** La tarea **03.01.16** queda autorizada a ejecutarse; era deuda de motor y sin permiso del CEO no se tocaba (regla 7 de CLAUDE.md). **Motivo que se le presentó:** hoy su única vista del proyecto le oculta cosas que firmó él. **Medido por el `orquestador` el 04/08/2026 a las 09:09:** `CLAUDE.md` tiene 29 reglas, `LECCIONES.md` 28 lecciones y `DECISIONES.md` 24 decisiones, mientras el Excel le muestra 0 reglas y 18 lecciones. **Aviso obligatorio antes de trabajarla:** la ficha de 03.01.16 fija como objetivo «29 reglas / 23 lecciones / 16 decisiones», cifras **caducadas**. Hay que reescribir la ficha antes de ejecutarla o su propia prueba fallará (regla 6 de CLAUDE.md), y la prueba nueva debe comparar **contra el recuento vivo de cada fuente**, nunca contra un número escrito a mano.
+
+**Decide:** CEO, 04/08/2026, opción A en las tres.
+
+**Qué desbloquea:** la prueba de aceptación de 04.03.07 · el cierre de tres puntos de la lista del CEO · la ejecución de 03.01.16.
+
+**Qué queda abierto:** la definición medible de «demuestre ganar dinero», que va a G2.

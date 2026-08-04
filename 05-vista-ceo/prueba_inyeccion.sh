@@ -20,6 +20,16 @@ fallos=0
 cp "$XLSX" "$TMP/copia.xlsx"
 
 probar () {  # $1 nombre  $2 wbs roto  $3 prueba que DEBE fallar
+  # Guardia anadido el 03/08/2026: una inyeccion que no cambia nada NO es una
+  # inyeccion. Antes, si el texto que buscaba el sed dejaba de existir en el WBS,
+  # el fichero "roto" salia identico al real, el verificador pasaba, y el script
+  # acusaba al VERIFICADOR de estar ciego. Es lo que llevaba pasando con el caso 2
+  # desde que la celda de 01.02.01 se amplio el 02/08. Un test que miente sobre
+  # quien falla es peor que no tenerlo (L-009, L-016).
+  if cmp -s "$WBS" "$2"; then
+    echo "  FIXTURE  $1  <-- LA INYECCION NO CAMBIO NADA: el roto es el test, no el verificador"
+    fallos=$((fallos + 1)); return
+  fi
   out=$($PY 05-vista-ceo/verificar_excel.py "$2" "$TMP/copia.xlsx" 2>&1); rc=$?
   if [ $rc -ne 0 ] && echo "$out" | grep -q "FALLO  $3"; then
     echo "  CAZADO   $1"
@@ -31,12 +41,28 @@ probar () {  # $1 nombre  $2 wbs roto  $3 prueba que DEBE fallar
 
 echo "PRUEBA DE INYECCION DEL VERIFICADOR"
 
-# 1. una tarea hecha que el WBS pasa a pendiente: el Excel se queda desfasado
-sed 's#| \*\*hecha\*\* 31/07 — `coste_swap.md`#| pendiente — texto cambiado a proposito#' "$WBS" > "$TMP/w1.md"
-probar "estado distinto del Excel" "$TMP/w1.md" "estados"
+# Casos 1 y 2: se localiza la victima por ESTRUCTURA (primera fila de tarea cuya
+# celda ESTADO declara **hecha**), no por su prosa. Asi no vuelven a caducar cada
+# vez que alguien amplia una celda del WBS.
+$PY - "$WBS" "$TMP/w1.md" "$TMP/w2.md" <<'PY'
+import re, sys
+wbs, o1, o2 = sys.argv[1], sys.argv[2], sys.argv[3]
+lineas = open(wbs, encoding="utf-8").read().split("\n")
+victima = next(i for i, l in enumerate(lineas)
+               if re.match(r"^\| \d\d\.\d\d\.\d\d ", l) and "**hecha**" in l.split("|")[5])
 
-# 2. celda de estado que no declara estado (el fallo real del 31/07/2026)
-sed 's#| \*\*hecha\*\* 30/07 — `INFORME_GB2.md` |#| FICHA (31/07): entregado, ver carpeta |#' "$WBS" > "$TMP/w2.md"
+# 1. una tarea hecha que el WBS pasa a pendiente: el Excel se queda desfasado
+c = lineas[victima].split("|")
+c1 = list(c); c1[5] = " pendiente — estado cambiado a proposito por la prueba de inyeccion "
+open(o1, "w", encoding="utf-8").write("\n".join(lineas[:victima] + ["|".join(c1)] + lineas[victima+1:]))
+
+# 2. celda de estado que no declara ningun estado (el fallo real del 31/07/2026)
+c2 = list(c)
+c2[5] = " FICHA (prueba de inyeccion): entregado, ver carpeta "
+open(o2, "w", encoding="utf-8").write("\n".join(lineas[:victima] + ["|".join(c2)] + lineas[victima+1:]))
+print(f"  (inyectando sobre la tarea {c[1].strip()})")
+PY
+probar "estado distinto del Excel" "$TMP/w1.md" "estados"
 probar "estado sin declarar" "$TMP/w2.md" "estado declarado"
 
 # 3. tarea nueva en el WBS que el Excel todavia no tiene

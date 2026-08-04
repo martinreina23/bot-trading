@@ -187,3 +187,43 @@ sobre donde.
 **Causa raiz:** la ficha D-17 no cabía en el techo de longitud y el orquestador propuso **eliminar la opción B** —la cara y exhaustiva, que nadie recomendaba— en vez de apretar la prosa. Eso no acorta la ficha: **estrecha lo que el CEO puede elegir**, y lo hace justo con la opción de hacer el trabajo a fondo.
 **Regla:** cuando un entregable no cabe, se recorta la **forma**, nunca el **fondo**. Quitar una opción de una ficha de decisión no es acortar: es decidir en lugar del CEO. Si con el fondo íntegro no se cumple el límite, **el que se mueve es el límite**, y se mueve con la medición delante.
 **Evento:** 02/08/2026, propuesto por el `orquestador` y **detenido por Claude Code en el filtro C3 antes de ejecutarse**, con el agravante de que contradecía su propia norma —«el techo se ajusta al formato, no el formato al techo»— escrita tres párrafos antes en el mismo mensaje.
+
+## L-024 · Una decisión firmada que no se propaga deja el proyecto funcionando con la premisa vieja
+**Causa raiz:** D-13 se firmó el 01/08/2026 con «1 h los lunes como MÍNIMO garantizado, no techo». Pero ni el WBS ni `CLAUDE.md` ni las fichas de los agentes lo recogieron. El 03/08/2026 el orquestador construyó el calendario del mes contando lunes disponibles, dio por perdida una semana hacia GM que no estaba perdida, y fue el CEO quien lo corrigió, no el equipo.
+**Regla:** al firmar una decisión se localizan por `grep` todas las frases que la contradicen y se corrigen en el mismo commit. Si no, la decisión existe en el papel y el proyecto sigue leyendo la premisa vieja.
+**Evento:** 01/08/2026 (D-13 firmada sin propagación) y 03/08/2026 (calendario equivocado, corregido por el CEO).
+
+## L-025 · Una orden dirigida al CEO debe declarar dónde se teclea
+**Causa raiz:** el 03/08/2026 se le pasó al CEO la orden `comprobar` del cajón sin decir que exige una terminal real del sistema. El prefijo de ejecución rápida de la sesión de Claude Code no da terminal interactiva (no cumple `sys.stdin.isatty()`), y además el CEO recibió un error de shell por llevar dos órdenes encadenadas. Verificado por ejecución: `_pedir_password()` devuelve «BLOQUEADO: la contraseña solo se teclea en una terminal real».
+**Regla:** toda orden que se le dé al CEO declara **dónde** se teclea y **por qué no vale otro sitio**, y va en **una sola línea sin encadenar comandos**.
+**Evento:** 03/08/2026, orden `python3 03-motor/scripts/cajon_reservado.py comprobar` pasada con el prefijo de ejecución rápida de Claude Code + encadenada con otra orden.
+
+## L-026 · Una prueba de inyección con el texto de la víctima escrito a mano caduca sola, y luego acusa al inocente
+**Causa raiz:** `05-vista-ceo/prueba_inyeccion.sh` rompía el WBS con `sed` sobre fragmentos de prosa literales. El 02/08/2026 se amplió la celda de estado de `01.02.01` para añadirle una ficha de apoyo, y el patrón del caso 2 dejó de encontrar nada. Desde ese día el fichero «roto» salía **idéntico** al real, el verificador lo aprobaba con razón, y el script lo declaraba `ESCAPA — EL VERIFICADOR NO DETECTA ESTO`. Comprobado por ejecución el 03/08/2026: `grep -c` del patrón del caso 2 sobre el WBS da **0**, y el verificador **sí** caza el estado sin declarar cuando se le inyecta de verdad (cazó cuatro celdas reales ese mismo día). El acusado era inocente.
+**Regla:** una prueba de inyección **localiza a su víctima por estructura, no por su prosa** (la primera fila que cumpla la condición, no un texto copiado), y **comprueba que la inyección cambió algo** antes de juzgar al verificador. Si el fichero roto es igual al bueno, el fallo es del test.
+**Evento:** 03/08/2026, al re-pasar la prueba de inyección tras retirar la hoja TRASPLANTE del generador del Excel (D-21). Reparado en el mismo día: víctima localizada por estructura y guardia `FIXTURE` añadido y **verificado por inyección deliberada** de una fixture caducada.
+
+## L-027 · Borrar una fila del WBS con una herramienta de texto puede fusionar dos filas sin avisar
+**Causa raiz:** el 03/08/2026, al eliminar la fila `01.02.02` por D-21, la operación se llevó también el salto de línea siguiente y dejó las filas de `01.02.01` y `01.02.03` **fusionadas en una sola línea de 13 campos**. El WBS seguía pareciendo correcto de un vistazo: ninguna palabra se había perdido. Lo detectó el recuento de filas, que bajó de 56 a 54 en vez de a 55. Es el tercer incidente de la semana en que el WBS se corrompe por formato y no por contenido.
+**Regla:** después de **toda** edición estructural del WBS —añadir, borrar o mover filas— se ejecuta un recuento que compruebe dos cosas: el **número de filas esperado** y que **toda fila de tarea tiene exactamente 7 campos** al partir por la barra vertical. No vale mirarlo: se ejecuta.
+**Evento:** 03/08/2026, eliminación de `01.02.02` (D-21). Detectado y reparado en la misma tirada antes de generar nada.
+
+## L-028 · Rodear el limite de herramienta de un agente parece un atajo y es el fallo
+
+**Causa raiz:** `critico-codigo` tiene `Bash` pero no `Write`, y se le ordenó dos veces entregar un fichero. La salida cómoda estaba a mano: `.claude/settings.json` permite `Bash(python3 *)`, así que cualquier agente con `Bash` puede escribir cualquier fichero **sin usar la herramienta `Write`**. Usarlo habría convertido el límite del agente en una sugerencia y habría dejado al vigilado eligiendo su propia exención, que es lo que prohibe la regla 26 de CLAUDE.md. Lo mismo vale para el sistema de permisos: `rm` no está en la lista de permitidos, y conseguir el mismo efecto con `python3` no es sortear un estorbo, es desactivar el control.
+
+**Regla:** el límite de herramienta de un agente y el sistema de permisos **no se rodean**. Se corrige el reparto o se espera la confirmación. Todo artefacto lo persiste un agente que tenga `Write`, y la cadena de custodia se declara dentro del propio fichero. **Toda orden declara quién persiste el artefacto, comprobado contra el campo `tools` de la ficha del agente ANTES de repartir.**
+
+**Consecuencia dormida, para cuando se construyan 03.01.19 y 03.01.20:** un hook `PostToolUse` o `PreToolUse` con matcher de escritura **no cazaría una escritura hecha por `Bash(python3 *)`**. Un guardia cableado al evento equivocado es L-009 otra vez.
+
+**Evento:** 03/08/2026. El `orquestador` diagnosticó que `critico-codigo` no tiene `Write`, dictó esta norma en un mensaje que nunca llegó a ningún artefacto, y **volvió a pedirle un fichero en la orden siguiente**. Los dos veredictos afectados —lotes (b+c) y (d) de la tarea 07.01.03— quedaron sin artefacto hasta que los pegó `secretario`. Detectado por `critico-codigo`, que buscó la cita por `grep` y no la encontró.
+
+## L-029 · «Anadir al final» y «sustituir» dan resultados que no se distinguen mirando
+
+**Causa raiz:** una orden decía «sustituye `— **pendiente**` al final de la celda por este texto» y se ejecutó como «sustituye la celda». **El resultado parecía correcto**: la celda tenía su cierre, su estado en negrita, sus 7 campos y el fichero pasaba todas las comprobaciones estructurales. **Lo que faltaba no se ve mirando lo que hay, solo midiendo lo que ya no está**: 1.050 caracteres, entre ellos la corrección de un defecto y la declaración de que se había corregido. Quien ejecutó no tiene terminal y no podía comprobar lo que escribía (tarea 03.01.15); el daño lo cazó Claude Code **leyendo el parte del agente**, no ningún mecanismo.
+
+**Regla:** toda edición de una celda se cierra **comparándola contra un punto de control inmutable**, comprobando que **cada frase anterior sigue estando**, y nunca por longitud: una celda puede crecer y perder contenido a la vez. Si no hay punto de control, se crea antes de editar con `git hash-object -w`, que no commitea ni toca el árbol.
+
+**Lo que salvó el contenido:** el punto de control creado ese mismo día para poder atribuir cambios. El WBS no estaba en ningún commit desde antes del 03/08, así que sin ese blob la pérdida habría sido definitiva. **Es la segunda vez que una medida escrita evita un daño en vez de explicarlo, y la primera que además lo repara.**
+
+**Evento:** 04/08/2026, cierre de la tarea 04.03.06. Pérdida medida contra el blob `ffbf6774…`: 7 frases con conteo 1 antes y 0 después.

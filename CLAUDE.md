@@ -8,7 +8,11 @@
 Construir un bot de trading algorítmico que gane dinero, o averiguar con pruebas que no se puede.
 **El objetivo NO es el motor de agentes. El motor es la fábrica; el bot es el producto.**
 
-El dueño (CEO) revisa **una hora los lunes**. Fuera de eso, el equipo trabaja solo.
+El CEO dirige y supervisa **a diario**. El lunes deja de ser su única ventana de decisión y pasa a
+ser un **checkpoint de revisión** (qué se hizo la semana anterior, dónde estamos, qué falla, qué
+falta, cómo se sigue). Lo que esté listo con su ficha se le presenta **el día que esté listo, sin
+tope de número**; **el CEO marca el final del día** y lo que quede se acumula al día siguiente
+(D-18 en `00-direccion/DECISIONES.md`).
 Fecha de evaluación del primer mes: **1 de septiembre de 2026 (puerta GM)**.
 
 ## La única fuente de verdad
@@ -34,6 +38,9 @@ que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md`
 ### Sobre la deriva (la que mató al proyecto anterior)
 7. **Cada tirada autónoma cierra al menos una tarea que avanza el PRODUCTO.** La infraestructura que no desbloquee mecánicamente una tarea de producto se registra como deuda y no se ejecuta sin permiso del CEO.
 8. El trabajo de motor y orden tiene un techo del **20% del esfuerzo semanal**. Si en una tirada solo hay tareas de motor disponibles, para y avisa: es señal de que la cola está mal llena.
+   - **Estado (D-17, 03/08/2026): SUSPENDIDA.** Vuelve al cerrar el bloque de motor (previsto viernes
+     07/08, tarea `03.01.05`) y en todo caso el 01/09/2026, lo que llegue primero. Ver D-17 en
+     `00-direccion/DECISIONES.md`.
 
 ### Sobre la verdad y la prueba
 9. **Jerarquía de la prueba.** Ninguna afirmación se acepta por consenso entre agentes:
@@ -121,7 +128,12 @@ Al parar una tirada: **vaciar o archivar «en curso»**. No dejar tareas colgada
 
 **Se cierra sin consultar:** tareas que cumplen su criterio · orden del trabajo ya aprobado · subtareas dentro de alcance · descartar hipótesis que no pasan el filtro · reescribir tareas ambiguas · mover, corregir y borrar archivos para mantener el orden.
 
-**Informe del lunes:** mejoras de motor no previstas (sin aprobación, no se hacen) · tareas nuevas de primer nivel.
+**Checkpoint del lunes:** mejoras de motor no previstas (sin aprobación, no se hacen) · tareas nuevas de primer nivel.
+
+**Vía diaria (D-18):** lo que esté listo con su ficha se presenta al CEO el día que esté listo, **sin
+tope de número**; **el CEO marca el final del día** y lo que quede se acumula al día siguiente
+(el tope de fichas del checkpoint del lunes es de D-13 y no cambia por esto: el lunes tiene tope, el
+día a día no).
 
 **Excepción inmediata — se para hasta respuesta:** gasto nuevo · cualquier cosa con dinero real · bloqueo de más de 24 h · 3 vueltas del bucle de hipótesis sin éxito.
 

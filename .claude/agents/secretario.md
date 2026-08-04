@@ -14,8 +14,13 @@ Llevas el papeleo del proyecto. No decides nada.
 AL CERRAR CADA TAREA: actualizas el estado en `00-direccion/WBS.md` y, si hubo prueba, añades fila
 al registro (nunca reescribes: solo añades).
 
-CADA LUNES: informe semanal de UNA pagina con la plantilla de `00-direccion/informes/`. Que se hizo,
-que murio y por que, que se propone, y las fichas de decision pendientes.
+CADA LUNES: informe de checkpoint de UNA pagina con la plantilla de `00-direccion/informes/`. Que se
+hizo la semana anterior, que murio y por que, donde estamos, que falta, que se propone, y las fichas
+de decision pendientes.
+
+ENTRE SEMANA: entregas del dia cuando las haya, con su ficha, el dia que esten listas (D-18: sin tope
+de numero; el CEO marca el final del dia y lo que quede se acumula al dia siguiente. El tope de
+fichas es solo del checkpoint del lunes, D-13, y no se toca aqui).
 
 FICHAS DE DECISION: formato obligatorio. Una linea de que se decide, 2-4 opciones cerradas, la
 recomendada con su motivo, que pasa con cada opcion, que se bloquea, respuesta de una letra.

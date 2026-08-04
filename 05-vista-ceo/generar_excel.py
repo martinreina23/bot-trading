@@ -669,23 +669,10 @@ fila_hdr(dec, f, [limpiar(x) for x in tabla_dec[0]])
 r = volcar(dec, f, [[limpiar(v) for v in filaf] for filaf in tabla_dec[1:]])
 anchos(dec, [13, 70, 60])
 
-# ================================================================ 8. TRASPLANTE
-tra = wb.create_sheet("TRASPLANTE gb2")
-cuerpo_tra = seccion("Trasplante desde gb2")
-f = cabecera(tra, "TRASPLANTE DESDE gb2 (D6 = B, 30/07/2026)", 4,
-             "Ninguna pieza entra por ser buena en gb2: entra si pasa su prueba, ejecutada aqui.")
-tabla_tra = tablas(cuerpo_tra)[0]
-fila_hdr(tra, f, [limpiar(x) for x in tabla_tra[0]])
-r = volcar(tra, f, [[limpiar(v) for v in filaf] for filaf in tabla_tra[1:]])
-r += 2
-for linea in cuerpo_tra.splitlines():
-    if linea.startswith("**NO se trae"):
-        tra.cell(row=r, column=1, value=limpiar(linea)).font = F_TXT
-        tra.cell(row=r, column=1).alignment = WRAP
-        tra.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
-        tra.cell(row=r, column=1).fill = FILL_NOTA
-        tra.row_dimensions[r].height = 40
-anchos(tra, [26, 38, 62, 38])
+# ================================================================ 8. (hoja TRASPLANTE gb2 retirada)
+# La hoja se construia de la seccion "Trasplante desde gb2" de WBS.md, eliminada el 03/08/2026
+# por D-21 (el CEO ordena construir desde cero y no mirar gb2). Sin seccion no hay hoja: se
+# retira aqui en vez de dejar el generador reventando con KeyError.
 
 # ================================================================ 9. LECCIONES
 lec = wb.create_sheet("LECCIONES")
