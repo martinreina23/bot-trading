@@ -260,3 +260,33 @@ Ninguna ficha puede pedirle redactar, buscar ni calcular nada.
 **Qué desbloquea:** la prueba de aceptación de 04.03.07 · el cierre de tres puntos de la lista del CEO · la ejecución de 03.01.16.
 
 **Qué queda abierto:** la definición medible de «demuestre ganar dinero», que va a G2.
+
+---
+
+## D-26 · 2026-08-04 · Corrección de hecho sobre D-20: sí existe un tope de gasto configurable
+
+**D-20 afirmó literalmente** (línea 177 de este fichero): «no existe ningún tope de gasto que este proyecto pueda configurar».
+
+**Devuelve `claude --help` en la versión 2.1.221 instalada:** `--max-budget-usd <amount>` — "Maximum dollar amount to spend on API calls".
+
+**Reproducido por:** `orquestador` y `constructor-motor` ejecutando `claude --help` sobre el binario 2.1.221.
+
+**Aviso crítico no medido todavía:** el help dice "API calls", y si el proyecto corre sobre plan de suscripción, ese tope puede ser inerte. No se declara activo hasta que se pruebe por inyección con un límite deliberadamente ínfimo y se compruebe que la herramienta corta de verdad (regla 25 de CLAUDE.md).
+
+**Referencia cruzada no editada:** la fila `01.02.03` del WBS expresa la misma afirmación de fondo con otra redacción (línea 76 de WBS.md): «Claude Code no ofrece ningún tope de gasto que el proyecto pueda elegir». Queda registrado que D-26 corrige también esa fila por referencia; no se edita porque la tarea está cerrada (mismo procedimiento del apartado (1) de D-24).
+
+**Confirmación del CEO sobre ESTE TEXTO: CONFIRMADA el 04/08/2026.**
+
+---
+
+## D-27 · 2026-08-04 · Hallazgo: esta máquina corre en bypassPermissions desde antes de hoy
+
+**Verificado hoy leyendo `/home/server/.claude/settings.json`** (fichero de usuario, FUERA del repositorio): contiene `"permissions": {"defaultMode": "bypassPermissions"}` y `"skipDangerousModePermissionPrompt": true`.
+
+**Consecuencia:** toda sesión de Claude Code en esta máquina —interactiva o desatendida— se aprueba a sí misma las herramientas; **no existe filtro humano de permisos** en ninguna de las sesiones anteriores ni en esta.
+
+**Lo único que sigue frenando es la lista `deny` de `.claude/settings.json` del proyecto,** que `constructor-motor` comprobó POR EJECUCIÓN que sigue mordiendo bajo bypass (una llamada con `--no-verify` fue denegada y quedó registrada en `permission_denials`).
+
+**Este fichero de usuario no lo ha tocado ningún agente hoy y NO se ha modificado:** la decisión de dejarlo o revertirlo es del CEO.
+
+**Confirmación del CEO sobre ESTE TEXTO: CONFIRMADA el 04/08/2026.**
