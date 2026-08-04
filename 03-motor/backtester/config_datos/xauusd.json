@@ -1,0 +1,10 @@
+{
+  "_comentario": "Config versionada de XAUUSD (regla C-8 de la especificacion: toda cifra de mercado vive aqui, nunca cableada en motor.py). Sustituye 04.01.02 con precios reales del broker elegido.",
+  "instrumento": "XAUUSD",
+  "spread": "0.19",
+  "comision": "0.07",
+  "swap_largo_anual": "-6.64",
+  "swap_corto_anual": "0.64",
+  "fuente": "01-investigacion/mercados/coste_operar.md (fila XAUUSD, spread+comision) y 01-investigacion/mercados/coste_swap.md (tabla, fila XAUUSD, columna OANDA TMS Brokers -- fuente mas completa y mas actual segun el TL;DR de ese informe; XTB da -8.16/-0.76, ver hueco H-6 de la especificacion: el valor unico se fija con el broker elegido en 04.01.02)",
+  "estado": "PROVISIONAL (la sustituye 04.01.02)"
+}
