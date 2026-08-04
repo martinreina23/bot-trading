@@ -227,3 +227,21 @@ sobre donde.
 **Lo que salvó el contenido:** el punto de control creado ese mismo día para poder atribuir cambios. El WBS no estaba en ningún commit desde antes del 03/08, así que sin ese blob la pérdida habría sido definitiva. **Es la segunda vez que una medida escrita evita un daño en vez de explicarlo, y la primera que además lo repara.**
 
 **Evento:** 04/08/2026, cierre de la tarea 04.03.06. Pérdida medida contra el blob `ffbf6774…`: 7 frases con conteo 1 antes y 0 después.
+
+## L-030 · El trabajo honesto se queda en la tabla y el resumen es lo unico que llega arriba
+
+**Causa raiz:** en `comparacion_brokers.md` las 24 celdas con fuente estaban verificadas y los 8 huecos bien declarados, pero **la sección de síntesis convertía un hueco en hecho** —daba por supuesto que XTB tenía API cuando su propia celda decía «no confirmado»— y arrastraba un recuento falso de una redacción anterior no releída (regla 15 de CLAUDE.md). **El defecto no estaba en el trabajo: estaba en el único sitio que el CEO iba a leer.**
+
+**Regla:** el resumen se deriva de la tabla y se comprueba contra ella frase a frase antes de entregar. **Ninguna afirmación del resumen puede ser más fuerte que la celda de la que sale**, y un hueco declarado abajo sigue siendo un hueco arriba. Todo revisor de un documento que suba al CEO contrasta el resumen contra el cuerpo **como paso nombrado**, no como lectura general.
+
+**Evento:** 04/08/2026, revisión de la pasada 1 de la tarea 04.01.01 por `critico-codigo`.
+
+## L-031 · Repartir a ciegas no sirve si la ficha ya lleva dentro lo que el ejecutor no debe saber
+
+**Causa raiz:** el `orquestador` diseñó la segunda pasada de 04.01.01 con **ejecutor ciego y revisor informado**, para que una preferencia declarada por el CEO se convirtiera en hipótesis contrastable y no en sesgo de confirmación. Y en la misma ficha escribió que el CEO había preguntado por cierto régimen regulatorio «con la frase eso es lo que busco», **tres líneas antes de prohibir al ejecutor conocer preferencias**. No hacía falta nombrar al broker: ese régimen ya era el de uno de los candidatos, así que la ficha señalaba hacia dónde inclinarse. **El diseño se anulaba a sí mismo y la instrucción parecía correcta**, que es lo que lo hacía indetectable a simple vista.
+
+**Regla:** cuando se reparte a ciegas, **la ficha también va a ciegas**, y se comprueba expresamente antes de entregarla al ejecutor. No basta con quitar el nombre: se retira **toda marca de deseo** —régimen, jurisdicción, condición o rasgo presentado como buscado—. Prueba de que la cita sobra: si el criterio define el alcance sin ella, es preferencia y no alcance.
+
+**Es el espejo de L-030:** allí el resumen que SUBE afirmaba más de lo que sostenía su tabla; aquí la ficha que BAJA decía más de lo que el ejecutor debía saber. **En los dos el trabajo era correcto y el defecto estaba en el canal.**
+
+**Evento:** 04/08/2026, ficha de la segunda pasada de 04.01.01, escrita por `secretario` con texto dictado por el `orquestador`. Detectado por `critico-codigo`, que fue más lejos de lo que se le pidió: se le encargó comprobar que no apareciera el nombre del broker preferido.
