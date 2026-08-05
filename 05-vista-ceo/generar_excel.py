@@ -29,6 +29,13 @@ RAIZ = Path(__file__).resolve().parent.parent
 WBS = RAIZ / "00-direccion" / "WBS.md"
 SALIDA = Path(__file__).resolve().parent / "WBS_Bot_Trading_v0.9.xlsx"
 
+# Tarea 03.01.16: REGLAS, LECCIONES y DECISIONES se leen de sus fuentes primarias,
+# nunca de las tablas espejo del WBS (que quedaron desfasadas: D-16 vacio la de reglas,
+# y las de lecciones/decisiones se quedaron congeladas en versiones antiguas).
+CLAUDE_MD = RAIZ / "CLAUDE.md"
+LECCIONES_MD = RAIZ / "00-direccion" / "LECCIONES.md"
+DECISIONES_MD = RAIZ / "00-direccion" / "DECISIONES.md"
+
 # ---------------------------------------------------------------- estilo
 ARIAL = "Arial"
 F_TITULO = Font(name=ARIAL, size=13, bold=True, color="FFFFFF")
@@ -134,12 +141,30 @@ def partir_estado(celda, codigo=""):
     return "pendiente", "", plano
 
 
-def recortar(texto, tope=700):
-    """La vista del CEO no reproduce fichas de 3.000 caracteres: apunta al WBS."""
+def recortar(texto, tope=700, fuente="00-direccion/WBS.md"):
+    """La vista del CEO no reproduce fichas de 3.000 caracteres: apunta a la fuente."""
     if len(texto) <= tope:
         return texto
     corte = texto.rfind(" ", 0, tope)
-    return texto[:corte if corte > 0 else tope] + " […] texto completo en 00-direccion/WBS.md"
+    return texto[:corte if corte > 0 else tope] + f" […] texto completo en {fuente}"
+
+
+def bloques(texto, patron_cabecera):
+    """Parte un texto en bloques a partir de una cabecera con grupos de captura.
+    Devuelve una lista de (grupos_de_la_cabecera, cuerpo_hasta_la_siguiente_cabecera)."""
+    cabeceras = list(re.finditer(patron_cabecera, texto, flags=re.M))
+    salida = []
+    for i, m in enumerate(cabeceras):
+        fin = cabeceras[i + 1].start() if i + 1 < len(cabeceras) else len(texto)
+        salida.append((m.groups(), texto[m.end():fin]))
+    return salida
+
+
+def campo(cuerpo, etiqueta):
+    """Extrae el texto de un campo '**Etiqueta:** ...' hasta el siguiente campo en negrita
+    ('**Otra cosa:**') o el final del bloque. Devuelve '' si la etiqueta no aparece."""
+    m = re.search(r"\*\*" + re.escape(etiqueta) + r":\*\*(.*?)(?=\n\*\*[^\n]{1,80}:\*\*|\Z)", cuerpo, flags=re.S)
+    return limpiar(m.group(1)) if m else ""
 
 
 def es_codigo(celda):
@@ -148,6 +173,52 @@ def es_codigo(celda):
 
 TEXTO = WBS.read_text(encoding="utf-8")
 SEC = leer_secciones(TEXTO)
+
+# ---------------------------------------------------------------- fuentes primarias
+# Tarea 03.01.16: REGLAS/LECCIONES/DECISIONES se construyen aqui, leyendo CLAUDE.md,
+# LECCIONES.md y DECISIONES.md directamente. Nunca de las tablas espejo del WBS.
+
+# ---- REGLAS: CLAUDE.md, seccion "## Las N reglas". Los sub-puntos indentados de la
+# regla 9 ("   1. Prueba ejecutada...") NO cuentan: por eso se exige que el numero
+# vaya al principio absoluto de la linea, sin permitir que un strip() los cuele.
+TEXTO_CLAUDE = CLAUDE_MD.read_text(encoding="utf-8")
+SEC_CLAUDE = leer_secciones(TEXTO_CLAUDE)
+CUERPO_REGLAS = next((c for t, c in SEC_CLAUDE.items() if t.lower().startswith("las ") and "reglas" in t.lower()), "")
+REGLAS = []
+for linea in CUERPO_REGLAS.splitlines():
+    m = re.match(r"(\d+)\. (.+)", linea)
+    if m:
+        REGLAS.append((int(m.group(1)), limpiar(m.group(2))))
+
+# ---- LECCIONES: 00-direccion/LECCIONES.md, una fila por cabecera "## L-NNN · ...".
+TEXTO_LECCIONES = LECCIONES_MD.read_text(encoding="utf-8")
+LECCIONES = []
+for (id_lec, sintoma), cuerpo_lec in bloques(TEXTO_LECCIONES, r"^## (L-\d+) · (.+)$"):
+    LECCIONES.append({
+        "id": id_lec,
+        "sintoma": limpiar(sintoma),
+        "causa": campo(cuerpo_lec, "Causa raiz"),
+        "regla": campo(cuerpo_lec, "Regla"),
+        "evento": campo(cuerpo_lec, "Evento"),
+    })
+
+# ---- DECISIONES: 00-direccion/DECISIONES.md, una fila por cabecera "## D-N · fecha · ...".
+TEXTO_DECISIONES = DECISIONES_MD.read_text(encoding="utf-8")
+DECISIONES = []
+for (id_dec, fecha_dec, titulo_dec), cuerpo_dec in bloques(TEXTO_DECISIONES, r"^## (D-\d+) · (\d{4}-\d{2}-\d{2}) · (.+)$"):
+    DECISIONES.append({
+        "id": id_dec,
+        "fecha": fecha_dec,
+        "decision": limpiar(titulo_dec),
+        "detalle": limpiar(cuerpo_dec),
+    })
+
+if len(REGLAS) == 0:
+    AVISOS.append("REGLAS: CLAUDE.md no dio ninguna regla numerada; revisa el encabezado '## Las N reglas'")
+if len(LECCIONES) == 0:
+    AVISOS.append("LECCIONES: 00-direccion/LECCIONES.md no dio ninguna entrada 'L-NNN'")
+if len(DECISIONES) == 0:
+    AVISOS.append("DECISIONES: 00-direccion/DECISIONES.md no dio ninguna entrada 'D-N'")
 
 
 def seccion(fragmento):
@@ -642,17 +713,19 @@ for linea in cuerpo_eq.splitlines():
 anchos(eq, [22, 50, 38, 16, 18])
 
 # ================================================================ 6. REGLAS
+# Tarea 03.01.16: se lee de CLAUDE.md, nunca de la tabla espejo del WBS (D-16 la derogo alli).
 reg = wb.create_sheet("REGLAS")
-f = cabecera(reg, "LAS 29 REGLAS — mandan sobre cualquier otra instruccion", 2)
+f = cabecera(
+    reg, f"LAS {len(REGLAS)} REGLAS — mandan sobre cualquier otra instruccion", 2,
+    "Leidas de CLAUDE.md, seccion «## Las N reglas» (D-16: unica lista normativa). No se lee "
+    "la tabla espejo que tenia el WBS: quedo derogada y vacia.",
+)
 fila_hdr(reg, f, ["Nº", "REGLA"])
 r = f
-for linea in seccion("Reglas (sin ambigüedad").splitlines():
-    m = re.match(r"(\d+)\. (.+)", linea.strip())
-    if not m:
-        continue
+for numero, texto_regla in REGLAS:
     r += 1
-    reg.cell(row=r, column=1, value=int(m.group(1))).alignment = CENTRO
-    reg.cell(row=r, column=2, value=limpiar(m.group(2)))
+    reg.cell(row=r, column=1, value=numero).alignment = CENTRO
+    reg.cell(row=r, column=2, value=recortar(texto_regla, 700, fuente="CLAUDE.md"))
     for j in (1, 2):
         cc = reg.cell(row=r, column=j)
         cc.border = BORDE
@@ -662,12 +735,26 @@ for linea in seccion("Reglas (sin ambigüedad").splitlines():
 anchos(reg, [6, 130])
 
 # ================================================================ 7. DECISIONES
+# Tarea 03.01.16: se lee de 00-direccion/DECISIONES.md, nunca de la tabla espejo del WBS
+# (esa tabla se quedo congelada en D-21 y nunca llego a recoger D-22 a D-25).
 dec = wb.create_sheet("DECISIONES")
-f = cabecera(dec, "REGISTRO DE DECISIONES — solo se añade, nunca se reescribe (regla 21)", 3)
-tabla_dec = tablas(seccion("Registro de decisiones"))[0]
-fila_hdr(dec, f, [limpiar(x) for x in tabla_dec[0]])
-r = volcar(dec, f, [[limpiar(v) for v in filaf] for filaf in tabla_dec[1:]])
-anchos(dec, [13, 70, 60])
+f = cabecera(
+    dec, f"REGISTRO DE DECISIONES ({len(DECISIONES)}) — solo se añade, nunca se reescribe (regla 21 de CLAUDE.md)", 4,
+    "Leido de 00-direccion/DECISIONES.md, una fila por cada 'D-N'. No se lee la tabla espejo del WBS.",
+)
+fila_hdr(dec, f, ["ID", "FECHA", "DECISIÓN", "DETALLE"])
+r = f
+for d in DECISIONES:
+    r += 1
+    valores = [d["id"], d["fecha"], d["decision"], recortar(d["detalle"], 900, fuente="00-direccion/DECISIONES.md")]
+    for j, v in enumerate(valores, start=1):
+        c = dec.cell(row=r, column=j, value=v)
+        c.border = BORDE
+        c.font = F_TXT
+        c.alignment = WRAP
+        if j == 1:
+            c.number_format = "@"
+anchos(dec, [8, 12, 55, 75])
 
 # ================================================================ 8. (hoja TRASPLANTE gb2 retirada)
 # La hoja se construia de la seccion "Trasplante desde gb2" de WBS.md, eliminada el 03/08/2026
@@ -675,12 +762,31 @@ anchos(dec, [13, 70, 60])
 # retira aqui en vez de dejar el generador reventando con KeyError.
 
 # ================================================================ 9. LECCIONES
+# Tarea 03.01.16: se lee de 00-direccion/LECCIONES.md, nunca de la tabla espejo del WBS
+# (esa tabla se quedo congelada en L-018 y nunca llego a recoger L-019 a L-031).
 lec = wb.create_sheet("LECCIONES")
-f = cabecera(lec, "LECCIONES APRENDIDAS", 3)
-tabla_lec = tablas(seccion("Lecciones aprendidas"))[0]
-fila_hdr(lec, f, [limpiar(x) for x in tabla_lec[0]])
-r = volcar(lec, f, [[limpiar(v) for v in filaf] for filaf in tabla_lec[1:]])
-anchos(lec, [9, 100, 26])
+f = cabecera(
+    lec, f"LECCIONES APRENDIDAS ({len(LECCIONES)})", 5,
+    "Leidas de 00-direccion/LECCIONES.md, una fila por cada 'L-NNN'. No se lee la tabla espejo del WBS.",
+)
+fila_hdr(lec, f, ["ID", "SÍNTOMA", "CAUSA RAÍZ", "REGLA", "EVENTO"])
+r = f
+for l in LECCIONES:
+    r += 1
+    valores = [
+        l["id"], l["sintoma"],
+        recortar(l["causa"], 500, fuente="00-direccion/LECCIONES.md"),
+        recortar(l["regla"], 400, fuente="00-direccion/LECCIONES.md"),
+        recortar(l["evento"], 400, fuente="00-direccion/LECCIONES.md"),
+    ]
+    for j, v in enumerate(valores, start=1):
+        c = lec.cell(row=r, column=j, value=v)
+        c.border = BORDE
+        c.font = F_TXT
+        c.alignment = WRAP
+        if j == 1:
+            c.number_format = "@"
+anchos(lec, [8, 50, 50, 42, 42])
 
 # ================================================================ 10. AUTONOMIA
 aut = wb.create_sheet("AUTONOMIA")

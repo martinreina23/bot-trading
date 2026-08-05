@@ -22,9 +22,13 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 # Rutas por argumento SOLO para la prueba de inyeccion (regla 25: se comprueba que el
-# verificador muerde metiendole un WBS roto). En uso normal no se pasan argumentos.
+# verificador muerde metiendole un WBS roto, o -tarea 03.01.16- una fuente de REGLAS/
+# LECCIONES/DECISIONES rota). En uso normal no se pasan argumentos.
 WBS = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "00-direccion" / "WBS.md"
 XLSX = Path(sys.argv[2]) if len(sys.argv) > 2 else RAIZ / "05-vista-ceo" / "WBS_Bot_Trading_v0.9.xlsx"
+CLAUDE_MD = Path(sys.argv[3]) if len(sys.argv) > 3 else RAIZ / "CLAUDE.md"
+LECCIONES_MD = Path(sys.argv[4]) if len(sys.argv) > 4 else RAIZ / "00-direccion" / "LECCIONES.md"
+DECISIONES_MD = Path(sys.argv[5]) if len(sys.argv) > 5 else RAIZ / "00-direccion" / "DECISIONES.md"
 
 FALLOS, AVISOS = [], []
 ESTADOS = ("pendiente", "en_curso", "hecha", "bloqueada")
@@ -262,6 +266,129 @@ try:
         ok("regla 24", "git no ve nada dentro de 02-datos/")
 except Exception as e:  # noqa: BLE001
     aviso("regla 24", f"no se pudo comprobar: {e}")
+
+# ---------------------------------------------------------------- tarea 03.01.16
+# Las hojas REGLAS, LECCIONES y DECISIONES ya no salen de la tabla espejo del WBS: salen de
+# CLAUDE.md, 00-direccion/LECCIONES.md y 00-direccion/DECISIONES.md. Este verificador vuelve a
+# contar esas tres fuentes con SU PROPIO analizador (no importa nada de generar_excel.py, por el
+# mismo motivo que el resto del fichero: si los dos coinciden es que el dato es bueno) y compara
+# contra el recuento que trae la hoja. D-25: la comparacion es SIEMPRE contra el recuento vivo,
+# nunca contra un numero escrito a mano aqui.
+
+
+def cuerpo_tras_titulo(texto, fragmento_titulo):
+    """Cuerpo de la primera sección '## ...' cuyo título contiene el fragmento (sin
+    mayúsculas), hasta la siguiente '## '. None si no se encuentra."""
+    lineas = texto.splitlines()
+    inicio = next((i for i, l in enumerate(lineas)
+                   if l.startswith("## ") and fragmento_titulo.lower() in l.lower()), None)
+    if inicio is None:
+        return None
+    fin = next((j for j in range(inicio + 1, len(lineas)) if lineas[j].startswith("## ")), len(lineas))
+    return "\n".join(lineas[inicio + 1:fin])
+
+
+def contar_columna_a(nombre_hoja, patron):
+    """Cuenta, en la columna A de una hoja, cuantas celdas cumplen un patron completo.
+    None si la hoja no existe (para poder distinguir 'hoja ausente' de 'hoja vacia')."""
+    if nombre_hoja not in wb.sheetnames:
+        return None
+    hoja = wb[nombre_hoja]
+    total = 0
+    for fila in hoja.iter_rows(min_col=1, max_col=1):
+        v = fila[0].value
+        if v is None:
+            continue
+        if re.fullmatch(patron, str(v).strip()):
+            total += 1
+    return total
+
+
+print("\n9. Las hojas REGLAS, LECCIONES y DECISIONES traen el recuento VIVO de su fuente")
+cuerpo_reglas = cuerpo_tras_titulo(CLAUDE_MD.read_text(encoding="utf-8"), "reglas")
+if cuerpo_reglas is None:
+    fallo("hoja REGLAS", "CLAUDE.md no tiene ninguna sección '## Las N reglas' que contar")
+else:
+    # los sub-puntos indentados de la regla 9 ('   1. Prueba ejecutada...') no cuentan: el
+    # numero tiene que abrir la linea, sin permitir que la indentacion se cuele (ver L-018).
+    reglas_fuente = len(re.findall(r"^\d+\. ", cuerpo_reglas, flags=re.M))
+    reglas_excel = contar_columna_a("REGLAS", r"\d+")
+    if reglas_excel is None:
+        fallo("hoja REGLAS", "la hoja 'REGLAS' no existe en el Excel")
+    elif reglas_excel != reglas_fuente:
+        fallo("hoja REGLAS", f"el Excel trae {reglas_excel} reglas y CLAUDE.md tiene {reglas_fuente} "
+                             f"ahora mismo (recuento vivo, no el de esta ficha)")
+    else:
+        ok("hoja REGLAS", f"{reglas_fuente} reglas, igual en el Excel y en CLAUDE.md")
+
+texto_lecciones = LECCIONES_MD.read_text(encoding="utf-8")
+lecciones_fuente = len(re.findall(r"^## L-\d+ · ", texto_lecciones, flags=re.M))
+lecciones_excel = contar_columna_a("LECCIONES", r"L-\d+")
+if lecciones_excel is None:
+    fallo("hoja LECCIONES", "la hoja 'LECCIONES' no existe en el Excel")
+elif lecciones_excel != lecciones_fuente:
+    fallo("hoja LECCIONES", f"el Excel trae {lecciones_excel} lecciones y "
+                            f"00-direccion/LECCIONES.md tiene {lecciones_fuente} ahora mismo "
+                            f"(recuento vivo, no el de esta ficha)")
+else:
+    ok("hoja LECCIONES", f"{lecciones_fuente} lecciones, igual en el Excel y en LECCIONES.md")
+
+texto_decisiones = DECISIONES_MD.read_text(encoding="utf-8")
+decisiones_fuente = len(re.findall(r"^## D-\d+ · \d{4}-\d{2}-\d{2} · ", texto_decisiones, flags=re.M))
+decisiones_excel = contar_columna_a("DECISIONES", r"D-\d+")
+if decisiones_excel is None:
+    fallo("hoja DECISIONES", "la hoja 'DECISIONES' no existe en el Excel")
+elif decisiones_excel != decisiones_fuente:
+    fallo("hoja DECISIONES", f"el Excel trae {decisiones_excel} decisiones y "
+                             f"00-direccion/DECISIONES.md tiene {decisiones_fuente} ahora mismo "
+                             f"(recuento vivo, no el de esta ficha)")
+else:
+    ok("hoja DECISIONES", f"{decisiones_fuente} decisiones, igual en el Excel y en DECISIONES.md")
+
+# ---------------------------------------------------------------- posicion del estado
+# Hoy (antes de esta prueba) solo se contaba CUANTAS marcas de estado en negrita hay por
+# celda (aviso, no fallo); nunca DONDE caen. Una marca sobrante en mitad de la celda no
+# falsea el ESTADO (partir_estado usa la ULTIMA), pero descoloca lo que separa FICHA de
+# RESULTADO: la ficha pierde su cierre y el resultado arrastra texto que no le corresponde.
+#
+# Una marca de estado en negrita esta BIEN colocada si, y solo si, pasa una de las tres:
+#   (a) CIERRA una transicion real: la preceden '—'/'-'/'–' (el patron que usa todo el WBS:
+#       '... — **hecha** fecha — resultado').
+#   (b) ABRE la celda (formato A: 'hecha 31/07 — resultado'), sin nada delante salvo blancos.
+#   (c) es una CITA de texto entre comillas invertidas ('`**hecha**`'), que no declara nada:
+#       cita el patron como ejemplo, como hace el propio WBS al describir este mismo bug.
+# Cualquier otra marca no cierra nada ni se cita: esta EN MEDIO, y es la prueba nueva.
+# Verificado contra el WBS.md real (61 celdas de tarea, 42 marcas): CERO falsos positivos
+# antes de inyectar nada — la unica marca que no encajaba en (a)/(b)/(c) era un defecto propio
+# de esta reescritura ('cerró **hecha** el 03/08'), reparado antes de escribir esta prueba.
+def marca_bien_colocada(celda, ini, fin):
+    antes = celda[:ini]
+    antes3 = celda[max(0, ini - 2):ini]
+    despues1 = celda[fin:fin + 1]
+    cierra_transicion = antes3.rstrip().endswith(("—", "-", "–"))
+    abre_celda = antes.strip() == ""
+    es_cita = antes3.endswith("`") and despues1 == "`"
+    return cierra_transicion or abre_celda or es_cita
+
+
+print("\n10. Posición del estado: ninguna marca de estado en negrita 'en medio' de la celda")
+descolocadas = []
+marcas_revisadas = 0
+for cod, t in sorted(WBS_TAREAS.items()):
+    celda = t["celda_estado"]
+    for m in re.finditer(r"\*\*(pendiente|en_curso|hecha|bloqueada)\*\*", celda, flags=re.I):
+        marcas_revisadas += 1
+        if not marca_bien_colocada(celda, m.start(), m.end()):
+            entorno = celda[max(0, m.start() - 25):m.end() + 15].replace("\n", " ")
+            descolocadas.append(f"{cod}: la marca '{m.group(0)}' (posición {m.start()}) no cierra "
+                                f"una transición, no abre la celda ni va citada entre comillas "
+                                f"invertidas -> está EN MEDIO y descoloca FICHA/RESULTADO. "
+                                f"Contexto: ...{entorno}...")
+if descolocadas:
+    for d in descolocadas:
+        fallo("posición del estado", d)
+else:
+    ok("posición del estado", f"{marcas_revisadas} marcas revisadas en {len(WBS_TAREAS)} celdas, ninguna en medio")
 
 print("\n" + "=" * 70)
 if FALLOS:

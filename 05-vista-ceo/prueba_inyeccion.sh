@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Regla 25: un verificador que nunca ha fallado no esta verificado.
-# Le mete al verificador cinco WBS rotos y comprueba que los caza TODOS.
+# Le mete al verificador siete fixtures rotos (cinco WBS, una LECCIONES.md y una marca de
+# estado descolocada) y comprueba que los caza TODOS.
 # No toca ningun fichero del proyecto: trabaja sobre copias en un temporal.
 #
 # Uso:  bash 05-vista-ceo/prueba_inyeccion.sh
@@ -18,6 +19,25 @@ fallos=0
 [ -x "$PY" ] || { echo "falta $PY: crea el entorno con python3 -m venv .venv"; exit 1; }
 [ -f "$XLSX" ] || { echo "falta el Excel: ejecuta antes generar_excel.py"; exit 1; }
 cp "$XLSX" "$TMP/copia.xlsx"
+
+probar_argv () {  # $1 nombre  $2 fuente buena  $3 fuente rota  $4 prueba que DEBE fallar  -- resto: argv para verificar_excel.py
+  # Version generalizada de "probar" (tarea 03.01.16): las pruebas 6 y 7 no rompen el
+  # WBS, rompen LECCIONES.md o insertan una marca de estado descolocada, y necesitan
+  # pasarle a verificar_excel.py mas rutas que WBS+XLSX. Mismo guardia FIXTURE que abajo
+  # (L-026): si la inyeccion no cambio nada, el roto es el test, no el verificador.
+  local nombre="$1" buena="$2" rota="$3" prueba="$4"; shift 4
+  if cmp -s "$buena" "$rota"; then
+    echo "  FIXTURE  $nombre  <-- LA INYECCION NO CAMBIO NADA: el roto es el test, no el verificador"
+    fallos=$((fallos + 1)); return
+  fi
+  out=$($PY 05-vista-ceo/verificar_excel.py "$@" 2>&1); rc=$?
+  if [ $rc -ne 0 ] && echo "$out" | grep -q "FALLO  $prueba"; then
+    echo "  CAZADO   $nombre"
+  else
+    echo "  ESCAPA   $nombre  (codigo $rc) <-- EL VERIFICADOR NO DETECTA ESTO"
+    fallos=$((fallos + 1))
+  fi
+}
 
 probar () {  # $1 nombre  $2 wbs roto  $3 prueba que DEBE fallar
   # Guardia anadido el 03/08/2026: una inyeccion que no cambia nada NO es una
@@ -77,6 +97,58 @@ probar "dependencia fantasma" "$TMP/w4.md" "dependencias existen"
 awk '{if ($0 ~ /^\| 03\.01\.01 /) gsub(/\| 01\.01\.01 \|/, "| 03.01.02 |"); print}' "$WBS" > "$TMP/w5.md"
 probar "ciclo de dependencias" "$TMP/w5.md" "ciclos"
 
+# 6. tarea 03.01.16(c): una leccion NUEVA en LECCIONES.md, sin tocar el WBS ni el Excel,
+# tiene que hacer caer el recuento de la hoja LECCIONES. Se localiza el ID mas alto por
+# ESTRUCTURA (no se copia la prosa de ninguna leccion real) y se anade uno consecutivo.
+LECCIONES=00-direccion/LECCIONES.md
+$PY - "$LECCIONES" "$TMP/lecciones_rota.md" <<'PY'
+import re, sys
+from datetime import date
+origen, destino = sys.argv[1], sys.argv[2]
+texto = open(origen, encoding="utf-8").read()
+ultimo = max(int(n) for n in re.findall(r"^## L-(\d+) ", texto, flags=re.M))
+nuevo = ultimo + 1
+bloque = (f"\n## L-{nuevo:03d} · Lección inyectada por prueba_inyeccion.sh (fixture, no real)\n"
+          f"**Causa raiz:** fixture de la prueba de inyección de la tarea 03.01.16, no una lección real.\n"
+          f"**Regla:** ninguna: existe solo para comprobar que el recuento de la hoja LECCIONES cae.\n"
+          f"**Evento:** {date.today().isoformat()}, prueba_inyeccion.sh, caso 6.\n")
+open(destino, "w", encoding="utf-8").write(texto + bloque)
+print(f"  (inyectando L-{nuevo:03d} sobre una copia de LECCIONES.md; {ultimo} lecciones reales ahora mismo)")
+PY
+probar_argv "lección nueva sin tocar el Excel (recuento)" "$LECCIONES" "$TMP/lecciones_rota.md" "hoja LECCIONES" \
+  "$WBS" "$TMP/copia.xlsx" "CLAUDE.md" "$TMP/lecciones_rota.md" "00-direccion/DECISIONES.md"
+
+# 7. tarea 03.01.16(e): una marca de estado en negrita insertada EN MEDIO de una celda
+# real (ni cierra una transición -no la precede un guion-, ni abre la celda, ni va
+# citada entre comillas invertidas) tiene que hacer caer la prueba de POSICIÓN. Se
+# inserta 40 caracteres ANTES de la marca real de cierre (misma tarea que los casos 1-2,
+# localizada por estructura) para que el ESTADO que se lee siga siendo el correcto: la
+# marca en medio no falsea el estado, solo descoloca FICHA/RESULTADO (03.01.16).
+$PY - "$WBS" "$TMP/w7.md" <<'PY'
+import re, sys
+wbs, destino = sys.argv[1], sys.argv[2]
+lineas = open(wbs, encoding="utf-8").read().split("\n")
+victima = next(i for i, l in enumerate(lineas)
+               if re.match(r"^\| \d\d\.\d\d\.\d\d ", l) and "**hecha**" in l.split("|")[5])
+celdas = lineas[victima].split("|")
+estado = celdas[5]
+ultima_marca = list(re.finditer(r"\*\*(pendiente|en_curso|hecha|bloqueada)\*\*", estado, flags=re.I))[-1]
+punto = max(0, ultima_marca.start() - 40)
+corte = estado.rfind(" ", 0, punto) if punto > 0 else 0
+if corte < 0:
+    corte = 0
+inyectado = (estado[:corte]
+             + " nota suelta con **pendiente** sin guion delante, en medio de la ficha,"
+             + estado[corte:])
+celdas[5] = inyectado
+lineas[victima] = "|".join(celdas)
+open(destino, "w", encoding="utf-8").write("\n".join(lineas))
+print(f"  (inyectando sobre la tarea {celdas[1].strip()}, 40 caracteres antes de su marca real "
+      f"en posición {ultima_marca.start()})")
+PY
+probar_argv "estado en medio de la celda (posición)" "$WBS" "$TMP/w7.md" "posición del estado" \
+  "$TMP/w7.md" "$TMP/copia.xlsx"
+
 echo "  --"
 if $PY 05-vista-ceo/verificar_excel.py >/dev/null 2>&1; then
   echo "  OK       el WBS real pasa la verificacion completa"
@@ -85,5 +157,5 @@ else
   fallos=$((fallos + 1))
 fi
 
-[ $fallos -eq 0 ] && echo "RESULTADO: el verificador muerde en los 5 casos." || echo "RESULTADO: $fallos problemas."
+[ $fallos -eq 0 ] && echo "RESULTADO: el verificador muerde en los 7 casos." || echo "RESULTADO: $fallos problemas."
 exit $fallos
