@@ -245,3 +245,21 @@ sobre donde.
 **Es el espejo de L-030:** allí el resumen que SUBE afirmaba más de lo que sostenía su tabla; aquí la ficha que BAJA decía más de lo que el ejecutor debía saber. **En los dos el trabajo era correcto y el defecto estaba en el canal.**
 
 **Evento:** 04/08/2026, ficha de la segunda pasada de 04.01.01, escrita por `secretario` con texto dictado por el `orquestador`. Detectado por `critico-codigo`, que fue más lejos de lo que se le pidió: se le encargó comprobar que no apareciera el nombre del broker preferido.
+
+## L-032 · Un sesgo se mide por su efecto en quien lee para actuar, no por su gramatica
+
+**Causa raiz:** la misma frase de la ficha de 04.01.01 produjo dos lecturas opuestas. El revisor analizó el antecedente del pronombre y concluyó que era alcance. El `investigador`, que la leyó **para trabajar**, la entendió como preferencia del CEO y lo declaró por su cuenta antes de empezar. **El análisis decía que no contaminaba; el contaminado decía que sí.**
+
+**Regla:** la prueba de L-031 no es semántica sino funcional — **si el criterio define el alcance sin la frase, la frase es preferencia y se retira**, diga lo que diga su sintaxis. Y ante dos lecturas enfrentadas, **manda la de quien la leyó para ejecutar**: es evidencia de efecto, que es nivel 1 de la regla 9 de CLAUDE.md, frente a un análisis, que es nivel 3.
+
+**Evento:** 04/08/2026, pasada 2 de 04.01.01. El ejecutor declaró la fuga en su propia entrega sin que nadie se lo pidiera.
+
+## L-033 · El hallazgo de un revisor sobre un MENSAJE se convirtio en una orden de editar un FICHERO
+
+**Causa raiz:** el revisor de la ronda 3 de `04.03.06` señaló que el `arquitecto`, **en su mensaje de entrega**, atribuía a R-12 lo que fija R-08 — un comentario sobre el razonamiento, y remataba que el fundamento real estaba en R-08 **y verificado en el código**. El `orquestador` lo convirtió en una orden de sustituir `R-12` por `R-08` **dentro del fichero**, y Claude Code la transmitió sin comprobarla. **El fichero decía R-08 desde que nació.** Comprobado por el ejecutor con tres métodos antes de obedecer: copia defensiva, `git diff` contra `77b0190`, y recuento de todas las apariciones de `R-12` — las 2 legítimas, ninguna dentro de R-14.
+
+**Regla, y es la que evita que se repita:** antes de convertir el hallazgo de un revisor en una edición, **se localiza el defecto EN EL ARTEFACTO, no en el mensaje que lo reporta**. Y toda orden de edición **lleva escrito el comando que localiza el texto a sustituir y su cuenta esperada**; si la cuenta real no coincide, **el ejecutor PARA y devuelve la orden**, nunca la interpreta.
+
+**Por que importa mas que las otras imprecisiones del mismo dia:** en las cinco anteriores el defecto existía y estaba mal descrito. **Aquí no existía en ningún sitio.** Ejecutar a ciegas no habría corregido nada: habría fabricado un cambio.
+
+**Evento:** 04/08/2026, ronda 3 de la especificación del motor. Detenido por `constructor-datos` al comprobar la premisa antes de obedecer.

@@ -6,6 +6,8 @@
 
 **Ronda 2 (03/08):** tres correcciones dictadas por `arquitecto` en su mensaje de entrega, transportadas por Claude Code sin alterar y pegadas por `secretario`, que no juzga. Cadena declarada porque el autor no tiene herramienta de escritura (L-028 de LECCIONES.md).
 
+**Ronda 3 (04/08):** frase de lectura autoritativa de R-14 dictada por `arquitecto` en su mensaje de entrega, transportada por Claude Code sin alterar y pegada por `constructor-datos`, que no juzga. Cadena declarada porque el autor no tiene herramienta de escritura (L-028 de LECCIONES.md). *Corrección 04/08: esta línea decía «`secretario` o `constructor-datos`». Un «o» entre dos nombres no identifica a nadie: es una plantilla sin rellenar, no una cadena declarada. El defecto lo introdujo Claude Code al transmitir el dictado, sin saber aún qué agente estaría libre, y lo detectó `critico-codigo` en la ronda 3.*
+
 **Qué es este documento.** La especificación de un motor de backtest que aún no existe, escrita
 sin leer el motor anterior (`03-motor/backtester/`), sin ejecutar `git show 0c35959` y sin abrir
 `/home/server/projects/gold-bot-2` — prohibiciones de la ficha 04.03.06, cumplidas; la lista de lo
@@ -83,7 +85,7 @@ computables sin ambigüedad (regla 6 de CLAUDE.md) y para que el motor sirva al 
 
 | Código | Requisito | Prueba de aceptación ejecutable |
 |---|---|---|
-| R-14 | **Sin mirada al futuro** (C-4). La estrategia recibe únicamente las velas cerradas hasta `t`; su orden se ejecuta en la apertura de `t+1`. | Estrategia-sonda que registra, en cada decisión, el timestamp máximo visible: aserción de que siempre es ≤ cierre de la vela `t` y estrictamente menor que el timestamp de ejecución de la orden resultante, en todas las operaciones de todas las pruebas. |
+| R-14 | **Sin mirada al futuro** (C-4). La estrategia recibe únicamente las velas cerradas hasta `t`; su orden se ejecuta en la apertura de `t+1`. | Estrategia-sonda que registra, en cada decisión, el timestamp máximo visible: aserción de que siempre es ≤ cierre de la vela `t` y estrictamente menor que el timestamp de ejecución de la orden resultante, en todas las operaciones de todas las pruebas. **Lectura autoritativa (fijada en ronda 3, tras la revisión de 04.03.07):** el «timestamp máximo visible» es el máximo de los índices de las velas entregadas a la estrategia — el `ts_utc` de **apertura** de la última vela cerrada `t`, la misma identificación por índice que usan C-4 y la rejilla `label="left"` de R-08 —, nunca su instante de cierre, que en una rejilla de velas contiguas coincide por construcción con la apertura de `t+1` y haría imposible la desigualdad estricta. |
 | R-15 | **Determinismo y registro que cuadra.** Misma entrada y misma config → salida bit-idéntica. El artefacto de salida es un registro por operación (dirección, timestamps de señal/entrada/salida, precios, tamaño, motivo de salida, apuntes fechados) más la serie de caja. | Ejecutar dos veces CL-1 con la misma semilla de entorno → los dos ficheros de salida tienen hash idéntico (`sha256sum`). La aserción de cuadre es la R-01(c). |
 | R-16 | **El motor no busca datos por su cuenta.** Solo lee las rutas que recibe como parámetro explícito. Sin ruta de datos, falla con error claro. La guardia del cajón `02-datos/reservado/` es del cifrado de 03.01.11, no de este motor; pero el motor no lleva ninguna ruta cableada a ese cajón. | (a) Invocar el motor sin parámetro de datos → error explícito, no exploración de directorios. (b) `grep -rn "reservado" <dir_motor>` → 0 apariciones fuera de comentarios. |
 
