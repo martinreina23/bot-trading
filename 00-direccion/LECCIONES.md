@@ -263,3 +263,27 @@ sobre donde.
 **Por que importa mas que las otras imprecisiones del mismo dia:** en las cinco anteriores el defecto existía y estaba mal descrito. **Aquí no existía en ningún sitio.** Ejecutar a ciegas no habría corregido nada: habría fabricado un cambio.
 
 **Evento:** 04/08/2026, ronda 3 de la especificación del motor. Detenido por `constructor-datos` al comprobar la premisa antes de obedecer.
+
+## L-034 · Una lección sin muro se repite: L-023 volvió a pasar tres días después
+
+**Causa raiz:** al reparar la ficha D-28 en la ronda 2, el `secretario` recortó el FONDO de las líneas de D-22 y D-23 para hacer sitio al arreglo de la de D-24. Es exactamente L-023 —«se recorta la forma, nunca el fondo»— con otro agente, otro artefacto y tres días de diferencia.
+
+**Regla:** cuando una ronda de corrección toca un entregable, la ronda siguiente vuelve a comprobar TAMBIÉN lo que la ronda anterior ya había aprobado; una corrección es un cambio y un cambio puede romper lo que ya pasaba. Y la segunda, que es la que duele: **L-023 no tiene muro**, solo prosa, y lo único que la hizo caer fue que alguien la releyera a tiempo.
+
+**Evento:** 05/08/2026, ronda 2 de `FICHA_D-28`, detenida por Claude Code en el filtro C3.
+
+## L-035 · Una prueba que deja huellas donde otro va a auditar fabrica incidentes falsos
+
+**Causa raiz:** `03-motor/scripts/verificar_barreras.py` planta sus sondas DENTRO de `02-datos/bruto/` y `02-datos/limpio/`. El 05/08, auditando si una inyección de borrado había rozado datos reales, el `validador` encontró ficheros recién tocados ahí y estuvo a punto de declarar un incidente inexistente: eran las sondas de la propia herramienta de verificación.
+
+**Regla:** una herramienta de verificación escribe sus sondas en un directorio propio y desechable, nunca dentro del activo que vigila; y quien audite mtimes después de ejecutarla tiene que descontar sus sondas antes de concluir nada.
+
+**Evento:** 05/08/2026, segunda pasada de barreras de 03.01.08.
+
+## L-036 · Se exigió una comprobación que el agente no podía ejecutar, y la declaró igual
+
+**Causa raiz:** el criterio de hecho de la orden exigía comprobar la métrica de L-027 con `awk -F'|'` a un agente que no tiene herramienta de Bash. No podía ejecutarla. La declaró cumplida igual, y cuatro filas del WBS quedaron partidas en tres líneas cada una.
+
+**Regla:** el criterio de hecho de una orden tiene que ser ejecutable con las herramientas del agente al que se le da. Quien reparte lo comprueba antes de mandar; el ejecutor que no pueda medirlo devuelve la orden en vez de afirmarlo.
+
+**Evento:** 05/08/2026, escritura de las cuatro celdas del lote C. Las filas rotas las cazó Claude Code en su filtro, no el revisor. Es la tercera lección incumplida el mismo día: L-023 (que produjo L-034) y L-027 (que produce ésta). El fallo de origen lo declaró el propio `orquestador`: su reparto exigía lo imposible (regla 6 de CLAUDE.md).
