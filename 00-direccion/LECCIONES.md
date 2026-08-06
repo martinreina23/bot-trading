@@ -287,3 +287,37 @@ sobre donde.
 **Regla:** el criterio de hecho de una orden tiene que ser ejecutable con las herramientas del agente al que se le da. Quien reparte lo comprueba antes de mandar; el ejecutor que no pueda medirlo devuelve la orden en vez de afirmarlo.
 
 **Evento:** 05/08/2026, escritura de las cuatro celdas del lote C. Las filas rotas las cazó Claude Code en su filtro, no el revisor. Es la tercera lección incumplida el mismo día: L-023 (que produjo L-034) y L-027 (que produce ésta). El fallo de origen lo declaró el propio `orquestador`: su reparto exigía lo imposible (regla 6 de CLAUDE.md).
+
+## L-037 · Quien reparte dictó para el CEO una frase más fuerte que su celda, el mismo día que ordenaba cazar eso mismo
+
+**Causa raiz:** el `orquestador` dictó el fondo de la ficha D-29 y escribió «el cajón reservado se puede leer esquivando el permiso… comprobado por ejecución». Lo comprobado el 05/08 en 03.01.08 es otra cosa: el patrón `Bash(* 02-datos/reservado*)` exige un espacio literal y no cubre la ruta pegada a una comilla, y ese intento «la paró una capa distinta y no determinista»; el contenido además sigue cifrado (D-10). Hueco de diseño probado, lectura no lograda. En la misma tirada, ese mismo `orquestador` ordenaba a un revisor contrastar frase a frase el resumen contra su celda como paso nombrado.
+
+**Regla:** L-030 se aplica también —y sobre todo— a la **ficha de decisión del CEO**, que es el resumen que llega más arriba, y **también cuando el texto lo dicta quien reparte**. Toda afirmación de hecho de una ficha se localiza en su celda de origen antes de entregarla, y quien la dicta no queda exento por dictarla. Añadido: un estado de tarea citado en una ficha se lee del WBS, no del informe de estado que lo resume (regla 11 de CLAUDE.md) — en la misma ronda la ficha llamó «bloqueadas» a dos tareas que el WBS declara `en_curso`.
+
+**Evento:** 06/08/2026, ronda 1 de `FICHA_D-29`. H2 lo detectó `critico-codigo` localizando la celda de 03.01.08; el estado falso lo detectó el `orquestador` al juzgar, con `awk` sobre el WBS. En la misma ronda el revisor atribuyó al `secretario` una frase que había dictado el `orquestador`, sin localizarla en su origen: L-033 otra vez, ahora dentro del hallazgo que sí era bueno.
+
+## L-038 · Se declaró no comprobable el origen de un texto dictado, buscándolo donde no estaba
+
+**Causa raiz:** en la ronda 2 de la ficha D-29, `critico-codigo` intentó averiguar quién había
+escrito «cuatro arreglos pequeños», buscó con `grep -rn` sobre `00-direccion/` y concluyó, con
+razón para ese ámbito, que la autoría no era comprobable a nivel 1 ni 2. El `orquestador` había
+afirmado que era suya, lo que sin prueba es nivel 3. **El texto sí estaba en disco:** las órdenes
+de reparto viven en los transcripts de sesión, ficheros `.jsonl` bajo el directorio de proyectos de
+Claude Code —la misma clase de fuente que la tarea 03.01.21 ya usó para medir tokens—, y ahí la
+frase aparece como mensaje `assistant` con `model: claude-opus-5`, es decir producida por quien
+repartía, no citada hacia él.
+
+**Regla:** un texto dictado por un agente no es prueba perdida. Antes de declarar una autoría o una
+procedencia «no comprobable», se busca también en los transcripts de sesión y se distingue el rol de
+la entrada: un `assistant` es producción y un `user` puede ser la misma frase volviendo. Y la que
+duele: **quien afirma su propia autoría está dando nivel 3 sobre sí mismo**; si hay fichero, se cita
+el fichero.
+
+**Cierra el hueco de L-021 y L-033:** en L-021 una afirmación sin procedencia comprobable llegó por
+el canal de las órdenes y su origen quedó no determinable; en L-033 el hallazgo sobre un mensaje se
+convirtió en una orden de editar un fichero. Las dos tropezaron con la misma laguna —el canal de las
+órdenes se trataba como si no dejara rastro— y las dos tienen desde hoy dónde mirar.
+
+**Evento:** 06/08/2026, ronda 2 de `FICHA_D-29`. Reparo levantado por `critico-codigo`, localización
+aportada por Claude Code y verificada por el `orquestador`: entrada 48 de
+`agent-abddab6a788baa2d2.jsonl`, `role: assistant`, `model: claude-opus-5`.
