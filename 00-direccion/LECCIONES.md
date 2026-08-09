@@ -321,3 +321,37 @@ convirtió en una orden de editar un fichero. Las dos tropezaron con la misma la
 **Evento:** 06/08/2026, ronda 2 de `FICHA_D-29`. Reparo levantado por `critico-codigo`, localización
 aportada por Claude Code y verificada por el `orquestador`: entrada 48 de
 `agent-abddab6a788baa2d2.jsonl`, `role: assistant`, `model: claude-opus-5`.
+
+## L-039 · Una orden de reparto añadió filtros que la ficha no tenía, y el ejecutor eliminó por el CEO sin saberlo
+
+**Causa raiz:** la instrucción P8 de la orden del 06/08 pidió juzgar la tabla de brokers por «los criterios eliminatorios — 1, 10, 5 (demo) y 6 (API)». La ficha de 04.01.01 no declara eliminatorios ni el 5 ni el 6: `grep -on "eliminatori[a-z]*" 00-direccion/WBS.md` devuelve UNA aparición, línea 129, pegada al criterio 1, y de la API la ficha solo dice que hará falta en 03.01.03 y 05.01.01, tareas futuras y no condición para firmar. Con el 6 como filtro, el veredicto declaró eliminado al único bróker con fuente primaria del fraccionado de 0,1 onzas, que es de lo que depende poder operar con el capital de D-19, y nombró en su lugar a otro que falla ese criterio con su propio dato citado. **La orden parecía diligencia —acotar para llegar al plazo— y era una elección hecha en lugar del CEO, dos capas por debajo de él.**
+
+**Regla:** quien reparte no añade criterios de exclusión que no estén en la ficha. Todo filtro que se pase a un ejecutor lleva pegada su localización por `grep` en la ficha o en la decisión que lo creó; filtro sin localización no se pasa. Y todo veredicto que EXCLUYA candidatos se comprueba contra el criterio con el que los excluye antes de aceptarlo: un ejecutor obediente convierte un filtro inventado en resultado, y el resultado ya no parece una opinión.
+
+**Evento:** 06/08/2026, ronda 2 de 04.01.01. Detectado por `critico-codigo` auditando el veredicto del `validador`, que lo había firmado obedeciendo la orden. El auditor lo atribuyó al `validador`; la comprobación por el método de L-038 lo devolvió a su origen — entrada 48 de `agent-abddab6a788baa2d2.jsonl`, `role: assistant`, `model: claude-opus-5`: lo dictó el `orquestador`. Segunda vez el mismo día que un hallazgo correcto se imputa al ejecutor de un texto dictado por quien repartía; la primera está en L-037.
+
+## L-040 · Un texto que cita un `grep` sobre el fichero donde se escribe rompe su propia prueba al guardarse
+
+**Causa raiz:** el cierre de 04.01.01 y la lección L-039 afirman que la palabra «eliminatorio»
+«aparece una sola vez en el WBS». Era cierto al repartir la orden y falso en el instante de
+guardarse: el propio párrafo que lo afirma introduce dos apariciones más. Medido —
+`grep -on "eliminatori[a-z]*" 00-direccion/WBS.md` da **1** sobre el commit `da93597` y **3** sobre
+el fichero después de la pasada, las tres en la línea 129. **El fondo del hallazgo no cambia:** que
+la instrucción P8 añadió como eliminatorios los criterios 5 y 6 sin que la ficha de 04.01.01 los
+declare está verificado por separado. Lo que caduca es la frase con la que se demostraba.
+
+**Regla:** toda cifra de recuento se ancla al objeto inmutable sobre el que se midió —un commit o un
+blob de `git hash-object`—, nunca al fichero vivo en el que se está escribiendo. Y todo recuento que
+vaya a vivir dentro del mismo fichero que cuenta **se vuelve a ejecutar DESPUÉS de escribirlo**: si
+el número cambió, lo cambió el texto. Heredar una cifra correcta del momento en que otro la calculó
+es justo lo que la convierte en falsa.
+
+**Corrige a L-039**, que no se edita porque este registro solo admite añadir (regla 21 de
+CLAUDE.md): donde su «Causa raiz» dice que la palabra aparece una sola vez, léase «aparecía una sola
+vez antes de escribirse L-039, comprobado sobre el commit `da93597`». Lo demás de L-039 sigue en pie.
+
+**Familia:** es L-026 con el signo cambiado. Allí una prueba caducó porque su víctima cambió; aquí
+caduca porque **la prueba se escribió dentro de su propia víctima**.
+
+**Evento:** 06/08/2026, auditoría del cierre de 04.01.01 por `critico-codigo`, que ejecutó el mismo
+`grep` sobre el punto de control y sobre el fichero posterior y obtuvo 1 frente a 3.
