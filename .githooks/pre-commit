@@ -38,5 +38,44 @@ if [ -n "$lineas" ]; then
   echo "$lineas" | head -5 | sed 's/^/   /'
 fi
 
+# --- Metrica L-027 (00-direccion/LECCIONES.md) sobre el WBS ---
+# Toda fila de tarea del WBS (la que EMPIEZA por "| CC.CC.CC |") debe dar 7 campos
+# al partirla por la barra vertical (5 columnas + 2 vacios de los bordes). Se mide
+# sobre la version EN STAGE, no sobre el fichero de trabajo. Ojo: la barra vertical
+# tambien aparece citada en PROSA fuera de tabla dentro del propio WBS (p.ej. en la
+# explicacion de esta misma metrica); esas lineas no empiezan por "| CC.CC.CC |" y
+# no deben contarse. Bloquea por defecto (regla 26 de CLAUDE.md): si no se puede leer
+# el WBS en stage o la metrica falla por cualquier motivo, se bloquea el commit.
+if git diff --cached --name-only | grep -qx '00-direccion/WBS.md'; then
+  wbs_ok=1
+  if ! wbs_stage=$(git show ':00-direccion/WBS.md' 2>&1); then
+    echo "BLOQUEADO (metrica L-027): no se pudo leer 00-direccion/WBS.md en stage."
+    echo "$wbs_stage" | sed 's/^/   /'
+    fallo=1
+    wbs_ok=0
+  fi
+  if [ "$wbs_ok" = "1" ]; then
+    if ! malas=$(printf '%s\n' "$wbs_stage" | awk -F'|' '
+        /^[ \t]*\| *[0-9][0-9]\.[0-9][0-9]\.[0-9][0-9] *\|/ {
+          codigo=$2
+          gsub(/^[ \t]+|[ \t]+$/, "", codigo)
+          if (NF != 7) print codigo ":" NF
+        }
+      ' 2>&1); then
+      echo "BLOQUEADO (metrica L-027): fallo al ejecutar la metrica sobre el WBS en stage."
+      echo "$malas" | sed 's/^/   /'
+      fallo=1
+      wbs_ok=0
+    fi
+  fi
+  if [ "$wbs_ok" = "1" ] && [ -n "$malas" ]; then
+    echo "BLOQUEADO (metrica L-027): filas de tarea del WBS que no dan 7 campos al partir por '|':"
+    echo "$malas" | while IFS=: read -r codigo nf; do
+      echo "   tarea $codigo: $nf campos (deberian ser 7)"
+    done
+    fallo=1
+  fi
+fi
+
 # --- Regla 1: el mensaje debe llevar codigo WBS (lo valida commit-msg) ---
 exit $fallo
