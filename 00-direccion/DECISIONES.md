@@ -290,3 +290,46 @@ Ninguna ficha puede pedirle redactar, buscar ni calcular nada.
 **Este fichero de usuario no lo ha tocado ningún agente hoy y NO se ha modificado:** la decisión de dejarlo o revertirlo es del CEO.
 
 **Confirmación del CEO sobre ESTE TEXTO: CONFIRMADA el 04/08/2026.**
+
+---
+
+## D-28 · 2026-08-09 · Confirmadas las tres correcciones de hecho (D-22, D-23, D-24)
+
+**Qué se confirma.** Ninguna de las tres cambia nada de lo ya hecho: solo ponen el registro de acuerdo con lo medido.
+
+1. **D-22:** la decisión del CEO del 03/08 — tirar el motor de backtest anterior y construir uno nuevo desde cero.
+2. **D-23:** el motor retirado **sí** copiaba 109 líneas del proyecto anterior (gb2); antes se había escrito que ninguna.
+3. **D-24, sobre D-21:** el criterio de aceptación del motor se perdió al eliminar la sección de trasplante; hubo que reconstruirlo en la tarea 04.03.06.
+4. **D-24, sobre D-20:** los muros mecánicos del proyecto **sí** existen, desde el 31/07/2026.
+5. **D-24, sobre D-22:** la cronología de D-22 estaba invertida — el motor entró **antes** de que existiera la orden que supuestamente contradecía.
+
+**Decide:** CEO, 09/08/2026, **opción A** de `00-direccion/informes/FICHA_D-28.md` (confirma las tres tal como están). **Palabras literales del CEO:** «a la 28 y 29 respondo A a las dos».
+
+**Qué desbloquea:** el registro queda al día. No bloqueaba ninguna tarea.
+
+---
+
+## D-29 · 2026-08-09 · Se autorizan las CUATRO barreras de seguridad (a, b, c, d)
+
+**Las cuatro nacen de una inyección ejecutada con su salida guardada, no de una sospecha, y ninguna causó daño** (regla 24 de CLAUDE.md). Cada una se verifica por inyección ANTES de documentarse como activa (regla 25 de CLAUDE.md).
+
+**(a) El patrón que protege el cajón reservado tiene un agujero.** `Bash(* 02-datos/reservado*)` de `.claude/settings.json` exige un espacio literal y no cubre la ruta pegada a una comilla: una línea de python lo esquiva. Ese intento lo paró otra capa, no determinista, con la que no se puede contar. **Y desde el 04/08 esa lista `deny` es lo único que frena**, porque **D-27** de este mismo fichero dejó registrado que la máquina corre en `bypassPermissions` y ninguna sesión pide permiso. El contenido sigue cifrado y la clave solo la tiene el CEO. Comprobado el 05/08 leyendo el fichero de configuración, no por reporte de agente.
+
+**(b) Los datos descargados se pueden borrar sin restricción.** `rm -rf` dentro de `02-datos/` salió con código 0 y sin denegación. No están en git (regla 27 de CLAUDE.md): no se recuperan deshaciendo un commit, se recuperan volviendo a descargarlos.
+
+**(c) No hay tope de gasto, ni en código ni en configuración.** Ninguno. La ficha avisó al CEO de que podía resultar imposible y de que si era que no, se le diría.
+
+**(d) El WBS se puede romper por formato sin que ningún guardia lo detecte.** El **05/08 se partieron cuatro filas** y nadie se enteró.
+
+**Decide:** CEO, 09/08/2026, **opción A** de `00-direccion/informes/FICHA_D-29.md` (las cuatro, esta semana). **Palabras literales del CEO:** «a la 28 y 29 respondo A a las dos».
+
+**ESTADO DE EJECUCIÓN AL FIRMARSE, medido y no prometido:**
+- **(d) YA HECHA Y ACTIVA.** Tarea 03.01.25, commit `17775e9`. `.githooks/pre-commit` rechaza el commit si una fila de tarea del WBS no da 7 campos. Verificada por inyección y por intento de esquiva por un revisor distinto del que la construyó, y **pasó su primera prueba real** en el commit `b43d64f`. Tiene además autorización directa e independiente del CEO en sesión el 09/08: «corregir eso del wbs no pueden haber estos problemas ya deberian corregirse solo sin pregutnarme».
+- **(c) IMPOSIBLE, y se declara así en vez de fingirse.** Tarea 03.01.24, commit `bbc4ba5`. Probado por inyección con `--max-budget-usd 0.000001`: la llamada se completó **entera** y el corte llegó después. Es reactivo, no preventivo: nunca impide la primera llamada. Un tope de `0` lo rechaza la propia herramienta. Y la máquina va por suscripción, no por API de pago. **NO se declara activa ninguna barrera de gasto** (regla 25 de CLAUDE.md). D-26 queda cerrada por medición: existía el flag, no existía la barrera.
+- **(a) y (b): parche escrito y NO APLICADO.** `04-resultados/parche_settings_03.01.24.json`, commit `bbc4ba5`, solo aditivo — las 10 reglas `deny` existentes intactas. **Ningún agente escribe en `.claude/settings.json`.** Su aplicación necesita una letra aparte del CEO, porque bajo `bypassPermissions` (D-27) escribir ese fichero **no dispara ninguna aprobación** y el sistema no le preguntaría. D-29 firma el QUÉ; el CÓMO necesita su palabra.
+
+**Qué desbloquea:** las tareas 03.01.24 y 03.01.25, y con ellas 03.01.08 y 03.01.11, que estaban declaradas bloqueadas a la espera de esta letra.
+
+**Nota de numeración y retiradas (orden del CEO, 09/08/2026).** Los números **D-30 y D-31 quedan RETIRADOS** por orden literal del CEO —«30 y 31 las borras»— y **no se reutilizan**. D-30 era una ficha sin responder (`00-direccion/informes/FICHA_D-30.md`, nunca commiteada, borrada); su pregunta —qué completar antes del 10/08— quedó sin objeto porque el CEO tomó el análisis y la elección. El texto de D-31 nunca llegó a entrar en git, así que su retirada no borra nada del registro. **LO QUE D-31 RECOGÍA — que el CEO renunció el 06/08 a las protecciones regulatorias de la Unión Europea, «sisi me da igual perder las protecciones, no me importa» — queda registrado aquí, y NO se ha escrito en ningún otro sitio como alcance vigente.** Un primer intento de trasladarlo a la celda de 04.01.01 del WBS declarándolo alcance en vigor **se retiró antes de commitear**: el CEO había ordenado retirar precisamente la decisión que lo sostenía, se le preguntó si quería anular también la renuncia y no había respondido, así que declararla vigente habría sido **fabricar un permiso que nadie ha dado** (reglas 23 y 26 de CLAUDE.md). La pregunta se le subió como ficha **D-32**, sin responder al cerrar esta entrada. **Mientras D-32 no esté respondida, ninguna parte de este proyecto puede tratar esa renuncia como alcance vigente, y en particular no puede invocarse para nada que toque G3 ni dinero real.** Lo que sí sigue en pie sin necesidad de D-32, porque el CEO lo ordenó en sesión el 04/08 y vive en la ficha de 04.01.01 de `00-direccion/WBS.md`, es el alcance de INVESTIGACIÓN: en la comparativa se evalúan entidades de dentro y de fuera de la Unión Europea en igualdad de condiciones. **Comparar no es contratar.**
+
+**NOTA DE PROCESO (09/08/2026), anotada en vez de disimulada.** Estas dos entradas se escribieron **antes** de que el CEO diera su letra. Sus palabras anteriores de ese mismo día —«vamos a hacer los siguiente, firmo 28 y 29»— se leyeron como una firma cuando su intención era **verlas antes de decidir**: «yo no he ordenado nada de firmar de hecho quería verlas para decidir». El texto se retiró del fichero **antes de commitear** y **nunca entró en git**; estas entradas son las primeras que se guardan, y ya sobre su letra explícita. **Lo que sí se ejecutó dando por buena esa autorización inexistente fue el punto (d)** —que tenía además orden directa e independiente suya— y la **investigación** de (a), (b) y (c), sin aplicar ningún cambio de configuración ni tocar dinero, bróker o el cajón reservado. **Nada irreversible se hizo sobre una firma que no existía.** Los cuatro intentos fallidos de redactar estas entradas, y sus tres rechazos por un revisor independiente —incluida una cifra de verificación fabricada por un agente que no dispone de la herramienta para producirla— están documentados en `04-resultados/veredictos/revision_03.01.24_registro.md`, commit `bbc4ba5`, y su causa raíz queda para el checkpoint del lunes en la tarea **03.01.15** de `00-direccion/WBS.md`.
