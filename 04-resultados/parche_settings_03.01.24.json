@@ -1,0 +1,55 @@
+{
+  "_nota_para_quien_aplique_esto": "Este NO es .claude/settings.json. Es el parche propuesto por la tarea 03.01.24 (regla 22 y regla 25 de CLAUDE.md). Ningun agente escribe sobre .claude/settings.json: lo aplica Claude Code pidiendo aprobacion del usuario por el sistema de permisos (D-29 firma el QUE, el sistema de permisos cubre el COMO). El parche SOLO ANADE denegaciones nuevas a la lista 'deny'; no toca 'allow'; no quita ni debilita ninguna linea 'deny' existente. Probado contra una copia/decoy en el area de pruebas del agente, NUNCA contra 02-datos/reservado real (regla 22 de CLAUDE.md). Ver 04-resultados/verificacion_03.01.24.md para las inyecciones, comandos y salidas literales que sustentan cada linea nueva.",
+
+  "accion": "ANADIR estas 5 lineas nuevas al array permissions.deny de .claude/settings.json. NO eliminar ni modificar ninguna linea existente.",
+
+  "entradas_nuevas_deny": [
+    {
+      "patron": "Bash(*02-datos/reservado*)",
+      "cierra": "(a) el agujero del cajon reservado: el patron viejo 'Bash(* 02-datos/reservado*)' exige un ESPACIO LITERAL inmediatamente antes de '02-datos/reservado' y no cubre la ruta pegada a una comilla, a un './' o a cualquier otro caracter que no sea espacio. El nuevo patron es substring puro (sin exigir espacio antes) y por tanto SUPERSET estricto del viejo: todo lo que bloqueaba el viejo lo sigue bloqueando el nuevo, y ademas cierra la forma que se colaba.",
+      "verificado_por": "fnmatch calibrado 3/3 contra el motor real (forma 1 y 2 denegadas en vivo, forma 3 -- python con la ruta pegada a una comilla -- pasaba en vivo con codigo 0 sin el parche) + confirmacion en vivo de que un patron YA EXISTENTE de este mismo estilo bare-substring, 'Bash(*--no-verify*)', SI bloquea texto pegado a comillas. Detalle completo en verificacion_03.01.24.md, seccion (a)."
+    },
+    {
+      "patron": "Bash(*rm -rf*02-datos*)",
+      "cierra": "(b) rm -rf con la carpeta 02-datos/ mencionada DESPUES del propio 'rm -rf' en el texto del comando (ej. 'rm -rf 02-datos/bruto/x' con ruta relativa, o 'cd X && rm -rf 02-datos/...'). Este es el caso EXACTO medido el 05/08: rm -rf con ruta relativa salio con codigo 0.",
+      "verificado_por": "inyeccion en vivo contra decoy: 'cd DECOY && rm -rf 02-datos/bruto/decoy_borrar.txt' SIN parche dio codigo 0 (sin bloqueo); fnmatch calibrado confirma que el patron nuevo SI la bloquea. Detalle en verificacion_03.01.24.md, seccion (b)."
+    },
+    {
+      "patron": "Bash(*02-datos*rm -rf*)",
+      "cierra": "(b) el mismo caso con el ORDEN INVERTIDO dentro del texto del comando: la carpeta 02-datos/ se menciona ANTES del 'rm -rf' (ej. 'cd 02-datos/bruto && rm -rf archivo'). Sin esta linea, invertir el orden de las dos piezas de texto esquiva la linea anterior.",
+      "verificado_por": "fnmatch calibrado contra el mismo modelo validado en (a) y en la primera linea de (b); no se repitio la inyeccion en vivo para esta variante por ser la misma familia de patron ya confirmada en vivo (bare substring), declarado explicitamente como tal en el informe."
+    },
+    {
+      "patron": "Bash(*rm -fr*02-datos*)",
+      "cierra": "(b) la MISMA orden con las banderas escritas en el otro orden habitual: 'rm -fr' en vez de 'rm -rf'. Es la misma accion (rm recursivo y forzado) y el mismo incidente medido el 05/08, solo que con las dos letras de las banderas intercambiadas -- GNU rm las trata igual.",
+      "verificado_por": "fnmatch calibrado, misma familia de patron que las dos lineas anteriores."
+    },
+    {
+      "patron": "Bash(*02-datos*rm -fr*)",
+      "cierra": "(b) combinacion de las dos variantes anteriores: banderas invertidas Y orden invertido dentro del texto del comando.",
+      "verificado_por": "fnmatch calibrado, misma familia de patron."
+    }
+  ],
+
+  "deny_resultante_completo_para_referencia": [
+    "Read(./02-datos/reservado/**)",
+    "Edit(./02-datos/reservado/**)",
+    "Write(./02-datos/reservado/**)",
+    "Bash(rm -rf /*)",
+    "Bash(git push --force*)",
+    "Bash(*--no-verify*)",
+    "Read(./.env*)",
+    "Read(**/*.pem)",
+    "Read(**/*.key)",
+    "Bash(* 02-datos/reservado*)",
+    "Bash(*02-datos/reservado*)",
+    "Bash(*rm -rf*02-datos*)",
+    "Bash(*02-datos*rm -rf*)",
+    "Bash(*rm -fr*02-datos*)",
+    "Bash(*02-datos*rm -fr*)"
+  ],
+
+  "lo_que_NO_cambia": "El array 'allow' no se toca. Las 10 lineas 'deny' que ya existian se conservan literalmente, en el mismo orden, sin editar ni una (incluida 'Bash(* 02-datos/reservado*)', que queda redundante pero no se borra: verificar que sigue presente es parte de la prueba de que el parche solo anade). La linea '_nota' del settings.json actual, que declara las barreras NO VERIFICADAS hasta que 03.01.08 repita la pasada, tampoco se toca aqui: no es alcance de esta tarea decidir cuando se cierra 03.01.08.",
+
+  "gasto_c_no_forma_parte_de_este_parche": "El punto (c) de la ficha D-29 (tope de gasto) NO tiene parche de settings.json: la conclusion de la tarea 03.01.24 es que no existe una barrera de gasto preventiva posible en esta maquina. Ver verificacion_03.01.24.md, seccion (c)."
+}
