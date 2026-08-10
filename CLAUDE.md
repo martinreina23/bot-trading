@@ -20,7 +20,7 @@ Fecha de evaluación del primer mes: **1 de septiembre de 2026 (puerta GM)**.
 `00-direccion/WBS.md`. Contiene las fases, las tareas con su código, las puertas y el estado.
 **Trabajo que no está en el WBS no se ejecuta.**
 
-## Las 29 reglas
+## Las 30 reglas
 
 **Nota normativa (03.01.13, 01/08/2026):** esta es la ÚNICA lista de reglas normativa del
 proyecto. Toda cita se escribe **"regla N de CLAUDE.md"**, nunca "regla N" a secas. La lista
@@ -34,6 +34,7 @@ que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md`
 4. Se va en orden salvo las marcadas paralelas. Una tarea no se cierra sin cumplir su criterio de "hecho".
 5. **La ficha de una tarea se escribe en la cola ANTES de trabajarla**, nunca al cerrarla. Sin ficha, no hay tarea.
 6. **Regla de no-ambigüedad:** toda tarea debe poder ejecutarse sin adivinar nada. Si tienes que suponer algo, devuelve la tarea al orquestador para que la reescriba. No supongas.
+30. **Ningún criterio de hecho exige una herramienta que el ejecutor no tiene.** Antes de escribirlo, se localiza por `grep` la línea `tools:` del agente que va a ejecutarlo. Si la prueba exige algo que no aparece ahí, **la prueba se traslada al revisor**. Un agente al que se le pide lo imposible no falla: **fabrica**, y el fallo se le acaba imputando a él en vez de a quien repartió. (D-34, 10/08/2026.)
 
 ### Sobre la deriva (la que mató al proyecto anterior)
 7. **Cada tirada autónoma cierra al menos una tarea que avanza el PRODUCTO.** La infraestructura que no desbloquee mecánicamente una tarea de producto se registra como deuda y no se ejecuta sin permiso del CEO.
@@ -170,7 +171,7 @@ Si un modelo no está disponible o rechaza la petición, se usa el respaldo indi
 **Con muro (te bloquea de verdad, comprobado por `/verificar`):**
 - Los datos no entran en git → `.githooks/pre-commit` + `.gitignore`.
 - El mensaje de commit exige código WBS → `.githooks/commit-msg`.
-- Los registros solo admiten añadir → `.githooks/pre-commit`.
+- Los registros solo admiten añadir → `.githooks/pre-commit`. **COBERTURA MEDIDA EL 09/08/2026: muerde en `git commit` y `git commit -a`, y NO cubre la vía de fontanería de git (`add` + `write-tree` + `commit-tree` + `update-ref`), que aterriza el borrado en `HEAD` sin disparar ningún hook, sin usar `--no-verify` y sin que ningún patrón `deny` lo alcance. Reproducido por ejecución en repositorio aislado. Hasta que se cierre, este muro está VERIFICADO SOLO PARCIALMENTE (regla 25 de CLAUDE.md). Su reparación es tarea del checkpoint del lunes.**
 - El cajón reservado y los ficheros sensibles → `.claude/settings.json`.
 
 **Solo prosa (depende de que la cumplas):** el techo del 20% de motor · nadie valida su propio
