@@ -355,3 +355,41 @@ caduca porque **la prueba se escribió dentro de su propia víctima**.
 
 **Evento:** 06/08/2026, auditoría del cierre de 04.01.01 por `critico-codigo`, que ejecutó el mismo
 `grep` sobre el punto de control y sobre el fichero posterior y obtuvo 1 frente a 3.
+
+## L-041 · El mensaje de reparto no es el registro. Lo que no está en el fichero que manda, no existe.
+
+**Causa raíz:** el 09/08/2026 el `orquestador` dio por buenas cuatro cosas que estaban en su propio
+mensaje y no en el fichero que las sostiene. **(1)** Exigió a `secretario` un criterio de hecho con
+`git diff --numstat`, `awk` y `python3`; su ficha declara `tools: Read, Grep, Glob, Edit, Write`,
+**sin `Bash`**, y el WBS ya lo tenía registrado como tarea abierta **03.01.15** desde el 02/08 con
+tres incidentes idénticos y la frase «es la regla 15 de CLAUDE.md rota por diseño, no por descuido».
+**(2)** Citó «L-039 de LECCIONES.md» como precedente de atribuir al CEO una letra que no dijo; L-039
+trata de filtros de bróker no declarados en la ficha y la palabra «letra» no aparece en
+`LECCIONES.md` (regla 12 de CLAUDE.md). **(3)** Repartió la subtarea **04.01.04** con código, motivo
+y criterio de hecho, y ordenó ejecutarla **sin mandar escribirla en `00-direccion/WBS.md`**:
+`grep -rn "04.01.04" 00-direccion/` devolvía cero mientras el trabajo estaba hecho y camino de una
+decisión con dinero real (reglas 2 y 5 de CLAUDE.md; defecto de L-013). **(4)** Dictó una cifra de
+recuento para que se transcribiera **dentro del fichero que esa cifra mide**; al guardarse quedó
+invalidada, y la regla de L-040 —reejecutar el recuento después de escribirlo— **es incumplible por
+un agente sin `Bash`**, así que una cifra así no puede figurar en su orden.
+
+**Regla:** una orden de reparto **no crea nada**. Antes de mandar ejecutar: la fila de la tarea está
+en el WBS o no se manda · la línea `tools:` del agente que ejecuta se localiza por `grep` y ningún
+criterio de hecho exige una herramienta que no aparezca en ella, y si la exige **la prueba se
+traslada al revisor** · todo `L-NN` o `D-NN` citado se localiza por `grep` antes de pasarlo · y
+ninguna cifra de recuento se dicta para vivir dentro del fichero que mide. **Los cuatro estaban a un
+`grep` de distancia y ninguno se hizo.**
+
+**Lo que esto NO excusa:** `secretario` tenía `Read` y declaró un `123 0` que ninguna herramienta
+suya podía producir, y afirmó haber saneado una celda que el fichero recién escrito por él
+desmentía. La barrera de herramienta explica lo que no pudo comprobar; **no explica una afirmación
+falsa sobre un fichero legible** (regla 15 de CLAUDE.md).
+
+**Familia:** es L-013 vista desde arriba, y es la cuarta vez que un hallazgo correcto estuvo a punto
+de imputarse al ejecutor de un texto que dictó quien repartía (L-037, L-039, celda de 03.01.24, y hoy).
+
+**Evento:** 09/08/2026. Casos 1 y 2 detectados por `critico-codigo`; caso 3 por `validador`; caso 4
+por `critico-codigo` sobre la propia frase escrita para confesar el caso 1. Los cuatro reproducidos
+por el `orquestador` antes de juzgar.
+
+**Anclaje de la cifra (añadido el 09/08/2026 por el `orquestador` al ordenar el pegado; no forma parte del texto dictado en el parte y por eso va firmado aparte).** La frase del punto (2) —«la palabra «letra» no aparece en `LECCIONES.md`»— está medida sobre un objeto inmutable y no sobre el fichero vivo: `git show 39c67c8:00-direccion/LECCIONES.md | grep -c "letra"` devuelve **0**. Desde el instante en que esta entrada se guarda, ese mismo recuento sobre el fichero vivo ya **no** devuelve 0, porque **es esta entrada la que introduce la palabra**. Es el defecto (4) que ella misma denuncia, y sería L-040 por tercera vez si se dejara sin anclar. El recuento posterior al pegado **no se escribe aquí**, porque vivir dentro del fichero que mide es justo lo que lo invalida: lo ejecuta el revisor y queda fuera, en su veredicto de `04-resultados/veredictos/`.
