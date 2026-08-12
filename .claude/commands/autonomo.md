@@ -32,20 +32,24 @@ QUE TIENE QUE ENTREGAR · REVISA DESPUES · QUE DEBE BUSCAR EL REVISOR.
 Invoca al agente que diga el campo EJECUTA, con las INSTRUCCIONES PARA EL tal cual.
 Anuncia en voz alta: `Ejecutando [CODIGO] — [nombre] · agente: [nombre]`.
 
-## Paso 3 — Cumplir la revision
+## Paso 3 — Revisión y corrección (SIN orquestador)
 
-Invoca al agente del campo REVISA DESPUES, pasandole el entregable y QUE DEBE BUSCAR EL REVISOR.
-**Nunca puede ser el mismo agente que ejecuto.** Un rechazo es un resultado valido y bueno.
+Invoca al agente de REVISA DESPUES con el entregable y QUE DEBE BUSCAR EL REVISOR.
+Nunca puede ser el mismo que ejecutó. Un rechazo es un resultado bueno.
 
-## Paso 4 — Devolver al orquestador (Modo JUZGAR)
+- Si ACEPTA → Paso 5.
+- Si RECHAZA → vuelves a invocar al ejecutor con los motivos del rechazo, tal cual, y
+  luego otra vez al revisor. **MÁXIMO DOS VUELTAS.**
 
-Invoca otra vez al `orquestador` con: lo que entrego el agente + lo que dijo el revisor.
-Te devolvera VEREDICTO: CORREGIR / CERRAR / ESCALAR AL CEO.
+No invocas al orquestador entre vuelta y vuelta. Su orden del Paso 1 ya contiene el
+criterio de aceptación: el revisor lo aplica, no hace falta que nadie lo reinterprete.
 
-- **CORREGIR** → vuelves al Paso 2 con el agente y las instrucciones que el diga. Sin limite de
-  vueltas, salvo que el propio orquestador escale.
-- **ESCALAR** → paras y preparas la ficha para el CEO con `/ficha`.
-- **CERRAR** → sigues al Paso 5.
+## Paso 4 — Cierre o escalado (UNA invocación del orquestador)
+
+- Si el revisor ACEPTÓ → invoca al `orquestador` en Modo JUZGAR, UNA vez, con el
+  entregable y el dictamen del revisor. Cierra o escala.
+- Si tras DOS vueltas sigue sin aceptar → **PARA**. No hay tercera vuelta. Invoca al
+  `orquestador` solo para que prepare el escalado al CEO.
 
 ## Paso 5 — Tu comprobacion final (esto es TUYO, no del orquestador)
 

@@ -89,20 +89,26 @@ que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md`
 **El recorrido de cualquier trabajo, siempre el mismo:**
 
 ```
-CEO → Claude Code → orquestador (REPARTE)
+CEO → Claude Code → orquestador (REPARTE — UNA sola vez por tarea)
                        ↓
                   agente que EJECUTA
                        ↓
                   agente que REVISA  (distinto, obligatorio)
                        ↓
-                  orquestador (JUZGA: ¿discrepancias?)
+              ¿rechaza? ─sí→ vuelve al ejecutor, máximo 2 vueltas, luego se escala
+                       ↓ no      (SIN orquestador entre vuelta y vuelta)
+                  orquestador (JUZGA: ¿discrepancias? — UNA sola invocación)
                        ↓
-              ¿corregir? ─sí→ vuelve al agente, sin límite de vueltas
-                       ↓ no
                   Claude Code (FILTRA: "¿has mirado bien?")
                        ↓
                       CEO
 ```
+
+**Al orquestador se le llama DOS veces por tarea, no una por vuelta:** una para repartir y
+otra para juzgar. El criterio de aceptación ya viaja dentro de su orden de reparto (campos
+`QUE TIENE QUE ENTREGAR` y `QUE DEBE BUSCAR EL REVISOR`); el revisor lo aplica y no hace
+falta que nadie lo reinterprete. Esto no toca C1, C2 ni C4: la autoridad del reparto sigue
+siendo suya y Claude Code sigue sin poder alterarlo. Solo cambia cuántas veces se le pregunta.
 
 **Las cuatro reglas que sostienen esto** (numeradas C1-C4 para no colisionar con las 29 reglas de arriba):
 
@@ -136,7 +142,7 @@ tope de número**; **el CEO marca el final del día** y lo que quede se acumula 
 (el tope de fichas del checkpoint del lunes es de D-13 y no cambia por esto: el lunes tiene tope, el
 día a día no).
 
-**Excepción inmediata — se para hasta respuesta:** gasto nuevo · cualquier cosa con dinero real · bloqueo de más de 24 h · 3 vueltas del bucle de hipótesis sin éxito.
+**Excepción inmediata — se para hasta respuesta:** gasto nuevo · cualquier cosa con dinero real · bloqueo de más de 24 h · 2 vueltas sin éxito.
 
 **Formato obligatorio de toda decisión que llegue al CEO:** una línea de qué se decide · 2-4 opciones cerradas · la recomendada con su motivo · qué pasa con cada opción · qué se bloquea mientras no responda · respuesta de una letra. **Ninguna ficha puede pedirle redactar, buscar o calcular nada.** Si no cabe en media pantalla de móvil, vuelve atrás.
 

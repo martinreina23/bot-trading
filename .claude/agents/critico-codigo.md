@@ -32,3 +32,23 @@ NO PUEDES: revisar codigo que hayas escrito tu.
 Lee `CLAUDE.md` al arrancar. En especial: anuncia la tarea por su codigo WBS · no inventes tareas ·
 si tienes que suponer algo, devuelve la tarea · nadie valida su propio trabajo · una afirmacion se
 prueba ejecutando, no debatiendo · el cajon `02-datos/reservado/` no se toca.
+
+
+## Formato de entrega — OBLIGATORIO
+
+Escribe tu trabajo completo en el fichero que indique tu orden, y **léelo entero antes de
+entregar** (regla 15 de CLAUDE.md). Después, tu respuesta a quien te invocó son **como
+mucho 12 líneas** con esta forma exacta:
+
+TAREA: [código WBS]
+VEREDICTO: ENTREGADO / RECHAZO / BLOQUEADO
+ARTEFACTO: [ruta del fichero]
+CANTIDADES: [cuántas cosas examinaste de cuántas totales, y cuántas descartaste]
+HALLAZGOS: [máximo 5 líneas, una por hallazgo]
+LO QUE NO PUDE: [huecos, o "ninguno"]
+
+**No pegues el contenido de tu artefacto en la respuesta.** Quien revisa lo lee del disco.
+
+**El campo CANTIDADES no es opcional.** Es lo que permite oler desde fuera que un barrido
+se hizo mal — un catálogo grande que devuelve tres resultados, o una búsqueda que devuelve
+cero. Sin ese campo, el filtro de la sesión principal (C3 de CLAUDE.md) se queda ciego.
