@@ -85,8 +85,28 @@ PY
 probar "estado distinto del Excel" "$TMP/w1.md" "estados"
 probar "estado sin declarar" "$TMP/w2.md" "estado declarado"
 
-# 3. tarea nueva en el WBS que el Excel todavia no tiene
-awk '/^\| 07\.01\.02 /{print; print "| 07.01.03 | Tarea inventada | Constructores | 03.01.01 | pendiente |"; next} {print}' "$WBS" > "$TMP/w3.md"
+# 3. tarea nueva en el WBS que el Excel todavia no tiene.
+# El codigo inyectado se ELIGE COMPROBANDO QUE NO EXISTE, no se escribe a mano. Antes
+# estaba fijo a "07.01.03", y esa tarea acabo existiendo de verdad: la inyeccion dejo de
+# ser una tarea nueva y paso a ser un duplicado, que el censo no mira. El caso seguia
+# diciendo CAZADO porque el Excel llevaba semanas desfasado y el grep de "FALLO  censo"
+# encontraba OTRO fallo de censo, no el inyectado. Un test que aprueba por un fallo
+# distinto del que prueba es un test que miente (L-009, L-016). Detectado el 12/08/2026
+# al regenerar el Excel: con el censo limpio, el caso 3 se destapo como ESCAPA.
+$PY - "$WBS" "$TMP/w3.md" <<'PY'
+import re, sys
+wbs, destino = sys.argv[1], sys.argv[2]
+lineas = open(wbs, encoding="utf-8").read().split("\n")
+existentes = {m.group(1) for l in lineas
+              if (m := re.match(r"^\| (\d\d\.\d\d\.\d\d) ", l))}
+libre = next(f"07.{g:02d}.{n:02d}" for g in range(90, 100) for n in range(90, 100)
+             if f"07.{g:02d}.{n:02d}" not in existentes)
+ancla = next(i for i, l in enumerate(lineas) if re.match(r"^\| 07\.\d\d\.\d\d ", l))
+fila = f"| {libre} | Tarea inventada | Constructores | 03.01.01 | pendiente |"
+open(destino, "w", encoding="utf-8").write(
+    "\n".join(lineas[:ancla + 1] + [fila] + lineas[ancla + 1:]))
+print(f"  (inyectando la tarea {libre}, comprobado que no existe en el WBS)")
+PY
 probar "tarea que falta en el Excel" "$TMP/w3.md" "censo"
 
 # 4. dependencia hacia una tarea que no existe
