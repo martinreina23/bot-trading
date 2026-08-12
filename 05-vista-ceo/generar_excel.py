@@ -141,6 +141,29 @@ def partir_estado(celda, codigo=""):
     return "pendiente", "", plano
 
 
+EXPEDIENTE = re.compile(r"`(00-direccion/expedientes/(\d{2}\.\d{2}\.\d{2})\.md)`")
+CORTE_EXPEDIENTE = "## Celda ESTADO integra, tal y como estaba en el WBS"
+
+
+def expediente_de(celda):
+    """Si la celda ESTADO apunta a un expediente, devuelve (ruta, texto integro de la ficha).
+
+    El 12/08/2026 el WBS dejo de ser el sitio donde vive la historia de cada tarea: las
+    celdas de mas de 1.200 caracteres se movieron INTEGRAS a `00-direccion/expedientes/` y
+    en el WBS quedo una linea que apunta. El estado sigue viviendo en el WBS y solo ahi
+    (regla 28 de CLAUDE.md); lo que se lee de aqui es la FICHA, para que el Excel del CEO
+    siga enseñando la historia y no una linea suelta.
+    """
+    m = EXPEDIENTE.search(celda)
+    if not m:
+        return "", ""
+    fichero = RAIZ / m.group(1)
+    if not fichero.exists():
+        AVISOS.append(f"{m.group(2)}: la celda apunta a {m.group(1)}, que NO existe en disco")
+        return m.group(1), ""
+    return m.group(1), limpiar(fichero.read_text(encoding="utf-8").split(CORTE_EXPEDIENTE, 1)[-1].strip())
+
+
 def recortar(texto, tope=700, fuente="00-direccion/WBS.md"):
     """La vista del CEO no reproduce fichas de 3.000 caracteres: apunta a la fuente."""
     if len(texto) <= tope:
@@ -248,10 +271,12 @@ for titulo, cuerpo in SEC.items():
                 continue
             codigo = limpiar(fila[0])
             estado, ficha, nota = partir_estado(fila[4], codigo)
+            ruta_exp, ficha_exp = expediente_de(fila[4])
             tareas.append({
                 "codigo": codigo,
                 "paquete": paquetes.get(codigo[:5], ""),
-                "ficha": ficha,
+                "ficha": ficha_exp or ficha,
+                "fuente_ficha": ruta_exp or "00-direccion/WBS.md",
                 "tarea": limpiar(fila[1]),
                 "responsable": limpiar(fila[2]),
                 "depende": limpiar(fila[3]),
@@ -419,7 +444,7 @@ for cod, nombre, tareas in FASES:
                 cc.alignment = WRAP
         r += 1
         valores = [t["codigo"], t["tarea"], t["responsable"], t["depende"], ETIQUETA[t["estado"]],
-                   recortar(t["nota"]), recortar(t["ficha"], 500)]
+                   recortar(t["nota"]), recortar(t["ficha"], 500, fuente=t["fuente_ficha"])]
         for j, v in enumerate(valores, start=1):
             c = tar.cell(row=r, column=j, value=v)
             c.border = BORDE

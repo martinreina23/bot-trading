@@ -75,6 +75,32 @@ def leer_wbs():
     return tareas
 
 
+EXPEDIENTE = re.compile(r"`(00-direccion/expedientes/(\d{2}\.\d{2}\.\d{2})\.md)`")
+
+
+def expediente_de(celda, codigo):
+    """Texto del expediente al que apunta la celda ESTADO, o '' si no apunta a ninguno.
+
+    Desde el 12/08/2026 la historia de las tareas grandes no vive en el WBS sino en
+    `00-direccion/expedientes/`. Las pruebas que antes leian la celda entera tienen que
+    leer tambien el expediente, o dejarian de ver justo lo que se movio.
+
+    Bloquea por defecto (regla 26 de CLAUDE.md): una celda que apunta a un expediente que
+    no existe, o que apunta al expediente de OTRA tarea, es un FALLO, no un aviso.
+    """
+    m = EXPEDIENTE.search(celda)
+    if not m:
+        return ""
+    if m.group(2) != codigo:
+        fallo("expedientes", f"{codigo}: su celda apunta al expediente de {m.group(2)}")
+        return ""
+    fichero = RAIZ / m.group(1)
+    if not fichero.exists():
+        fallo("expedientes", f"{codigo}: su celda apunta a {m.group(1)}, que NO existe en disco")
+        return ""
+    return fichero.read_text(encoding="utf-8")
+
+
 def estado_de(celda, codigo):
     """Estado declarado. Nunca lo adivina: si no hay marca, es un FALLO."""
     apertura = re.match(r"\*{0,2}(pendiente|en_curso|hecha|bloqueada)\*{0,2}\b", celda, flags=re.I)
@@ -123,6 +149,7 @@ except ImportError:
 WBS_TAREAS = leer_wbs()
 for t in WBS_TAREAS.values():
     t["estado"] = estado_de(t["celda_estado"], t["codigo"])
+    t["expediente"] = expediente_de(t["celda_estado"], t["codigo"])
     t["deps"] = dependencias(t, WBS_TAREAS)
 
 wb = openpyxl.load_workbook(XLSX)
@@ -246,6 +273,9 @@ for cod, t in sorted(WBS_TAREAS.items()):
         continue
     corte = re.search(r"\*\*hecha\*\*|^hecha", t["celda_estado"], flags=re.I)
     cola_celda = t["celda_estado"][corte.end():] if corte else t["celda_estado"]
+    # Los entregables de las tareas grandes se citan dentro de su expediente, no ya en la
+    # celda: si solo se mirase la celda, esta prueba pasaria por no encontrar nada que mirar.
+    cola_celda += " " + t["expediente"]
     for nombre in set(re.findall(r"`([\w./-]+\.(?:md|py|json|csv|txt|xlsx))`", cola_celda)):
         base = Path(nombre).name
         if not list(RAIZ.rglob(base)):
