@@ -1,4 +1,5 @@
-# DATOS: nunca en git (regla 27). Comprobar el dia 1 que esto funciona de verdad:
+# DATOS: nunca en git (regla 26 de CLAUDE.md, era la 27 hasta D-35). Comprobar el dia 1
+# que esto funciona de verdad:
 #   git status --porcelain 02-datos/   -> debe salir vacio
 02-datos/bruto/**
 02-datos/limpio/**
@@ -25,3 +26,15 @@ __pycache__/
 
 # ficheros de bloqueo de Excel (aparecen al abrir el xlsx)
 ~$*
+
+# ejecucion del encadenador desatendido (03.01.23). Los crea la ejecucion, no se
+# pre-crean y NO entran en git: 03-motor/desatendido/LEEME.md ya lo declaraba, pero
+# hasta el 12/08/2026 no estaba escrito aqui. Se vio en la primera prueba real: tras
+# un simulacro, `git status` los sacaba como sin seguimiento, y una sesion desatendida
+# que haga `git add -A` los habria commiteado sin que nadie mirase.
+03-motor/desatendido/DESENLACE.txt
+03-motor/desatendido/ESTADO.md
+03-motor/desatendido/PARA-CEO.md
+03-motor/desatendido/STOP_CEO.flag
+03-motor/desatendido/controlador.log
+03-motor/desatendido/cadena.lock

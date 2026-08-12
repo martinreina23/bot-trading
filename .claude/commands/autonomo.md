@@ -71,6 +71,47 @@ Si no pasa tu filtro, **vuelve al orquestador**. No se lo mandes al CEO para que
 5. Reporta al CEO en una pantalla: que se cerro, que murio, que quedo bloqueado, cuantas vueltas de
    correccion hicieron falta, y el reparto producto/motor en porcentaje.
 
+## Paso 7 — Dejar el contrato del encadenador. SIEMPRE, pase lo que pase
+
+**Este paso es el ultimo y no se salta nunca**, ni aunque la tarea saliera mal, ni aunque te
+quedaras sin avanzar. Si esta sesion la lanzo `03-motor/desatendido/controlador.sh`, estos dos
+ficheros son lo UNICO que el controlador puede leer de ti: si faltan o vienen mal, **la cadena
+para en seco** y nadie se entera hasta el dia siguiente. Si la sesion la lanzo una persona, se
+escriben igual: no estorban y el controlador borra `DESENLACE.txt` antes de cada tirada.
+
+**1. `03-motor/desatendido/DESENLACE.txt` — dos lineas, ni una mas.**
+
+```
+CERRADA
+03.01.23
+```
+
+- **Linea 1:** EXACTAMENTE una de estas tres palabras, sola, sin adornos ni puntuacion:
+  - `CERRADA` — el orquestador dijo CERRAR.
+  - `ESCALADA` — dijo ESCALAR, o aparecio una excepcion inmediata de `CLAUDE.md`.
+  - `BLOQUEADA` — te quedaste sin poder avanzar.
+- **Linea 2:** SOLO el codigo WBS de la tarea trabajada, con el formato exacto `NN.NN.NN`.
+
+Cualquier otra cosa —fichero ausente, linea 1 con otro valor, linea 2 con un codigo mal
+formado— **para la cadena igual**. Falla cerrado a proposito: nunca sigue por defecto.
+
+**2. `03-motor/desatendido/ESTADO.md` — el traspaso a la sesion siguiente.**
+
+Lo **sobreescribes** en esta sesion (el controlador comprueba la fecha: un resto de una tirada
+anterior no cuela) y **no pasa de 100 lineas** (`MAX_LINEAS_ESTADO` de `config.env`). Lleva: que
+tarea trabajaste, con que desenlace, que queda pendiente, y **que se rechazo y por que** — si se
+pierde el «por que», la siguiente sesion decide peor.
+
+**3. `03-motor/desatendido/PARA-CEO.md`, solo si el desenlace fue `ESCALADA` o `BLOQUEADA`.**
+Ficha en el formato obligatorio de `CLAUDE.md`: una linea de que se decide, 2-4 opciones
+cerradas, la recomendada con motivo, que se bloquea, respuesta de una letra.
+
+> **Por que esto esta escrito aqui y no solo en el controlador.** Comprobado por ejecucion el
+> 12/08/2026: `controlador.sh` inyecta este mismo contrato en el prompt que lanza, pero
+> `autonomo.md` no lo habia mencionado nunca —ni en la version del 31/07, ni en la del 01/08,
+> ni en la del 12/08—. El contrato vivia en un solo sitio, y ese sitio no era el comando que la
+> sesion cree estar siguiendo. Queda en los dos.
+
 ## Condiciones de parada
 
 Cola de producto agotada · 3 bloqueos seguidos · el motor de esta semana llega al 20% ·
