@@ -160,6 +160,106 @@ git log --oneline -1     → 89cdf08 03.01.15: regla 30, el diagnostico de los o
 
 ---
 
-## DESPUÉS
+## DESPUÉS — 12/08/2026, tras los seis commits de la cirugía
 
-*(se rellena en el bloque 7)*
+Mismos comandos, literalmente los del bloque 0.
+
+### Bytes de lectura obligatoria del orquestador
+
+```
+ 14884 CLAUDE.md
+ 49039 00-direccion/WBS.md
+ 41945 00-direccion/LECCIONES.md
+ 50905 00-direccion/DECISIONES.md
+156773 total
+```
+
+**De 275.301 a 156.773 bytes: 118.528 menos, un 43,1% de recorte.** Todo el ahorro sale del
+WBS (168.317 → 49.039). `CLAUDE.md` sube 750 bytes porque la nota de la regla 8 reactivada y
+la explicación del diagrama son texto nuevo. `LECCIONES.md` y `DECISIONES.md` no se tocan.
+
+### Tareas y estados
+
+```
+62   filas de tarea   (67 antes: 5 congeladas en DEUDA-MOTOR.md)
+ 6   **en_curso**
+26   **hecha**
+ 5   **pendiente**
+ 0   **bloqueada**
+```
+
+**Ojo con estas cifras: bajan por dos motivos distintos y conviene no confundirlos.**
+Las marcas en negrita pasan de 50 a 37 no porque haya menos tareas declaradas, sino porque
+las celdas que llevaban **varias** marcas (07.01.01 llegó a tener cuatro) dejaron las
+sobrantes dentro de su expediente. **Ni un solo estado de tarea cambió**, comprobado
+comparando tarea por tarea contra el commit `89cdf08`: cero diferencias.
+
+### Reparto producto/motor
+
+```
+filas de tarea: 62
+PRODUCTO: 33 tareas, 9,696 bytes
+MOTOR:    23 tareas, 7,933 bytes
+motor = 41.1% tareas, 45.0% texto
+celda mediana: 291 car. · celda mayor: 1063 car. (02.02.05)
+```
+
+El texto de motor del índice cae del 62,4% al 45,0%. La celda mayor pasa de **10.471 a
+1.063 caracteres**: ya no hay ninguna por encima del tope de 1.200.
+
+**Aviso de honestidad sobre este número:** el motor no ha bajado porque se haya hecho menos
+motor. Ha bajado porque 5 tareas de motor están congeladas y porque su relato se mudó a los
+expedientes. El reparto de esfuerzo real, medido sobre commits por el contador de `03.01.18`,
+es del **58,9%**, y esa es la cifra que hay que mirar el lunes, no ésta.
+
+### Estado de las pruebas DESPUÉS
+
+`.venv/bin/python 05-vista-ceo/verificar_excel.py` → **salida 0**
+
+```
+1.  OK  Excel al dia
+2.  OK  censo: 62 tareas en los dos sitios
+3.  OK  estados: 62 coinciden
+4.  OK  ciclos: ninguno
+5.  OK  cola completa: 36 tareas vivas repartidas en cola(15) y espera(21)
+    OK  orden de la cola: cada tarea esta en el grupo que le toca
+6.  OK  panel: total 62 · hechas 26, cuadra con el WBS
+7.  AVISO x9  entregables citados que no estan en el repositorio
+8.  OK  regla 24: git no ve nada dentro de 02-datos/
+9.  OK  hoja REGLAS: 30 · LECCIONES: 41 · DECISIONES: 30, iguales a su fuente viva
+10. OK  posición del estado: 37 marcas revisadas en 62 celdas, ninguna en medio
+
+RESULTADO: sin fallos. 9 avisos.
+```
+
+**Las 12 comprobaciones en OK. De 10 FALLOS a 0.** Los 5 avisos de «2 marcas en negrita,
+vale la última» han desaparecido: los resolvió la partición. Los avisos de entregables suben
+de 3 a 9 y **eso no es un empeoramiento**: la prueba 7 ahora también lee los expedientes, así
+que ve nombres de fichero que antes no miraba. Ve más, no falla más.
+
+`bash 05-vista-ceo/prueba_inyeccion.sh` → **salida 0**
+
+```
+CAZADO   estado distinto del Excel
+CAZADO   estado sin declarar
+CAZADO   tarea que falta en el Excel        <- este era un aprobado falso, ver abajo
+CAZADO   dependencia fantasma
+CAZADO   ciclo de dependencias
+CAZADO   lección nueva sin tocar el Excel (recuento)
+CAZADO   estado en medio de la celda (posición)
+OK       el WBS real pasa la verificacion completa
+RESULTADO: el verificador muerde en los 7 casos.
+```
+
+**Corrección sobre el ANTES, porque el número de partida era mejor de lo que parecía y peor
+de lo que decía.** En el ANTES salían 7 CAZADO, pero **el caso 3 aprobaba en falso**: inyectaba
+la tarea `07.01.03`, que había acabado existiendo de verdad en el WBS, así que no inyectaba
+una tarea nueva sino un duplicado —que el censo no mira—. Pasaba porque el `grep` encontraba
+*otro* fallo de censo, el del Excel desfasado. Se descubrió al arreglar ese desfase. El fixture
+ahora elige el código comprobando que no existe. **Los 7 casos de hoy son 7 de verdad.**
+
+### Estado del árbol
+
+```
+git log --oneline -1   → el commit final de la cirugía
+```

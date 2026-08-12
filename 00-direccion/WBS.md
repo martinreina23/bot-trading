@@ -76,7 +76,7 @@ RESPUESTA: [una letra]
 
 **Llega al CEO, en el informe semanal:** mejoras del motor no previstas (sin aprobación, no se hacen) · tareas nuevas de primer nivel.
 
-**Llega al CEO como excepción inmediata (se para hasta respuesta):** gasto nuevo (datos de pago, VPS, broker, créditos extra) · cualquier cosa con dinero real · bloqueo de más de 24 h · 3 vueltas del bucle de hipótesis sin éxito.
+**Llega al CEO como excepción inmediata (se para hasta respuesta):** gasto nuevo (datos de pago, VPS, broker, créditos extra) · cualquier cosa con dinero real · bloqueo de más de 24 h · 2 vueltas sin éxito.
 
 **Llega al CEO solo en una puerta:** cambiar de mercado, de tamaño de vela o de planteamiento.
 
