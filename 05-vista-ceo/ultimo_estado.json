@@ -1,6 +1,6 @@
 {
  "_aviso": "Instantanea para calcular cambios entre generaciones. NO es fuente de verdad: lo es 00-direccion/WBS.md",
- "generado": "2026-08-12 22:03",
+ "generado": "2026-08-12 22:04",
  "tareas": {
   "01.01.01": "hecha",
   "01.01.02": "hecha",
@@ -38,6 +38,8 @@
   "03.01.21": "hecha",
   "03.01.22": "hecha",
   "03.01.23": "en_curso",
+  "03.01.24": "pendiente",
+  "03.01.25": "pendiente",
   "04.01.01": "en_curso",
   "04.01.02": "pendiente",
   "04.01.03": "pendiente",
