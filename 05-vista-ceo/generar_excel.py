@@ -835,7 +835,7 @@ for parrafo in seccion("Autonomía: qué llega al CEO").split("\n\n"):
         if j == 2:
             cc.font = F_TXT
 r += 2
-aut.cell(row=r, column=1, value="FORMATO OBLIGATORIO DE FICHA DE DECISION (regla 10)").font = F_BOLD
+aut.cell(row=r, column=1, value="FORMATO OBLIGATORIO DE FICHA DE DECISION (seccion 'Que llega al CEO' de CLAUDE.md)").font = F_BOLD
 r += 1
 plantilla = seccion("Plantilla de ficha de decisión")
 bloque = re.search(r"```(.*?)```", plantilla, flags=re.S)
@@ -889,7 +889,7 @@ if INSTANTANEA.exists():
     for c, antes, despues in movidas:
         print(f"   CAMBIA     {c}  {antes} -> {despues}  {POR_CODIGO[c]['tarea'][:52]}")
     for c in idas:
-        print(f"   DESAPARECE {c}  (estaba {previo[c]}) — ojo: los codigos no se borran (regla 3)")
+        print(f"   DESAPARECE {c}  (estaba {previo[c]}) — ojo: los codigos no se borran")
 else:
     print("   primera generacion con registro: no hay con que comparar")
 INSTANTANEA.write_text(json.dumps({

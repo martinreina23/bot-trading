@@ -96,7 +96,7 @@ prueba ejecutando, no debatiendo · el cajon `02-datos/reservado/` no se toca.
 ## Formato de entrega — OBLIGATORIO
 
 Escribe tu trabajo completo en el fichero que indique tu orden, y **léelo entero antes de
-entregar** (regla 15 de CLAUDE.md). Después, tu respuesta a quien te invocó son **como
+entregar** (regla 14 de CLAUDE.md). Después, tu respuesta a quien te invocó son **como
 mucho 12 líneas** con esta forma exacta:
 
 TAREA: [código WBS]

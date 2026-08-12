@@ -20,21 +20,24 @@ Fecha de evaluación del primer mes: **1 de septiembre de 2026 (puerta GM)**.
 `00-direccion/WBS.md`. Contiene las fases, las tareas con su código, las puertas y el estado.
 **Trabajo que no está en el WBS no se ejecuta.**
 
-## Las 30 reglas
+## Las 28 reglas
 
 **Nota normativa (03.01.13, 01/08/2026):** esta es la ÚNICA lista de reglas normativa del
 proyecto. Toda cita se escribe **"regla N de CLAUDE.md"**, nunca "regla N" a secas. La lista
 que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md` queda
 **DEROGADA** por decisión del CEO, **D-16** en `00-direccion/DECISIONES.md`.
 
+**Nota de renumeración (D-35, 12/08/2026).** Eran 30 y son 28: la vieja regla 3 se retiró y la
+vieja 10 se fusionó dentro de la 9. **Las citas escritas antes del 12/08/2026 usan la
+numeración vieja.** Para leerlas está la tabla de correspondencia del final de esta sección.
+
 ### Sobre las tareas
 1. Toda tarea se ejecuta y se anuncia por su **código WBS** ("Ejecutando 02.02.01"). Prohibidos los identificadores opacos.
 2. No se inventan tareas. Trabajo nuevo = primero se añade al WBS con código y motivo. Subtareas dentro del alcance las crea el orquestador; tareas nuevas de primer nivel, solo en la revisión del lunes.
-3. Los códigos son estables: una tarea empezada no se renumera jamás.
-4. Se va en orden salvo las marcadas paralelas. Una tarea no se cierra sin cumplir su criterio de "hecho".
-5. **La ficha de una tarea se escribe en la cola ANTES de trabajarla**, nunca al cerrarla. Sin ficha, no hay tarea.
-6. **Regla de no-ambigüedad:** toda tarea debe poder ejecutarse sin adivinar nada. Si tienes que suponer algo, devuelve la tarea al orquestador para que la reescriba. No supongas.
-30. **Ningún criterio de hecho exige una herramienta que el ejecutor no tiene.** Antes de escribirlo, se localiza por `grep` la línea `tools:` del agente que va a ejecutarlo. Si la prueba exige algo que no aparece ahí, **la prueba se traslada al revisor**. Un agente al que se le pide lo imposible no falla: **fabrica**, y el fallo se le acaba imputando a él en vez de a quien repartió. (D-34, 10/08/2026.)
+3. Se va en orden salvo las marcadas paralelas. Una tarea no se cierra sin cumplir su criterio de "hecho".
+4. **La ficha de una tarea se escribe en la cola ANTES de trabajarla**, nunca al cerrarla. Sin ficha, no hay tarea.
+5. **Regla de no-ambigüedad:** toda tarea debe poder ejecutarse sin adivinar nada. Si tienes que suponer algo, devuelve la tarea al orquestador para que la reescriba. No supongas.
+6. **Ningún criterio de hecho exige una herramienta que el ejecutor no tiene.** Antes de escribirlo, se localiza por `grep` la línea `tools:` del agente que va a ejecutarlo. Si la prueba exige algo que no aparece ahí, **la prueba se traslada al revisor**. Un agente al que se le pide lo imposible no falla: **fabrica**, y el fallo se le acaba imputando a él en vez de a quien repartió. (D-34, 10/08/2026.)
 
 ### Sobre la deriva (la que mató al proyecto anterior)
 7. **Cada tirada autónoma cierra al menos una tarea que avanza el PRODUCTO.** La infraestructura que no desbloquee mecánicamente una tarea de producto se registra como deuda y no se ejecuta sin permiso del CEO.
@@ -50,32 +53,55 @@ que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md`
    1. **Prueba ejecutada** (el fallo se reproduce, el guardia se dispara, el número se recalcula) → cierra el asunto.
    2. **Verificación documental** (`grep` que localiza la cita por fichero y línea).
    3. **Contraste entre dos agentes con papeles opuestos** → solo si 1 y 2 son imposibles, y el resultado se marca *no probado*.
-10. **Quien discrepa aporta el experimento que zanjaría la discusión**, no otro argumento. Si no hay experimento posible, sube al CEO marcado como *no probado*.
-11. **Un fallo reportado por un agente no es un fallo verificado.** Antes de encolar o reparar: lee el componente y reproduce el fallo.
-12. **Ninguna referencia a una decisión entra en código o informe sin un `grep` previo** que la localice por fichero y línea. Solo se cita lo firmado y guardado, nunca en pasado ni antes de existir.
-13. Se referencia por **nombre de símbolo, nunca por número de línea**.
-14. **Todo dato numérico se calcula sobre datos brutos**, salvo que exista una fuente primaria homogénea demostrable.
-15. **Quien implementa ejecuta y lee su artefacto completo antes de entregar.** Las puertas confirman, no descubren.
-16. **Nadie valida su propio trabajo.** Quien construye no revisa; quien produce las métricas no firma el veredicto.
+
+   **Y quien discrepa aporta el experimento que zanjaría la discusión**, no otro argumento. Si
+   no hay experimento posible, sube al CEO marcado como *no probado*. *(Era la regla 10 hasta
+   el 12/08/2026; se fusiona aquí por D-35 porque decía lo mismo que el nivel 1 de arriba.)*
+10. **Un fallo reportado por un agente no es un fallo verificado.** Antes de encolar o reparar: lee el componente y reproduce el fallo.
+11. **Ninguna referencia a una decisión entra en código o informe sin un `grep` previo** que la localice por fichero y línea. Solo se cita lo firmado y guardado, nunca en pasado ni antes de existir.
+12. Se referencia por **nombre de símbolo, nunca por número de línea**.
+13. **Todo dato numérico se calcula sobre datos brutos**, salvo que exista una fuente primaria homogénea demostrable.
+14. **Quien implementa ejecuta y lee su artefacto completo antes de entregar.** Las puertas confirman, no descubren.
+15. **Nadie valida su propio trabajo.** Quien construye no revisa; quien produce las métricas no firma el veredicto.
 
 ### Sobre la estrategia (anti-autoengaño)
-17. **Éxito = código fiel a la especificación, NO estrategia rentable.** Un backtest con mal resultado y código correcto es un éxito registrable.
-18. **Test de compuerta:** si la justificación de un cambio no se sostiene *sin citar métricas de resultado*, se deniega.
-19. **Pre-registro:** ninguna variante se prueba sin estar registrada antes (máx. 5-7 por hipótesis). Lo no registrado no se prueba.
-20. **Se guardan TODAS las pruebas, también las fallidas.** Saber cuántas cosas se probaron es lo que permite juzgar si la ganadora es real o casualidad.
-21. **Registros que solo permiten añadir:** `04-resultados/registro-pruebas.md` y `00-direccion/DECISIONES.md` nunca se reescriben. Una corrección es una entrada nueva.
-22. **El cajón `02-datos/reservado/` no se abre.** Solo el CEO puede autorizar su uso, una vez por variante. Ningún agente, ningún debate, ninguna urgencia.
+16. **Éxito = código fiel a la especificación, NO estrategia rentable.** Un backtest con mal resultado y código correcto es un éxito registrable.
+17. **Test de compuerta:** si la justificación de un cambio no se sostiene *sin citar métricas de resultado*, se deniega.
+18. **Pre-registro:** ninguna variante se prueba sin estar registrada antes (máx. 5-7 por hipótesis). Lo no registrado no se prueba.
+19. **Se guardan TODAS las pruebas, también las fallidas.** Saber cuántas cosas se probaron es lo que permite juzgar si la ganadora es real o casualidad.
+20. **Registros que solo permiten añadir:** `04-resultados/registro-pruebas.md` y `00-direccion/DECISIONES.md` nunca se reescriben. Una corrección es una entrada nueva.
+21. **El cajón `02-datos/reservado/` no se abre.** Solo el CEO puede autorizar su uso, una vez por variante. Ningún agente, ningún debate, ninguna urgencia.
 
 ### Sobre las barreras
-23. **Dos niveles.** Lo REVERSIBLE (archivos, código, pruebas) tiene permisos amplios: git lo deshace. Lo IRREVERSIBLE (dinero real, órdenes al broker, borrar el cajón reservado, gastar dinero nuevo) lleva barrera desde el minuto uno.
-24. **Una restricción solo se añade tras un incidente real**, anotada junto al incidente, y se revisa cada mes. La que no tenga incidente vivo detrás, se quita.
-25. **Toda barrera se verifica por ejecución** —inyectando el caso prohibido— antes de documentarla como activa. Sin prueba: "no verificada". Un guardia presente en el código no es un guardia probado.
-26. **Los guardias bloquean por defecto.** La condición que activa una exención debe ser un hecho impuesto por el sistema, nunca un dato que elija el vigilado.
+22. **Dos niveles.** Lo REVERSIBLE (archivos, código, pruebas) tiene permisos amplios: git lo deshace. Lo IRREVERSIBLE (dinero real, órdenes al broker, borrar el cajón reservado, gastar dinero nuevo) lleva barrera desde el minuto uno.
+23. **Una restricción solo se añade tras un incidente real**, anotada junto al incidente, y se revisa cada mes. La que no tenga incidente vivo detrás, se quita.
+24. **Toda barrera se verifica por ejecución** —inyectando el caso prohibido— antes de documentarla como activa. Sin prueba: "no verificada". Un guardia presente en el código no es un guardia probado.
+25. **Los guardias bloquean por defecto.** La condición que activa una exención debe ser un hecho impuesto por el sistema, nunca un dato que elija el vigilado.
 
 ### Sobre el orden
-27. **Los datos nunca entran en git.** Se descargan con script. Comprobar el día 1 que `.gitignore` funciona de verdad.
-28. **Una sola fuente de verdad por tema.** Documento que se sustituye, se borra: git guarda el historial.
-29. **Cada agente lleva el identificador exacto de su modelo**, nunca un alias, y ningún agente sin modelo.
+26. **Los datos nunca entran en git.** Se descargan con script. Comprobar el día 1 que `.gitignore` funciona de verdad.
+27. **Una sola fuente de verdad por tema.** Documento que se sustituye, se borra: git guarda el historial.
+28. **Cada agente lleva el identificador exacto de su modelo**, nunca un alias, y ningún agente sin modelo.
+
+### Tabla de correspondencia: numeración vieja → nueva (D-35, 12/08/2026)
+
+Todo lo escrito antes del 12/08/2026 cita la numeración de la izquierda. **No se ha reescrito
+el pasado**: `DECISIONES.md` y `LECCIONES.md` solo admiten añadir (regla 20 de CLAUDE.md, con
+muro en `.githooks/pre-commit`), y los veredictos y los informes son actas de lo que se dijo
+el día que se dijo. Esta tabla es el puente.
+
+| Vieja | Nueva | | Vieja | Nueva | | Vieja | Nueva |
+|---|---|---|---|---|---|---|---|
+| 1 | 1 | | 11 | 10 | | 21 | 20 |
+| 2 | 2 | | 12 | 11 | | 22 | 21 |
+| **3** | **RETIRADA** | | 13 | 12 | | 23 | 22 |
+| 4 | 3 | | 14 | 13 | | 24 | 23 |
+| 5 | 4 | | 15 | 14 | | 25 | 24 |
+| 6 | 5 | | 16 | 15 | | 26 | 25 |
+| 7 | 7 | | 17 | 16 | | 27 | 26 |
+| 8 | 8 | | 18 | 17 | | 28 | 27 |
+| 9 | 9 | | 19 | 18 | | 29 | 28 |
+| **10** | **fusionada en la 9** | | 20 | 19 | | 30 | 6 |
 
 ## Cómo se trabaja: las cuatro capas (PREMISA DEL PROYECTO — D-15)
 
@@ -112,7 +138,7 @@ otra para juzgar. El criterio de aceptación ya viaja dentro de su orden de repa
 falta que nadie lo reinterprete. Esto no toca C1, C2 ni C4: la autoridad del reparto sigue
 siendo suya y Claude Code sigue sin poder alterarlo. Solo cambia cuántas veces se le pregunta.
 
-**Las cuatro reglas que sostienen esto** (numeradas C1-C4 para no colisionar con las 29 reglas de arriba):
+**Las cuatro reglas que sostienen esto** (numeradas C1-C4 para no colisionar con las 28 reglas de arriba):
 
 C1. **Ningún comando suplanta a un agente.** Si un comando dice «eres el orquestador» o «eres el
    secretario», está mal escrito: tiene que **invocarlo**. Para eso están creados.
@@ -171,7 +197,7 @@ Si un modelo no está disponible o rechaza la petición, se usa el respaldo indi
 | `/estado` | Saber dónde está el proyecto, incluidas las desalineaciones entre el WBS y el disco. |
 | `/fin` | Cerrar la tarea en curso pasando las dos puertas. |
 | `/informe` | Informe semanal del CEO (lunes). |
-| `/verificar` | Probar por ejecución que las barreras muerden (regla 25). |
+| `/verificar` | Probar por ejecución que las barreras muerden (regla 24 de CLAUDE.md). |
 | `/leccion` · `/decision` · `/ficha` | Registrar lección, registrar decisión, preparar decisión del CEO. |
 
 ## Qué tiene muro mecánico y qué es solo prosa
@@ -179,7 +205,7 @@ Si un modelo no está disponible o rechaza la petición, se usa el respaldo indi
 **Con muro (te bloquea de verdad, comprobado por `/verificar`):**
 - Los datos no entran en git → `.githooks/pre-commit` + `.gitignore`.
 - El mensaje de commit exige código WBS → `.githooks/commit-msg`.
-- Los registros solo admiten añadir → `.githooks/pre-commit`. **COBERTURA MEDIDA EL 09/08/2026: muerde en `git commit` y `git commit -a`, y NO cubre la vía de fontanería de git (`add` + `write-tree` + `commit-tree` + `update-ref`), que aterriza el borrado en `HEAD` sin disparar ningún hook, sin usar `--no-verify` y sin que ningún patrón `deny` lo alcance. Reproducido por ejecución en repositorio aislado. Hasta que se cierre, este muro está VERIFICADO SOLO PARCIALMENTE (regla 25 de CLAUDE.md). Su reparación es tarea del checkpoint del lunes.**
+- Los registros solo admiten añadir → `.githooks/pre-commit`. **COBERTURA MEDIDA EL 09/08/2026: muerde en `git commit` y `git commit -a`, y NO cubre la vía de fontanería de git (`add` + `write-tree` + `commit-tree` + `update-ref`), que aterriza el borrado en `HEAD` sin disparar ningún hook, sin usar `--no-verify` y sin que ningún patrón `deny` lo alcance. Reproducido por ejecución en repositorio aislado. Hasta que se cierre, este muro está VERIFICADO SOLO PARCIALMENTE (regla 24 de CLAUDE.md). Su reparación es tarea del checkpoint del lunes.**
 - El cajón reservado y los ficheros sensibles → `.claude/settings.json`.
 
 **Solo prosa (depende de que la cumplas):** el techo del 20% de motor · nadie valida su propio

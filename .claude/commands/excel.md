@@ -21,7 +21,7 @@ panel se quedan como NO VERIFICADAS y hay que decirlo.)
 ```
 .venv/bin/python 05-vista-ceo/generar_excel.py
 ```
-Lee su salida entera (regla 15 de CLAUDE.md). Trae tres cosas que necesitas: el recuento por fase, los AVISOS de
+Lee su salida entera (regla 14 de CLAUDE.md). Trae tres cosas que necesitas: el recuento por fase, los AVISOS de
 lectura, y el bloque **CAMBIOS DESDE LA ULTIMA GENERACION**, que es de donde sale tu informe.
 
 **3. Verificar.** El codigo de salida manda, no la impresion que te de el fichero:
@@ -32,7 +32,7 @@ Comprueba 8 cosas, con un analizador del WBS **distinto** al del generador: que 
 posterior al WBS · que no falta ni sobra ninguna tarea · que cada estado coincide leido dos veces ·
 que no hay dependencias circulares · que la cola de SIGUIENTE cumple sus reglas · que los COUNTIFS
 del panel evaluados dan el numero correcto · que los entregables citados por las tareas hechas
-existen en disco · que `02-datos/` sigue fuera de git (regla 27 de CLAUDE.md).
+existen en disco · que `02-datos/` sigue fuera de git (regla 26 de CLAUDE.md).
 
 **4. Si sale codigo 1, NO entregues el Excel.** Separa de quien es el fallo:
 
@@ -46,7 +46,7 @@ existen en disco · que `02-datos/` sigue fuera de git (regla 27 de CLAUDE.md).
 
 > `regla 24` de la fila de arriba es la etiqueta LITERAL que imprime `fallo()`/`ok()` en
 > `05-vista-ceo/verificar_excel.py` (`"regla 24"` hardcodeado): no se toca aqui porque dejaria de
-> coincidir con la salida real del script. Por contenido es la regla 27 de CLAUDE.md ("los datos
+> coincidir con la salida real del script. Por contenido es la regla 26 de CLAUDE.md ("los datos
 > nunca entran en git"), no la 24. Desajuste registrado como deuda de motor: el script se corrige en
 > tarea aparte, fuera de esta pasada.
 
@@ -68,7 +68,7 @@ tareas, cuantas hechas, cuantos avisos.
 
 ## Si tocas el generador o el verificador
 
-Vuelve a pasar la prueba de inyeccion antes de dar nada por bueno (regla 25 de CLAUDE.md):
+Vuelve a pasar la prueba de inyeccion antes de dar nada por bueno (regla 24 de CLAUDE.md):
 ```
 bash 05-vista-ceo/prueba_inyeccion.sh
 ```

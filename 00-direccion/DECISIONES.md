@@ -357,3 +357,49 @@ Ninguna ficha puede pedirle redactar, buscar ni calcular nada.
 **Nota de fechas.** El trabajo de la tirada y los bloques escritos en `00-direccion/WBS.md` van fechados 09/08/2026; la letra del CEO llega el 10/08/2026 y esta entrada lleva esa fecha.
 
 **Qué desbloquea.** `03.01.15`, cuya ficha declaraba «Deuda de motor: no se ejecuta sin permiso del CEO».
+
+---
+
+## D-35 · 2026-08-12 · Las reglas sin incidente detrás: se retira la 3, la 10 se fusiona en la 9, quedan 28
+
+**Qué se decide.** Opción **A** de la ficha del apartado 3 de `00-direccion/INFORME-CIRUGIA-MOTOR.md`. **Palabras literales del CEO, 12/08/2026:** «Retirar la regla 3. Fusionar la 10 con la 9. **Dejar la 17, la 18, la 19 y la 20.**»
+
+**Motivo que el CEO ordena escribir, literal:** *las cuatro reglas de estrategia no tienen incidente detrás porque la fase 04 nunca ha empezado. Eso no es peso muerto: es la prueba de que el producto no ha arrancado. Retirarlas sería quitar el airbag por no haber chocado.*
+
+**Qué cambia en el disco.**
+1. **Vieja regla 3** («los códigos son estables: una tarea empezada no se renumera jamás») — **RETIRADA**. No tenía incidente detrás ni en este proyecto ni en el anterior.
+2. **Vieja regla 10** («quien discrepa aporta el experimento que zanjaría la discusión») — **FUSIONADA dentro de la 9**, la jerarquía de la prueba, cuyo nivel 1 ya decía lo mismo. El texto no se pierde: sigue entero dentro de la regla 9.
+3. **Viejas reglas 17, 18, 19 y 20** (estrategia) — **SE QUEDAN**, con el motivo de arriba.
+4. Las demás se renumeran en orden de lectura. **`CLAUDE.md` pasa de 30 reglas a 28.**
+
+**LO QUE NO SE PUDO HACER, Y SE DECLARA EN VEZ DE DISIMULARSE (la orden decía «si no puedes, dilo»).** La orden pedía comprobar que no queda ninguna cita huérfana al número viejo. **Medido por ejecución antes de tocar nada: hay unas 800 citas de reglas repartidas en 110 ficheros.** Renumerar orfana a todas, no solo a las de la 3 y la 10. De esas, **66 viven dentro de `00-direccion/DECISIONES.md` y `00-direccion/LECCIONES.md`, que solo admiten añadir** (regla 20 de CLAUDE.md, con muro en `.githooks/pre-commit`): reescribirlas está mecánicamente prohibido y sería falsificar el acta. Otras tantas viven en veredictos e informes, que son actas de lo que se dijo el día que se dijo.
+
+**Lo que sí se hizo, y es la única forma compatible con la regla de solo-añadir:**
+- **Se remapearon las citas de los ficheros VIVOS** —los que dirigen trabajo futuro—: las 8 fichas de agente de `.claude/agents/`, los comandos de `.claude/commands/`, `.claude/settings.json` y el propio `CLAUDE.md`. 14 ficheros.
+- **No se tocó ni una línea del pasado**: registros, veredictos, informes, investigación y expedientes conservan su numeración.
+- **Se añadió a `CLAUDE.md` una tabla de correspondencia vieja → nueva**, permanente, para que las ~800 citas antiguas se sigan pudiendo leer. Ese es el puente, y sustituye al arreglo que no se puede hacer.
+- **Dos citas huérfanas de verdad, en código vivo, sí se arreglaron**: `05-vista-ceo/generar_excel.py` citaba la vieja regla 3 en su aviso de códigos desaparecidos y la vieja regla 10 en el rótulo del formato de ficha de decisión —esta segunda ya era una cita equivocada antes de hoy: el formato de decisión nunca fue una regla numerada—. Las dos se sustituyeron por texto sin número.
+
+**Comprobado por ejecución tras el cambio:** ninguna cita a la regla 3 ni a la 10 en ningún fichero vivo. Las que quedan en el repositorio están las dos en `CLAUDE.md` explicando la retirada y la fusión, más las de los ficheros históricos, que la tabla de correspondencia resuelve.
+
+**Qué desbloquea:** nada estaba bloqueado por esto. El trabajo sigue con 28 reglas.
+
+---
+
+## D-36 · 2026-08-12 · Se aplican las barreras (a), (b) y (d) de D-29; la (c), la de gasto, se cierra por imposible
+
+**Qué se decide.** **Palabras literales del CEO, 12/08/2026:** «se autorizan (a), (b) y (d). El punto (c) se cierra por imposible.» Los cuatro puntos son los de `00-direccion/informes/FICHA_D-29.md`.
+
+**POR QUÉ ESTA ENTRADA EXISTE SI D-29 YA ESTABA FIRMADA, y conviene que quede claro.** **D-29** de este mismo fichero ya firmó las cuatro barreras el 09/08/2026 (opción A). Lo que dejó sin firmar fue **el cómo**: su propio texto dice que aplicar el parche de (a) y (b) a `.claude/settings.json` **«necesita una letra aparte del CEO, porque bajo `bypassPermissions` (D-27) escribir ese fichero no dispara ninguna aprobación y el sistema no le preguntaría»**. **D-36 es esa letra aparte.** No repite D-29: la ejecuta.
+
+**(a) El agujero del cajón reservado — SE AUTORIZA APLICAR.** El patrón `Bash(* 02-datos/reservado*)` de `.claude/settings.json` exige un espacio literal y no cubre la ruta pegada a una comilla. Medido el 05/08. Se sustituye por uno que cubra cualquier verbo y cualquier forma de escribir la ruta, y **no se documenta como activo hasta verlo rebotar con las tres formas** (regla 24 de CLAUDE.md). La inyección se hace **sobre una copia en `/tmp`, nunca sobre el cajón real**.
+
+**(b) `rm -rf` dentro de `02-datos/` — SE AUTORIZA APLICAR.** Los datos no están en git (regla 26 de CLAUDE.md): no se recuperan deshaciendo un commit, se recuperan volviendo a descargarlos, y algunos ya no se pueden volver a descargar igual.
+
+**(c) La barrera de gasto — SE CIERRA POR IMPOSIBLE, con su prueba.** No existe y **está demostrado que no puede existir con la herramienta actual**. La prueba está medida y guardada: probado con un tope de un millonésimo de dólar, **la llamada se completó entera** y el corte llegó después; es reactivo, nunca preventivo. Un tope de `0` lo rechaza la propia herramienta. Y esta máquina **no tiene clave de API**: corre sobre plan de suscripción, así que un tope en dólares no limita nada.
+
+> **Se declara cuál es la ÚNICA contención de gasto que hay, y se deja de buscar otra:** los topes de `03-motor/desatendido/config.env` — **5 tareas por tirada, 30 turnos por sesión y 30 minutos de reloj**. Eso es todo. **Queda prohibido abrir más trabajo buscando una barrera de gasto alternativa.**
+
+**(d) El guardia de los 7 campos del WBS — YA ESTABA HECHO ANTES DE ESTA FIRMA, y se dice en vez de apuntárselo hoy.** Comprobado por ejecución al abrir esta tirada: `.githooks/pre-commit` ya contiene el guardia de la métrica L-027 desde el commit `17775e9`, y **D-29 ya lo daba por «HECHA Y ACTIVA»** el 09/08. Lo que esta tirada aporta sobre él **no es construirlo**: es **volver a verificarlo por inyección** después de que el WBS se partiera en 62 filas y 26 expedientes el 12/08, y extenderlo a los punteros de expediente si sale gratis.
+
+**Qué desbloquea:** `03.01.24` y `03.01.25`, que salen de `00-direccion/DEUDA-MOTOR.md` y vuelven al WBS. **Ninguna otra fila de `DEUDA-MOTOR.md` se descongela.**
