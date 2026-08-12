@@ -26,5 +26,18 @@
       "Bash(* 02-datos/reservado*)"
     ]
   },
-  "_nota": "Regla 25: estas barreras NO estan verificadas hasta que la tarea 03.01.08 inyecte cada caso prohibido y compruebe que se bloquea. Hasta entonces se consideran NO VERIFICADAS."
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/contador_producto_motor.py\" --hook"
+          }
+        ]
+      }
+    ]
+  },
+  "_nota": "Regla 25: estas barreras NO estan verificadas hasta que la tarea 03.01.08 inyecte cada caso prohibido y compruebe que se bloquea. Hasta entonces se consideran NO VERIFICADAS.",
+  "_nota_hooks": "SessionStart inyecta el reparto producto/motor en el contexto al arrancar cada tirada (tarea 03.01.18). Solo LEE git log y escribe en additionalContext: no bloquea nada, no toca ficheros y no altera la lista deny de arriba, que sigue siendo la unica barrera efectiva bajo bypassPermissions (D-27)."
 }

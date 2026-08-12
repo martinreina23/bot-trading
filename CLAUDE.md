@@ -39,9 +39,11 @@ que figuraba bajo "## Reglas (sin ambigüedad posible)" en `00-direccion/WBS.md`
 ### Sobre la deriva (la que mató al proyecto anterior)
 7. **Cada tirada autónoma cierra al menos una tarea que avanza el PRODUCTO.** La infraestructura que no desbloquee mecánicamente una tarea de producto se registra como deuda y no se ejecuta sin permiso del CEO.
 8. El trabajo de motor y orden tiene un techo del **20% del esfuerzo semanal**. Si en una tirada solo hay tareas de motor disponibles, para y avisa: es señal de que la cola está mal llena.
-   - **Estado (D-17, 03/08/2026): SUSPENDIDA.** Vuelve al cerrar el bloque de motor (previsto viernes
-     07/08, tarea `03.01.05`) y en todo caso el 01/09/2026, lo que llegue primero. Ver D-17 en
-     `00-direccion/DECISIONES.md`.
+   - **Estado: VIGENTE de nuevo desde 12/08/2026.** D-17 la suspendía hasta que cerrase el
+     bloque de motor (previsto 07/08) o hasta el 01/09, lo que llegase primero. La
+     primera condición ya pasó. El reparto medido al reactivarla era del **58,9%** de motor.
+   - Lo mide `.claude/hooks/contador_producto_motor.py` (tarea `03.01.18`), que inyecta el
+     número en el contexto al arrancar cada tirada. **Mide, no bloquea.**
 
 ### Sobre la verdad y la prueba
 9. **Jerarquía de la prueba.** Ninguna afirmación se acepta por consenso entre agentes:
