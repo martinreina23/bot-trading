@@ -75,6 +75,18 @@ if git diff --cached --name-only | grep -qx '00-direccion/WBS.md'; then
     done
     fallo=1
   fi
+  # Ampliacion: todo puntero expedientes/NN.NN.NN.md citado en el WBS en stage debe
+  # apuntar a un fichero que exista EN EL INDICE (":00-direccion/...", stage 0), no
+  # en el arbol de trabajo. Esto acepta un expediente nuevo anadido en el mismo commit
+  # que lo referencia, sin exigir que ya estuviera en HEAD.
+  if [ "$wbs_ok" = "1" ]; then
+    faltan=$(printf '%s\n' "$wbs_stage" | grep -oE 'expedientes/[0-9]{2}\.[0-9]{2}\.[0-9]{2}\.md' | sort -u | while read -r p; do git cat-file -e ":00-direccion/$p" 2>/dev/null || echo "$p"; done) || true
+    if [ -n "$faltan" ]; then
+      echo "BLOQUEADO (ampliacion L-027): punteros a expedientes que no existen en este commit:"
+      echo "$faltan" | sed 's#^#   00-direccion/#'
+      fallo=1
+    fi
+  fi
 fi
 
 # --- Regla 1: el mensaje debe llevar codigo WBS (lo valida commit-msg) ---
