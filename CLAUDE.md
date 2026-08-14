@@ -205,7 +205,29 @@ Si un modelo no está disponible o rechaza la petición, se usa el respaldo indi
 **Con muro (te bloquea de verdad, comprobado por `/verificar`):**
 - Los datos no entran en git → `.githooks/pre-commit` + `.gitignore`.
 - El mensaje de commit exige código WBS → `.githooks/commit-msg`.
-- Los registros solo admiten añadir → `.githooks/pre-commit`. **COBERTURA MEDIDA EL 09/08/2026: muerde en `git commit` y `git commit -a`, y NO cubre la vía de fontanería de git (`add` + `write-tree` + `commit-tree` + `update-ref`), que aterriza el borrado en `HEAD` sin disparar ningún hook, sin usar `--no-verify` y sin que ningún patrón `deny` lo alcance. Reproducido por ejecución en repositorio aislado. Hasta que se cierre, este muro está VERIFICADO SOLO PARCIALMENTE (regla 24 de CLAUDE.md). Su reparación es tarea del checkpoint del lunes.**
+- Los registros solo admiten añadir → `.githooks/pre-commit` **+ `.githooks/reference-transaction`
+  (COBERTURA MEDIDA EL 12/08/2026, cierra el hueco medido el 09/08/2026).** `pre-commit` muerde en
+  `git commit` y `git commit -a`. La vía de fontanería (`git add` + `git write-tree` +
+  `git commit-tree -p HEAD` + `git update-ref`), que antes aterrizaba el borrado en `HEAD` sin
+  disparar ningún hook, ahora SÍ se bloquea: `reference-transaction` se dispara para esa
+  secuencia (comprobado con una sonda por ejecución) y el guardia instalado aborta el
+  `update-ref` (código de salida 128) cuando detecta que alguno de los tres ficheros protegidos
+  —`00-direccion/DECISIONES.md`, `00-direccion/LECCIONES.md`, `04-resultados/registro-pruebas.md`—
+  pierde líneas, tanto en `HEAD` como en `refs/heads/**`. Probado por ejecución con tres ataques
+  (uno por fichero) que quedan bloqueados con `rev-parse` de `HEAD`/`refs/heads/main` idénticos
+  antes y después, y con seis operaciones legítimas (`commit` que añade, `checkout -b`+vuelta,
+  `merge --no-ff`, `rebase`, `fetch`, `branch -D`) que no se rompen. Detalle completo,
+  comandos y salidas literales en `04-resultados/verificacion_03.01.27.md`. **Dos límites
+  declarados y verificados por ejecución, no descubiertos después:** (1) `core.hooksPath` es
+  configuración de cliente — cualquiera con acceso de escritura puede saltarse cualquier hook de
+  cliente, éste incluido, con `git -c core.hooksPath=...`; no cambia el veredicto, porque
+  `pre-commit` tiene la misma propiedad con `--no-verify` y sigue contando como muro. (2) El
+  guardia solo compara cuando el valor viejo del ref es antecesor real del nuevo (necesario para
+  no romper `git rebase`, que internamente salta entre commits no emparentados): un commit
+  fabricado con `git commit-tree` **sin** `-p HEAD` (o con otro padre) y forzado con
+  `git update-ref` evita el guardia por diseño — probado por ejecución sobre una rama desechable.
+  Con esos dos límites declarados, este muro queda **VERIFICADO (regla 24 de CLAUDE.md)** para
+  la vía de fontanería descrita el 09/08/2026, que era el hueco que había que cerrar.
 - El cajón reservado y los ficheros sensibles → `.claude/settings.json`.
 
 **Solo prosa (depende de que la cumplas):** el techo del 20% de motor · nadie valida su propio

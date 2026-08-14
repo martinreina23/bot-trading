@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+# Guardia de la regla 20 de CLAUDE.md (registros que solo admiten anadir)
+# via el hook de fontaneria reference-transaction. Tarea: bloque 4 del
+# encargo del CEO del 12/08/2026 (ejecutado por constructor-motor, sin
+# ficha WBS por orden expresa del CEO). Ver 04-resultados/verificacion_03.01.27.md
+# para la medicion completa (sonda, bateria BLOQUEA/NO-ROMPE, limites).
+#
+# Cierra el agujero medido el 09/08/2026: `git add` + `git write-tree` +
+# `git commit-tree -p HEAD` + `git update-ref` no pasa por pre-commit ni
+# por commit-msg. Este hook si se dispara para esa secuencia (comprobado
+# por ejecucion, paso 2 de 03.01.27).
+#
+# Solo puede abortar en el estado "prepared" (es el unico momento en que
+# abortar tiene efecto). En "committed"/"aborted" no hay nada que hacer:
+# consumimos stdin y salimos 0.
+#
+# Usa UNICAMENTE plumbing de LECTURA (git rev-parse, git cat-file, git
+# diff --numstat, git merge-base --is-ancestor) para no recursar ni
+# bloquear el lock de refs.
+
+set -u
+
+estado="${1:-}"
+
+if [ "$estado" != "prepared" ]; then
+  cat >/dev/null
+  exit 0
+fi
+
+# Los mismos tres ficheros que protege el bucle `for f in ...` de pre-commit.
+protegidos="00-direccion/DECISIONES.md 00-direccion/LECCIONES.md 04-resultados/registro-pruebas.md"
+
+zero_re='^0+$'
+fallo=0
+motivos=""
+
+while IFS=' ' read -r old new refname; do
+  [ -z "${refname:-}" ] && continue
+
+  # Solo nos interesan HEAD y refs/heads/** (incluye refs/heads/foo/bar).
+  case "$refname" in
+    HEAD) ;;
+    refs/heads/*) ;;
+    *) continue ;;
+  esac
+
+  # Ref borrado (valor nuevo cero) => es un borrado de ref, no reescritura
+  # de contenido. No es lo que protege la regla 20.
+  if printf '%s' "$new" | grep -qE "$zero_re"; then
+    continue
+  fi
+
+  # Determinar el valor viejo REAL. El campo "old" del stdin puede venir a
+  # cero aunque el ref ya existiese: `git update-ref REF NUEVO` (sin dar el
+  # antiguo) no hace compare-and-swap y reporta 0000...0000 aunque el ref
+  # tuviera contenido (medido por ejecucion, paso 2 de 03.01.27, con la
+  # sonda leyendo en vivo por rev-parse durante "prepared"). En "prepared"
+  # la transaccion todavia no se ha aplicado, asi que rev-parse todavia
+  # devuelve el valor previo real: por eso podemos fiarnos de el aqui y no
+  # del campo "old" de stdin.
+  old_real="$old"
+  if printf '%s' "$old" | grep -qE "$zero_re"; then
+    if live=$(git rev-parse --verify -q "$refname" 2>/dev/null); then
+      old_real="$live"
+    else
+      old_real=""
+    fi
+  fi
+
+  [ -z "$old_real" ] && continue
+  if printf '%s' "$old_real" | grep -qE "$zero_re"; then continue; fi
+  [ "$old_real" = "$new" ] && continue
+
+  # Si alguno de los dos extremos no es (o no resuelve a) un commit legible,
+  # no podemos comparar arboles: dejamos pasar (no fabricamos un bloqueo
+  # sobre algo que no sabemos leer).
+  git cat-file -e "${old_real}^{commit}" 2>/dev/null || continue
+  git cat-file -e "${new}^{commit}" 2>/dev/null || continue
+
+  # Solo comparamos cuando old_real es antecesor real de new (o sea: new
+  # extiende la MISMA linea de historia que old_real, exactamente el patron
+  # del ataque descrito: `git commit-tree -p HEAD` fabrica un hijo directo
+  # de HEAD). Si old_real NO es antecesor de new, mover el ref de uno a otro
+  # no es "reescribir para borrar" sino "apuntar a otra historia" (p.ej. el
+  # paso interno de `git rebase` que mueve HEAD de la punta de la rama
+  # origen al commit "onto" antes de reaplicar los commits, o un checkout
+  # entre ramas divergentes): eso NO es lo que protege la regla 20 y
+  # bloquearlo rompe operaciones legitimas (medido por ejecucion: rompia
+  # `git rebase` hasta añadir este chequeo). LIMITE DECLARADO: un atacante
+  # que fabrique el commit nuevo con un padre distinto de HEAD (o sin
+  # padre) y fuerce el ref con update-ref evita este guardia por diseño;
+  # ver la seccion de limites del artefacto de verificacion.
+  git merge-base --is-ancestor "$old_real" "$new" 2>/dev/null || continue
+
+  for f in $protegidos; do
+    # ¿Existia el fichero en el commit viejo? Si no existia, no hay nada
+    # que proteger todavia.
+    git cat-file -e "${old_real}:${f}" 2>/dev/null || continue
+
+    numstat=$(git diff --numstat "$old_real" "$new" -- "$f" 2>/dev/null)
+    [ -z "$numstat" ] && continue
+
+    removed=$(printf '%s' "$numstat" | awk '{print $2}')
+    case "$removed" in
+      ''|*[!0-9]*) continue ;;   # "-" (binario) u otro formato: no lo tratamos como borrado de lineas
+    esac
+
+    if [ "$removed" -gt 0 ]; then
+      fallo=1
+      motivos="${motivos}BLOQUEADO (regla 20 de CLAUDE.md, via reference-transaction): ${f} pierde ${removed} linea(s) al mover ${refname} de ${old_real} a ${new}.\n"
+    fi
+  done
+done
+
+if [ "$fallo" -eq 1 ]; then
+  printf "%b" "$motivos" >&2
+  echo "   Los registros de la regla 20 de CLAUDE.md solo admiten ANADIR." >&2
+  echo "   Una correccion es una entrada nueva que cita a la anterior, nunca un borrado." >&2
+  exit 1
+fi
+
+exit 0
