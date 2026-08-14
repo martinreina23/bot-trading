@@ -20,6 +20,12 @@ __pycache__/
 *.tmp
 *.bak
 *.zip
+# paquetes de datos para mover entre maquinas (15/08/2026, viaje con el server apagado).
+# El guardia de datos de .githooks/pre-commit solo mira rutas que empiezan por 02-datos/,
+# asi que un .tar en la raiz del repositorio NO lo dispara: aqui es donde se para.
+*.tar
+*.tar.gz
+*.tgz
 
 # worktrees de agentes
 .claude/worktrees/
