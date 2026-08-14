@@ -4,10 +4,27 @@
 > en un portátil. **Lee los cuatro pasos en orden.** El paso 2 no es opcional: sin él, los tres
 > muros mecánicos del proyecto desaparecen sin avisar y nadie te lo dice.
 
+## 0. Dar de alta el portátil en GitHub (solo la primera vez)
+
+El repo es **privado**: `https://github.com/martinreina23/bot-trading`. La clave SSH del
+servidor **no está en el portátil** y no debe copiarse. El portátil necesita su propia
+credencial. Lo más rápido, desde el portátil:
+
+```bash
+ssh-keygen -t ed25519 -C "portatil"      # Enter a todo
+cat ~/.ssh/id_ed25519.pub                 # copia la linea entera
+```
+
+Pega esa línea en **https://github.com/settings/ssh/new** (título: «portátil») y comprueba:
+
+```bash
+ssh -T git@github.com                     # debe responder: Hi martinreina23!
+```
+
 ## 1. Clonar
 
 ```bash
-git clone <URL-DEL-REPO> bot-trading
+git clone git@github.com:martinreina23/bot-trading.git
 cd bot-trading
 ```
 
@@ -52,6 +69,10 @@ sistema.
 ```bash
 tar -xf /ruta/al/datos-bot-trading-2026-08-15.tar
 ```
+
+El `.tar` está en la raíz del repo del servidor, pero **no está en git**: lo tapa `*.tar` en
+`.gitignore`, porque el guardia de datos de `.githooks/pre-commit` solo mira rutas que empiezan
+por `02-datos/` y un `.tar` en la raíz no lo dispara. Cópialo a mano al pendrive o a la nube.
 
 Debe dejarte `02-datos/bruto/` con 8 instrumentos y `02-datos/limpio/`.
 
