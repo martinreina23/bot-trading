@@ -23,7 +23,12 @@
       "Read(./.env*)",
       "Read(**/*.pem)",
       "Read(**/*.key)",
-      "Bash(* 02-datos/reservado*)"
+      "Bash(* 02-datos/reservado*)",
+      "Bash(*02-datos/reservado*)",
+      "Bash(*rm -rf*02-datos*)",
+      "Bash(*02-datos*rm -rf*)",
+      "Bash(*rm -fr*02-datos*)",
+      "Bash(*02-datos*rm -fr*)"
     ]
   },
   "hooks": {
